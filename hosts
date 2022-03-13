@@ -1,0 +1,5 @@
+[root]
+"{{ users.root }}"@192.168.122.48
+
+[ansible]
+"{{ users.login }}"@192.168.122.48

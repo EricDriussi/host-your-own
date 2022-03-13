@@ -1,0 +1,14 @@
+- name: modify zshrc
+  shell: "sed -Ee '/.*NVM.*/d' -Ee '/.*NODE.*/d' -Ee '/.*lua.*/d' ./dotfiles/base/.zshrc -i"
+
+- name: stow dotfiles
+  shell: 
+    cmd: "stow -R {{ item }}"
+    chdir: dotfiles
+  with_items: 
+    - base
+    - fontconfig
+    - vifm
+
+- name: remove nvim plugins
+  shell: "sed '/^source.*/d' ./.config/nvim/init.vim -i"

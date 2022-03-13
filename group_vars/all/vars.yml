@@ -1,0 +1,24 @@
+packages:
+  basic: 
+    - neovim
+    - exa
+    - delta
+    - zsh
+    - fzf
+    - git
+    - ripgrep
+    - rsync
+    - stow
+    - ufw
+    - vifm
+    - zsh
+    - tree
+    - pip
+    - libxtst-dev
+  server: 
+    - nginx
+    - python3-certbot-nginx
+    - tor
+users:
+  login: ansible
+  root: root

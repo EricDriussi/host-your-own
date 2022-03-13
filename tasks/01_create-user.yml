@@ -1,0 +1,24 @@
+- name: create "{{ users.login }}" user
+  user:
+    name: "{{ users.login }}"
+    password: "{{ pwd | password_hash('sha512') }}"
+    groups:
+      - sudo
+    state: present
+    shell: /bin/bash
+    system: no
+    createhome: yes
+    home: "/home/{{ users.login }}"
+
+- name: pwd-less sudo for "{{ users.login }}"
+  lineinfile:
+    dest: /etc/sudoers
+    regexp: "^%wheel"
+    line: "{{ users.login }} ALL=(ALL) NOPASSWD: ALL"
+    validate: "/usr/sbin/visudo -cf %s"
+
+- name: setup ssh for "{{ users.login }}"
+  authorized_key:
+    user: "{{ users.login }}"
+    state: present
+    key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"

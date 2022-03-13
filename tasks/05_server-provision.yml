@@ -1,0 +1,4 @@
+- name: TODO!
+  package:
+    name: "{{ packages.server }}"
+    state: latest
