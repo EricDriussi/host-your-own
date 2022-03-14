@@ -1,11 +1,12 @@
 ---
+
 - name: CREATE USER
   tags: user
   hosts: root
   become: true
 
   tasks:
-    - import_tasks: tasks/01_create-user.yml
+    - import_tasks: tasks/create-user.yml
 
 - name: SSH CONFIG
   tags: ssh
@@ -13,28 +14,25 @@
   become: true
 
   tasks:
-    - import_tasks: tasks/02_ssh-config.yml
+    - import_tasks: tasks/ssh-config.yml
 
 - name: INSTALL ESSENTIALS
   tags: install
   hosts: all
-  become: true
 
   tasks:
-    - import_tasks: tasks/03_essentials.yml
+    - import_tasks: tasks/essentials.yml
 
 - name: CONFIG SERVER
   tags: config
-  hosts: all
-  become: true
+  hosts: ansible
 
   tasks:
-    - import_tasks: tasks/04_server-config.yml
+    - import_tasks: tasks/server-config.yml
 
 - name: PROVISION SERVER
   tags: provision
   hosts: ansible
-  become: true
 
   tasks:
-    - import_tasks: tasks/05_server-provision.yml
+    - import_tasks: tasks/server-provision.yml

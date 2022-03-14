@@ -1,0 +1,31 @@
+- name: Install Basic Packages
+  package:
+    name: "{{ packages.basic }}"
+    state: latest
+
+- name: Install Ueberzug
+  pip:
+    name: ueberzug
+
+- name: Clone Dotfiles
+  git:
+    repo: 'https://gitlab.com/ericdriussi/dotfiles.git'
+    dest: dotfiles
+    force: yes
+    track_submodules: yes
+
+- name: Default To zsh
+  become: yes
+  user:
+    name: "{{ ansible_facts['user_id'] }}"
+    shell: /usr/bin/zsh
+
+- name: Create Nvim Dir
+  file:
+    path: .config/nvim
+    state: directory
+
+- name: Clone Nvim Config
+  get_url:
+    url: https://gitlab.com/ericdriussi/nvim/-/raw/master/init.vim
+    dest: .config/nvim/init.vim

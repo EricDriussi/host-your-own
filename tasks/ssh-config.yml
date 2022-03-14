@@ -1,11 +1,11 @@
-- name: disable pwd for ssh
+- name: Disable pwd For ssh
   lineinfile:
     dest: /etc/ssh/sshd_config
     regexp: "^#PasswordAuthentication yes"
     line: "PasswordAuthentication no"
   register: sshd_config
 
-- name: restart ssh
+- name: Restart ssh
   service:
     name: sshd
     state: restarted

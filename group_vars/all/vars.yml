@@ -1,5 +1,5 @@
 packages:
-  basic: 
+  basic:
     - neovim
     - exa
     - delta
@@ -15,7 +15,7 @@ packages:
     - tree
     - pip
     - libxtst-dev
-  server: 
+  server:
     - nginx
     - python3-certbot-nginx
     - tor

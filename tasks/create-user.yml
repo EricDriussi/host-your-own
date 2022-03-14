@@ -1,4 +1,9 @@
-- name: create "{{ users.login }}" user
+- name: Update System
+  package:
+    update_cache: yes
+    upgrade: yes
+
+- name: Create {{ users.login }} User
   user:
     name: "{{ users.login }}"
     password: "{{ pwd | password_hash('sha512') }}"
@@ -10,14 +15,14 @@
     createhome: yes
     home: "/home/{{ users.login }}"
 
-- name: pwd-less sudo for "{{ users.login }}"
+- name: Pwdless Sudo for {{ users.login }}
   lineinfile:
     dest: /etc/sudoers
     regexp: "^%wheel"
     line: "{{ users.login }} ALL=(ALL) NOPASSWD: ALL"
     validate: "/usr/sbin/visudo -cf %s"
 
-- name: setup ssh for "{{ users.login }}"
+- name: Setup ssh For {{ users.login }}
   authorized_key:
     user: "{{ users.login }}"
     state: present
