@@ -10,6 +10,8 @@ packages:
     - rsync
     - stow
     - ufw
+    - htop
+    - expect
     - vifm
     - zsh
     - tree
