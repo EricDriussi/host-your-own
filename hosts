@@ -3,3 +3,6 @@
 
 [ansible]
 "{{ users.login }}"@192.168.122.48
+
+[bitwarden]
+"{{ users.bitwarden }}"@192.168.122.48

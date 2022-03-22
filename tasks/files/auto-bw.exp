@@ -1,0 +1,38 @@
+#!/usr/bin/expect -f
+
+set force_conservative 0  
+			 
+if {$force_conservative} {
+	set send_slow {1 .1}
+	proc send {ignore arg} {
+		sleep .1
+		exp_send -s -- $arg
+	}
+}
+
+set domain [lindex $argv 0]
+set generate [lindex $argv 1]
+set database [lindex $argv 0]
+set id [lindex $argv 0]
+set key [lindex $argv 1]
+set ssl [lindex $argv 0]
+set self [lindex $argv 0]
+
+set timeout -1
+spawn ./bitwarden.sh install
+match_max 100000
+expect "Enter the domain name for your Bitwarden instance (ex. bitwarden.example.com):"
+send -- "$domain\r"
+expect "Do you want to use Let's Encrypt to generate a free SSL certificate? (y/n):"
+send -- "$generate\r"
+expect "Enter the database name for your Bitwarden instance (ex. vault):"
+send -- "TEST3\r"
+expect "Enter your installation id (get at https://bitwarden.com/host):"
+send -- "fda74b2f-3ea5-4e67-aa3f-ae5a01280042\r"
+expect "Enter your installation key:"
+send -- "tUrRoodWAvSHgEzAOyon\r"
+expect "Do you have a SSL certificate to use? (y/n):"
+send -- "TEST6\r"
+expect "Do you want to generate a self-signed SSL certificate? (y/n):"
+send -- "TEST7\r"
+expect eof

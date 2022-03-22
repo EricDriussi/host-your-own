@@ -1,0 +1,24 @@
+- name: Download Bitwarden Install Script
+  get_url:
+    url: https://go.btwrdn.co/bw-sh
+    dest: ./bitwarden.sh
+    mode: '0700'
+
+- name:  Transfer auto-bw install script
+  copy: 
+    mode: "0744"
+    src: auto-bw.exp
+    dest: ./auto-bw.exp
+
+- name: Check if BW already installed
+  stat:
+    path: bwdata
+  register: bwdata
+
+- name: Run Install Script
+  shell: "/usr/bin/expect ./auto-bw.exp '{{ domain }} {{ generate }} {{ database }} {{ id }} {{ key }} {{ ssl }} {{ self }}'"
+  when: bwdata.stat.exists == false
+
+- name: Start Bitwarden
+  shell: "./bitwarden.sh start"
+  when: bwdata.stat.exists = false

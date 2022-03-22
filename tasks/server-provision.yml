@@ -1,4 +1,39 @@
-- name: TODO!
+- name: Install Server Packages
   package:
     name: "{{ packages.server }}"
     state: latest
+
+- name: Install snaps
+  snap:
+    name: 
+      - core
+      - nextcloud
+    state: present
+
+- name: Change Nextcloud ports
+  shell: snap set nextcloud ports.http=81 && snap set nextcloud ports.https=444
+
+- name: Enable Nextcloud HTTPS
+  shell: "/snap/bin/nextcloud.enable-https self-signed"
+
+- name: Create BitWarden User
+  user:
+    name: bitwarden
+    password: "{{ pwd | password_hash('sha512') }}"
+    shell: /bin/bash
+    groups:
+      - docker
+
+- name: Setup ssh For {{ users.bitwarden }}
+  authorized_key:
+    user: "{{ users.bitwarden }}"
+    key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+- name: Create Bitwarden dir
+  file:
+    path: /opt/bitwarden
+    state: directory
+    owner: bitwarden
+    group: bitwarden
+    mode: '0700'
+    recurse: yes

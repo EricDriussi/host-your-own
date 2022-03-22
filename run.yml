@@ -4,7 +4,6 @@
   tags: user
   hosts: root
   become: true
-
   tasks:
     - import_tasks: tasks/create-user.yml
 
@@ -12,27 +11,54 @@
   tags: ssh
   hosts: ansible
   become: true
-
   tasks:
     - import_tasks: tasks/ssh-config.yml
 
 - name: INSTALL ESSENTIALS
   tags: install
-  hosts: all
-
+  hosts: root, ansible
   tasks:
     - import_tasks: tasks/essentials.yml
 
 - name: CONFIG SERVER
   tags: config
   hosts: ansible
-
   tasks:
     - import_tasks: tasks/server-config.yml
 
 - name: PROVISION SERVER
   tags: provision
   hosts: ansible
-
+  become: true
   tasks:
     - import_tasks: tasks/server-provision.yml
+
+- name: BITWARDEN
+  tags: bitwarden
+  hosts: bitwarden
+
+  vars_prompt:
+  - name: domain
+    prompt: "Enter the domain name for your Bitwarden instance (ex. bitwarden.example.com)"
+    private: no
+  - name: generate
+    prompt: "Do you want to use Let's Encrypt to generate a free SSL certificate? (y/n)"
+    private: no
+  - name: database
+    prompt: "Enter the database name for your Bitwarden instance (ex. vault)"
+    private: no
+  - name: id
+    prompt: "Enter your installation id (get at https://bitwarden.com/host)"
+    private: no
+  - name: key
+    prompt: "Enter your installation key"
+    private: no
+  - name: ssl
+    prompt: "Do you have a SSL certificate to use? (y/n)"
+    private: no  
+  - name: self
+    prompt: "Do you want to generate a self-signed SSL certificate? (y/n)"
+    private: no  
+
+  tasks:
+    - import_tasks: tasks/bitwarden.yml
