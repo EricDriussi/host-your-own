@@ -15,10 +15,15 @@ packages:
     - tree
     - pip
     - libxtst-dev
+    - curl
   server:
     - nginx
     - python3-certbot-nginx
     - tor
+    - snapd
+    - docker
+    - docker-compose
 users:
   login: ansible
   root: root
+  bitwarden: bitwarden
