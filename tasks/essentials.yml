@@ -15,7 +15,7 @@
     track_submodules: yes
 
 - name: Default To zsh
-  become: yes
+  become: true
   user:
     name: "{{ ansible_facts['user_id'] }}"
     shell: /usr/bin/zsh

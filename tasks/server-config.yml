@@ -1,6 +1,9 @@
 - name: Modify zshrc
   shell: "sed -Ee '/.*NVM.*/d' -Ee '/.*NODE.*/d' -Ee '/.*lua.*/d' ./dotfiles/base/.zshrc -i"
 
+- name: Modify init.vim
+  shell: "sed '/^source.*/d' ./.config/nvim/init.vim -i"
+
 - name: Stow Basic Dotfiles
   shell: 
     cmd: "stow -R {{ item }}"
@@ -9,6 +12,3 @@
     - base
     - fontconfig
     - vifm
-
-- name: Remove Nvim Plugins
-  shell: "sed '/^source.*/d' ./.config/nvim/init.vim -i"
