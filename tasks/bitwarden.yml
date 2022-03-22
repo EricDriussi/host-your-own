@@ -4,7 +4,7 @@
     dest: ./bitwarden.sh
     mode: '0700'
 
-- name:  Transfer auto-bw install script
+- name: Transfer auto-expect install script
   copy: 
     mode: "0744"
     src: auto-bw.exp
@@ -12,13 +12,32 @@
 
 - name: Check if BW already installed
   stat:
-    path: bwdata
+    path: ./bwdata
   register: bwdata
 
 - name: Run Install Script
   shell: "/usr/bin/expect ./auto-bw.exp '{{ domain }} {{ generate }} {{ database }} {{ id }} {{ key }} {{ ssl }} {{ self }}'"
   when: bwdata.stat.exists == false
+  register: installed
+
+- name: Change http port for BW
+  lineinfile:
+    dest: bwdata/config.yml
+    regexp: "^http_"
+    line: "http_port: 82"
+  when: installed.changed
+
+- name: Change https port for BW
+  lineinfile:
+    dest: bwdata/config.yml
+    regexp: "^https_"
+    line: "https_port: 445"
+  when: installed.changed
+
+- name: Rebuild BW
+  shell: "./bitwarden.sh rebuild"
+  when: installed.changed
 
 - name: Start Bitwarden
   shell: "./bitwarden.sh start"
-  when: bwdata.stat.exists = false
+  when: installed.changed
