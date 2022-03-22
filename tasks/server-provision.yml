@@ -9,12 +9,15 @@
       - core
       - nextcloud
     state: present
+  register: install
 
 - name: Change Nextcloud ports
   shell: snap set nextcloud ports.http=81 && snap set nextcloud ports.https=444
+  when: install.changed
 
 - name: Enable Nextcloud HTTPS
   shell: "/snap/bin/nextcloud.enable-https self-signed"
+  when: install.changed
 
 - name: Create BitWarden User
   user:
@@ -23,6 +26,14 @@
     shell: /bin/bash
     groups:
       - docker
+
+- name: Restart Docker
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items: 
+    - docker
+    - containerd
 
 - name: Setup ssh For {{ users.bitwarden }}
   authorized_key:

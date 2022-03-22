@@ -21,14 +21,6 @@
     createhome: yes
     home: "/home/{{ users.login }}"
 
-- name: Restart Docker
-  service:
-    name: "{{ item }}"
-    state: restarted
-  with_items: 
-    - docker
-    - containerd
-
 - name: Pwdless Sudo for {{ users.login }}
   lineinfile:
     dest: /etc/sudoers
