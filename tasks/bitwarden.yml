@@ -1,3 +1,4 @@
+---
 - name: Download Bitwarden Install Script
   get_url:
     url: https://go.btwrdn.co/bw-sh
@@ -5,7 +6,7 @@
     mode: '0700'
 
 - name: Transfer auto-expect install script
-  copy: 
+  copy:
     mode: "0744"
     src: auto-bw.exp
     dest: ./auto-bw.exp

@@ -1,3 +1,4 @@
+---
 - name: Install Server Packages
   package:
     name: "{{ packages.server }}"
@@ -5,7 +6,7 @@
 
 - name: Install snaps
   snap:
-    name: 
+    name:
       - core
       - nextcloud
     state: present
@@ -31,7 +32,7 @@
   service:
     name: "{{ item }}"
     state: restarted
-  with_items: 
+  with_items:
     - docker
     - containerd
 

@@ -10,8 +10,6 @@ rules:
   braces:
     min-spaces-inside: 0
     max-spaces-inside: 1
-  document-start: disable
-    present: false
 
 ignore: |
   .cache

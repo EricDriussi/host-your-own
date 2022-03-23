@@ -1,3 +1,4 @@
+---
 - name: Install Basic Packages
   package:
     name: "{{ packages.basic }}"
@@ -37,10 +38,10 @@
   shell: "sed '/^source.*/d' ./.config/nvim/init.vim -i"
 
 - name: Stow Basic Dotfiles
-  shell: 
+  shell:
     cmd: "stow -R {{ item }}"
     chdir: dotfiles
-  with_items: 
+  with_items:
     - base
     - fontconfig
     - vifm

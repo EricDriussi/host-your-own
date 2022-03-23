@@ -1,5 +1,4 @@
 ---
-
 - name: CREATE USER
   tags: user
   hosts: root

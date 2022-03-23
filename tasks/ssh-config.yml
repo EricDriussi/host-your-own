@@ -1,3 +1,4 @@
+---
 - name: Disable pwd For ssh
   lineinfile:
     dest: /etc/ssh/sshd_config
