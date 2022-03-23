@@ -1,4 +1,10 @@
 ---
+- name: Update System
+  become: true
+  package:
+    update_cache: yes
+    upgrade: yes
+
 - name: Install Basic Packages
   package:
     name: "{{ packages.basic }}"
@@ -16,9 +22,8 @@
     track_submodules: yes
 
 - name: Default To zsh
-  become: true
   user:
-    name: "{{ ansible_facts['user_id'] }}"
+    name: "{{ users.login }}"
     shell: /usr/bin/zsh
 
 - name: Create Nvim Dir

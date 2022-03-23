@@ -1,9 +1,4 @@
 ---
-- name: Update System
-  package:
-    update_cache: yes
-    upgrade: yes
-
 - name: Create Docker Group
   group:
     name: docker
