@@ -1,4 +1,9 @@
 ---
+- name: APT Autoremove
+  apt:
+    autoremove: yes
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
 - name: Install Server Packages
   package:
     name: "{{ packages.server }}"
@@ -14,10 +19,6 @@
 
 - name: Change Nextcloud HTTP port
   shell: snap set nextcloud ports.http=81
-  when: install.changed
-
-- name: Disable Nextcloud HTTPS
-  shell: "/snap/bin/nextcloud.disable-https"
   when: install.changed
 
 - name: Create BitWarden User

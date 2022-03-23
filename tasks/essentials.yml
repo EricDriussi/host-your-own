@@ -6,6 +6,7 @@
     upgrade: yes
 
 - name: Install Basic Packages
+  become: true
   package:
     name: "{{ packages.basic }}"
     state: latest
@@ -22,6 +23,7 @@
     track_submodules: yes
 
 - name: Default To zsh
+  become: true
   user:
     name: "{{ users.login }}"
     shell: /usr/bin/zsh
