@@ -31,3 +31,9 @@
   hosts: bitwarden
   tasks:
     - import_tasks: tasks/bitwarden.yml
+
+- name: NGINX
+  tags: nginx
+  hosts: ansible
+  tasks:
+    - import_tasks: tasks/nginx.yml
