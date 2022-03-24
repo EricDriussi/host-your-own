@@ -10,8 +10,21 @@
     dest: /etc/nginx/sites-enabled/
   with_items:
     - nginx-website
+    - nginx-onion
     - nginx-nextcloud
     - nginx-bitwarden
+
+- name: Set onion address
+  lineinfile:
+    dest: "/etc/nginx/sites-enabled/nginx-onion"
+    regexp: ".*server_name.*"
+    line: "        server_name {{ address.stdout }};"
+
+- name: Set onion header
+  lineinfile:
+    dest: "/etc/nginx/sites-enabled/nginx-website"
+    regexp: ".*add_header.*"
+    line: "    add_header Onion-Location http://{{ address.stdout }}$request_uri;"
 
 - name: Set internal nextcloud port
   lineinfile:

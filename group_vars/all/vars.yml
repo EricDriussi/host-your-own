@@ -22,7 +22,8 @@ packages:
   server:
     - nginx
     - python3-certbot-nginx
-    - tor
+    - gpg
+    - apt-transport-https
     - snapd
     - docker
     - docker-compose

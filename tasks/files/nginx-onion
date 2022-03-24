@@ -1,10 +1,8 @@
 server {
-    listen 80 ;
-    listen [::]:80 ;
+    listen 127.0.0.1:80 ;
     server_name test.net ;
     root /var/www/website ;
     index index.html index.htm index.nginx-debian.html ;
-    add_header Onion-Location http://your-onion-address.onion$request_uri;
 
     location / {
         try_files $uri $uri/ =404 ;

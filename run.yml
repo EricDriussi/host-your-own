@@ -32,9 +32,23 @@
   tasks:
     - import_tasks: tasks/bitwarden.yml
 
+- name: ONION
+  tags: onion
+  hosts: ansible
+  become: true
+  tasks:
+    - import_tasks: tasks/onion.yml
+
 - name: NGINX
   tags: nginx
   hosts: ansible
   become: true
   tasks:
     - import_tasks: tasks/nginx.yml
+
+- name: CLEAN-UP
+  tags: clean
+  hosts: ansible
+  become: true
+  tasks:
+    - import_tasks: tasks/clean-up.yml

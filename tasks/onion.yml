@@ -1,0 +1,51 @@
+---
+- name: Add Tor Repos
+  shell: echo "deb     [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org $(lsb_release -cs) main \ndeb-src [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org $(lsb_release -cs) main" > /etc/apt/sources.list.d/tor.list
+  when: ansible_distribution == 'Debian'
+
+- name: Add Tor GPG Key
+  ansible.builtin.apt_key:
+    url: https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc
+    keyring: /usr/share/keyrings/tor-archive-keyring.gpg
+    state: present
+
+- name: Update System
+  package:
+    update_cache: yes
+    upgrade: yes
+
+- name: Install Basic Packages
+  package:
+    name:
+      - tor
+      - deb.torproject.org-keyring
+    state: latest
+
+- name: Config Tor Dir
+  lineinfile:
+    dest: /etc/tor/torrc
+    regexp: "^#HiddenServiceDir.*"
+    line: "HiddenServiceDir /var/lib/tor/hidden_service/"
+  register: tor_config
+
+- name: Config Tor Port
+  lineinfile:
+    dest: /etc/tor/torrc
+    regexp: "^#HiddenServicePort.*"
+    line: "HiddenServicePort 80 127.0.0.1:80"
+  register: tor_config
+
+- name: Restart Tor
+  service:
+    name: tor
+    state: restarted
+  when: tor_config.changed
+
+- name: Retrieving Onion Address
+  command: cat /var/lib/tor/hidden_service/hostname
+  register: address
+
+- debug:
+    msg:
+      - "⮶ THIS IS YOUR ONION ADDRESS ⮷"
+      - "{{ address.stdout }}"
