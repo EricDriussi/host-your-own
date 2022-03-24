@@ -30,3 +30,6 @@ users:
   login: ansible
   root: root
   bitwarden: bitwarden
+internal_ports:
+  nextcloud: 81
+  bitwarden: 82

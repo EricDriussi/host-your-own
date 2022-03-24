@@ -25,14 +25,14 @@
   lineinfile:
     dest: bwdata/config.yml
     regexp: "^http_"
-    line: "http_port: 82"
+    line: "http_port: {{ internal_ports.bitwarden }}"
   when: installed.changed
 
 - name: Change https port for BW
   lineinfile:
     dest: bwdata/config.yml
     regexp: "^https_"
-    line: "https_port: 445"
+    line: "https_port: 9999"
   when: installed.changed
 
 - name: Rebuild BW

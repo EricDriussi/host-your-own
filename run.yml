@@ -35,5 +35,6 @@
 - name: NGINX
   tags: nginx
   hosts: ansible
+  become: true
   tasks:
     - import_tasks: tasks/nginx.yml

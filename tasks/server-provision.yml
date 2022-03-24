@@ -18,7 +18,7 @@
   register: install
 
 - name: Change Nextcloud HTTP port
-  shell: snap set nextcloud ports.http=81
+  shell: "snap set nextcloud ports.http={{ internal_ports.nextcloud }}"
   when: install.changed
 
 - name: Create BitWarden User
