@@ -9,6 +9,21 @@
     name: "{{ packages.server }}"
     state: latest
 
+- name: UFW Deny all except HTTP and HTTPS
+  ufw:
+    state: enabled
+    policy: deny
+    rule: allow
+    port: "{{ item }}"
+  with_items:
+    - '80'
+    - '443'
+
+- name: UFW Limit ssh
+  ufw:
+    rule: limit
+    port: '22'
+
 - name: Install snaps
   snap:
     name:
@@ -50,3 +65,11 @@
     group: bitwarden
     mode: '0700'
     recurse: yes
+
+- name: Cron-Update
+  cron:
+    name: update system
+    weekday: "0"
+    minute: "30"
+    hour: "2"
+    job: "apt -y update && apt -y upgrade"
