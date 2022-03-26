@@ -24,41 +24,32 @@
     regexp: ".*server_name.*"
     line: "        server_name {{ address.stdout }};"
 
-- name: Set onion header
+- name: Parse website config
   lineinfile:
     dest: "/etc/nginx/sites-enabled/nginx-website"
-    regexp: ".*add_header.*"
-    line: "    add_header Onion-Location http://{{ address.stdout }}$request_uri;"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  loop:
+    - { regexp: '.*server_name .*', line: '        server_name {{ domain }} www.{{ domain }};' }
+    - { regexp: '.*add_header.*', line: '    add_header Onion-Location http://{{ address.stdout }}$request_uri;' }
 
-- name: Set website domain
-  lineinfile:
-    dest: "/etc/nginx/sites-enabled/nginx-website"
-    regexp: ".*server_name .*"
-    line: "        server_name {{ domain }} www.{{ domain }};"
-
-- name: Set nextcloud domain
+- name: Parse nextcloud config
   lineinfile:
     dest: "/etc/nginx/sites-enabled/nginx-nextcloud"
-    regexp: ".*server_name .*"
-    line: "        server_name cloud.{{ domain }} www.cloud.{{ domain }};"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  loop:
+    - { regexp: '.*server_name .*', line: '        server_name cloud.{{ domain }} www.cloud.{{ domain }};' }
+    - { regexp: '.*proxy_pass .*', line: '        proxy_pass          http://127.0.0.1:{{ internal_ports.nextcloud }};' }
 
-- name: Set internal nextcloud port
-  lineinfile:
-    dest: "/etc/nginx/sites-enabled/nginx-nextcloud"
-    regexp: ".*proxy_pass .*"
-    line: "        proxy_pass          http://127.0.0.1:{{ internal_ports.nextcloud }};"
-
-- name: Set bitwarden domain
+- name: Parse bitwarden config
   lineinfile:
     dest: "/etc/nginx/sites-enabled/nginx-bitwarden"
-    regexp: ".*server_name .*"
-    line: "        server_name vault.{{ domain }} www.vault.{{ domain }};"
-
-- name: Set internal bitwarden port
-  lineinfile:
-    dest: "/etc/nginx/sites-enabled/nginx-bitwarden"
-    regexp: ".*proxy_pass .*"
-    line: "        proxy_pass          http://127.0.0.1:{{ internal_ports.bitwarden }};"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  loop:
+    - { regexp: '.*proxy_pass .*', line: '        proxy_pass          http://127.0.0.1:{{ internal_ports.bitwarden }};' }
+    - { regexp: '.*server_name .*', line: '        server_name vault.{{ domain }} www.vault.{{ domain }};' }
 
 - name: Restart nginx
   service:
