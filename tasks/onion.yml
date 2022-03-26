@@ -41,7 +41,7 @@
     state: restarted
   when: tor_config.changed
 
-- name: Retrieving Onion Address
+- name: Retrieve Onion Address
   command: cat /var/lib/tor/hidden_service/hostname
   register: address
 

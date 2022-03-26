@@ -14,6 +14,10 @@
     - nginx-nextcloud
     - nginx-bitwarden
 
+- name: Retrieve Onion Address
+  command: cat /var/lib/tor/hidden_service/hostname
+  register: address
+
 - name: Set onion address
   lineinfile:
     dest: "/etc/nginx/sites-enabled/nginx-onion"
@@ -26,11 +30,29 @@
     regexp: ".*add_header.*"
     line: "    add_header Onion-Location http://{{ address.stdout }}$request_uri;"
 
+- name: Set website domain
+  lineinfile:
+    dest: "/etc/nginx/sites-enabled/nginx-website"
+    regexp: ".*server_name .*"
+    line: "        server_name {{ domain }} www.{{ domain }};"
+
+- name: Set nextcloud domain
+  lineinfile:
+    dest: "/etc/nginx/sites-enabled/nginx-nextcloud"
+    regexp: ".*server_name .*"
+    line: "        server_name cloud.{{ domain }} www.cloud.{{ domain }};"
+
 - name: Set internal nextcloud port
   lineinfile:
     dest: "/etc/nginx/sites-enabled/nginx-nextcloud"
     regexp: ".*proxy_pass .*"
     line: "        proxy_pass          http://127.0.0.1:{{ internal_ports.nextcloud }};"
+
+- name: Set bitwarden domain
+  lineinfile:
+    dest: "/etc/nginx/sites-enabled/nginx-bitwarden"
+    regexp: ".*server_name .*"
+    line: "        server_name vault.{{ domain }} www.vault.{{ domain }};"
 
 - name: Set internal bitwarden port
   lineinfile:
@@ -42,3 +64,14 @@
   service:
     name: nginx
     state: restarted
+
+- name: Run cert Script
+  shell: "/usr/bin/certbot --nginx -noninteractive --domains {{ domain }}"
+
+- name: Cron-Update
+  cron:
+    name: update system
+    minute: "0"
+    hour: "0"
+    day: "2"
+    job: "certbot --nginx renew"
