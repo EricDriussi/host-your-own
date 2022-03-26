@@ -45,10 +45,3 @@
   become: true
   tasks:
     - import_tasks: tasks/nginx.yml
-
-- name: CLEAN-UP
-  tags: clean
-  hosts: ansible
-  become: true
-  tasks:
-    - import_tasks: tasks/clean-up.yml
