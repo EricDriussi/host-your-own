@@ -17,7 +17,7 @@
   register: bwdata
 
 - name: Run Install Script
-  shell: "/usr/bin/expect ./auto-bw.exp '{{ domain }} {{ generate }} {{ database }} {{ id }} {{ key }} {{ ssl }} {{ self }}'"
+  shell: "/usr/bin/expect ./auto-bw.exp vault.{{ domain }} {{ id }} {{ key }}"
   when: bwdata.stat.exists == false
   register: installed
 
