@@ -11,8 +11,6 @@
   with_items:
     - nginx-website
     - nginx-onion
-    - nginx-nextcloud
-    - nginx-bitwarden
 
 - name: Retrieve Onion Address
   command: cat /var/lib/tor/hidden_service/hostname
@@ -32,6 +30,14 @@
   loop:
     - { regexp: '.*server_name .*', line: '        server_name {{ domain }} www.{{ domain }};' }
     - { regexp: '.*add_header.*', line: '    add_header Onion-Location http://{{ address.stdout }}$request_uri;' }
+
+- name: Transfer proxy configs
+  copy:
+    src: nginx-proxy
+    dest: "{{ item }}"
+  with_items:
+    - /etc/nginx/sites-enabled/nginx-nextcloud
+    - /etc/nginx/sites-enabled/nginx-bitwarden
 
 - name: Parse nextcloud config
   lineinfile:
