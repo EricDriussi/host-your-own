@@ -3,10 +3,11 @@
 
 Simple Ansible playbook that provides you with:
 
-- A self-hosted website complete with HTTPS.
+- A self-hosted website.
 - An onion version of your website served to Tor.
-- A [Nextcloud](https://nextcloud.com/) instance.
-- A [Bitwarden](https://bitwarden.com/) instance.
+- A [Nextcloud](https://nextcloud.com/) instance @ `cloud.domain`.
+- A [Bitwarden](https://bitwarden.com/) instance @ `vault.domain`.
+- HTTPS all the things.
 - Possibly more stuff in the future.
 
 ## Pre-requisites
@@ -17,7 +18,7 @@ For the script to work there are a couple of things that need to be taken care o
 
 There needs to be a working ssh connection from your machine to the root user of your VPS.
 
-The key for this connection should be your id_rsa key pair. As in:
+This connection is expected to use your id_rsa key pair. As in:
 
 ```sh
 ssh-copy-id -i ~/.ssh/id_rsa.pub root@[VPS-IP-ADDRESS]
@@ -38,7 +39,7 @@ rsync -rtvzP --rsh=ssh [LOCAL-WEBSITE-DIR] --rsync-path="mkdir -p /var/www/websi
 Ports `80` and `443` need to be available.
 
 Your DNS records should be properly set up.
-This includes your A (and AAAA if you want IPv6) records as well as you CAA records for your subdomains.
+This includes your A (and AAAA if you want IPv6) records as well as you CAA records for your subdomains (at least `cloud` and `vault`).
 
 ## Config
 
