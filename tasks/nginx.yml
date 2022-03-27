@@ -63,7 +63,7 @@
     state: restarted
 
 - name: Run cert Script
-  shell: "/usr/bin/certbot --nginx -noninteractive --domains {{ domain }},www.{{ domain },cloud.{{ domain }}},www.cloud.{{ domain }},vault.{{ domain }},www.vault.{{ domain }}"
+  shell: "/usr/bin/certbot --nginx -noninteractive --domains {{ domain }},www.{{ domain }},cloud.{{ domain }},www.cloud.{{ domain }},vault.{{ domain }},www.vault.{{ domain }}"
 
 - name: Cron-Update
   cron:
