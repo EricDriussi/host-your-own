@@ -7,7 +7,6 @@
 - name: Create {{ users.login }} User
   user:
     name: "{{ users.login }}"
-    password: "{{ pwd | password_hash('sha512') }}"
     groups:
       - sudo
       - docker

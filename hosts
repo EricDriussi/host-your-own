@@ -1,8 +1,8 @@
 [root]
-"{{ users.root }}@{{ ip }}"
+"{{ users.root }}@{{ domain }}"
 
 [ansible]
-"{{ users.login }}@{{ ip }}"
+"{{ users.login }}@{{ domain }}"
 
 [bitwarden]
-"{{ users.bitwarden }}@{{ ip }}"
+"{{ users.bitwarden }}@{{ domain }}"
