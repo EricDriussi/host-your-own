@@ -46,11 +46,8 @@
 
 - name: Restart Docker
   service:
-    name: "{{ item }}"
+    name: docker
     state: restarted
-  with_items:
-    - docker
-    - containerd
 
 - name: Setup ssh For {{ users.bitwarden }}
   authorized_key:

@@ -1,5 +1,6 @@
 # Host your stuff!
 > '*Easy to use*' Ansible script to set up a VPS in one go.
+> **This is only tested on Debian systems!**
 
 Simple Ansible playbook that provides you with:
 
@@ -39,7 +40,7 @@ rsync -rtvzP --rsh=ssh [LOCAL-WEBSITE-DIR] --rsync-path="mkdir -p /var/www/websi
 Ports `80` and `443` need to be available.
 
 Your DNS records should be properly set up.
-This includes your A (and AAAA if you want IPv6) records as well as you CAA records for your subdomains (at least `cloud` and `vault`).
+This should include A and AAAA records for both `www` and non `www` versions of your domain, as well as your subdomains (at least `cloud` and `vault`).
 
 ## Config
 
