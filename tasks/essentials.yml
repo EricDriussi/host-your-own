@@ -30,13 +30,19 @@
 
 - name: Create Nvim Dir
   file:
-    path: .config/nvim
+    path: "{{ item }}"
     state: directory
+  with_items:
+    - /home/{{ users.login }}/config/nvim
+    - /home/root/config/nvim
 
 - name: Clone Nvim Config
   get_url:
     url: https://gitlab.com/ericdriussi/nvim/-/raw/master/init.vim
-    dest: .config/nvim/init.vim
+    dest: "{{ item }}"
+  with_items:
+    - /home/{{ users.login }}/config/nvim/init.vim
+    - /home/root/config/nvim/init.vim
 
 - name: Modify zshrc
   shell: "sed -Ee '/.*NVM.*/d' -Ee '/.*NODE.*/d' -Ee '/.*lua.*/d' ./dotfiles/base/.zshrc -i"
