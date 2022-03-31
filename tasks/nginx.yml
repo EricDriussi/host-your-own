@@ -37,7 +37,6 @@
     dest: "{{ item }}"
   with_items:
     - /etc/nginx/sites-enabled/nginx-nextcloud
-    - /etc/nginx/sites-enabled/nginx-bitwarden
 
 - name: Parse nextcloud config
   lineinfile:
@@ -47,15 +46,6 @@
   loop:
     - { regexp: '.*server_name .*', line: '        server_name cloud.{{ domain }} www.cloud.{{ domain }};' }
     - { regexp: '.*proxy_pass .*', line: '        proxy_pass          http://127.0.0.1:{{ internal_ports.nextcloud }};' }
-
-- name: Parse bitwarden config
-  lineinfile:
-    dest: "/etc/nginx/sites-enabled/nginx-bitwarden"
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-  loop:
-    - { regexp: '.*proxy_pass .*', line: '        proxy_pass          http://127.0.0.1:{{ internal_ports.bitwarden }};' }
-    - { regexp: '.*server_name .*', line: '        server_name vault.{{ domain }} www.vault.{{ domain }};' }
 
 - name: Restart nginx
   service:

@@ -3,6 +3,3 @@
 
 [ansible]
 "{{ users.login }}@{{ domain }}"
-
-[bitwarden]
-"{{ users.bitwarden }}@{{ domain }}"

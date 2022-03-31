@@ -50,32 +50,6 @@
     regexp: ".*0 => 'localhost'.*"
     line: "1 => 'cloud.{{ domain }}'"
 
-- name: Create BitWarden User
-  user:
-    name: bitwarden
-    shell: /bin/bash
-    groups:
-      - docker
-
-- name: Restart Docker
-  service:
-    name: docker
-    state: restarted
-
-- name: Setup ssh For {{ users.bitwarden }}
-  authorized_key:
-    user: "{{ users.bitwarden }}"
-    key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
-
-- name: Create Bitwarden dir
-  file:
-    path: /opt/bitwarden
-    state: directory
-    owner: bitwarden
-    group: bitwarden
-    mode: '0700'
-    recurse: yes
-
 - name: Cron-Update
   cron:
     name: update system

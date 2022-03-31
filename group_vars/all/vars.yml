@@ -32,4 +32,3 @@ packages:
 users:
   login: ansible
   root: root
-  bitwarden: bitwarden
