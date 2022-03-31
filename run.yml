@@ -26,12 +26,6 @@
   tasks:
     - import_tasks: tasks/server-provision.yml
 
-- name: BITWARDEN
-  tags: bitwarden
-  hosts: bitwarden
-  tasks:
-    - import_tasks: tasks/bitwarden.yml
-
 - name: ONION
   tags: onion
   hosts: ansible
