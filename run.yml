@@ -26,6 +26,12 @@
   tasks:
     - import_tasks: tasks/server-provision.yml
 
+- name: VAULT
+  tags: vault
+  hosts: ansible
+  tasks:
+    - import_tasks: tasks/vault.yml
+
 - name: ONION
   tags: onion
   hosts: ansible
