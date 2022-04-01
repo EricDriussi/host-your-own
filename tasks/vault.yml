@@ -3,16 +3,15 @@
   docker_container:
     name: vaultwarden
     image: vaultwarden/server:latest
-    env: "{{ item }}"
+    env:
+      ADMIN_TOKEN: "{{ admin_token }}"
+      SIGNUPS_ALLOWED: "{{ signups }}"
     detach: yes
     state: started
     volumes:
       - "/vw-data/:/data/"
     ports:
       - "{{ internal_ports.vaultwarden }}:80"
-  with_items:
-    - "ADMIN_TOKEN={{ admin_token }}"
-    - "SIGNUPS_ALLOWED={{ signups }}"
 
 - name: Cron-Update
   cron:
