@@ -29,5 +29,4 @@ packages:
     - snapd
     - docker
     - docker-compose
-users:
-  login: ansible
+login_user: ansible

@@ -25,7 +25,7 @@
 - name: Default To zsh
   become: true
   user:
-    name: "{{ users.login }}"
+    name: "{{ login_user }}"
     shell: /usr/bin/zsh
 
 - name: Create Nvim Dir
@@ -33,7 +33,7 @@
     path: "{{ item }}"
     state: directory
   with_items:
-    - /home/{{ users.login }}/config/nvim
+    - /home/{{ login_user }}/config/nvim
     - /home/root/config/nvim
 
 - name: Clone Nvim Config
@@ -41,7 +41,7 @@
     url: https://gitlab.com/ericdriussi/nvim/-/raw/master/init.vim
     dest: "{{ item }}"
   with_items:
-    - /home/{{ users.login }}/config/nvim/init.vim
+    - /home/{{ login_user }}/config/nvim/init.vim
     - /home/root/config/nvim/init.vim
 
 - name: Modify zshrc
