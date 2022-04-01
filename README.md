@@ -11,7 +11,7 @@ Simple Ansible playbook that provides you with:
 - HTTPS all the things.
 - Possibly more stuff in the future.
 
-## Pre-requisites
+## 🔧 Pre-requisites
 
 For the script to work there are a couple of things that need to be taken care of.
 
@@ -43,23 +43,25 @@ You **need** a valid domain name and your DNS records should be properly set up.
 
 This should include A and AAAA records for both `www` and non `www` versions of your domain, as well as your subdomains (at least `cloud` and `vault`).
 
-## Config
+## ⚙️ Config
 
 User config is done through the `.env.yml` file.
 Create it by renaming `.env-sample.yml` and filling in the correct information.
 
-### Note on Vars
+### ⚠️ Note on Vars
+
+#### Ports 
 
 The `internal_ports` vars are there in case you have other things taking up ports `81` and/or `82`.
 
 If that's not the case there's no need to change them.
 
-The `admin_token` is optional and should be set to the output of something like `openssl rand -base64 48` as per recommended in the [documentation](https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page) for Vaultwarden.
+The `admin_token` is optional and should be set to the output of something like `openssl rand -base64 48` as recommended in the [documentation](https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page) for Vaultwarden.
 
 **Keep in mind** that not setting it will leave you out of the admin panel.
 If on top of this you leave the `signups` as `false`, you won't be able to access your vault at all!
 
-## Run
+## 🏃 Run
 
 To run the whole playbook in one go, run:
 
