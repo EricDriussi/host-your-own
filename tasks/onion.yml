@@ -1,38 +1,34 @@
 ---
-- name: Add Tor Repos
+- name: Add repos for Tor
   shell: echo "deb     [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org $(lsb_release -cs) main \ndeb-src [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org $(lsb_release -cs) main" > /etc/apt/sources.list.d/tor.list
   when: ansible_distribution == 'Debian'
 
-- name: Add Tor GPG Key
+- name: Add GPG key for Tor
   ansible.builtin.apt_key:
     url: https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc
     keyring: /usr/share/keyrings/tor-archive-keyring.gpg
     state: present
 
-- name: Update System
+- name: Update repos
   package:
     update_cache: yes
     upgrade: yes
 
-- name: Install Basic Packages
+- name: Install Tor
   package:
     name:
       - tor
       - deb.torproject.org-keyring
     state: latest
 
-- name: Config Tor Dir
+- name: Config Tor port and directory
   lineinfile:
     dest: /etc/tor/torrc
-    regexp: "^#HiddenServiceDir.*"
-    line: "HiddenServiceDir /var/lib/tor/hidden_service/"
-  register: tor_config
-
-- name: Config Tor Port
-  lineinfile:
-    dest: /etc/tor/torrc
-    regexp: "^#HiddenServicePort.*"
-    line: "HiddenServicePort 80 127.0.0.1:80"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  loop:
+    - { regexp: '^#HiddenServiceDir.*', line: 'HiddenServiceDir /var/lib/tor/hidden_service/' }
+    - { regexp: '^#HiddenServicePort.*', line: 'HiddenServicePort 80 127.0.0.1:80' }
   register: tor_config
 
 - name: Restart Tor
@@ -41,11 +37,11 @@
     state: restarted
   when: tor_config.changed
 
-- name: Retrieve Onion Address
+- name: Retrieve Onion address
   command: cat /var/lib/tor/hidden_service/hostname
-  register: address
+  register: onion_address
 
 - debug:
     msg:
       - "⮶ THIS IS YOUR ONION ADDRESS ⮷"
-      - "{{ address.stdout }}"
+      - "{{ onion_address.stdout }}"

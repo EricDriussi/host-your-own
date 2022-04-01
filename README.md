@@ -13,7 +13,11 @@ Simple Ansible playbook that provides you with:
 
 ## 🔧 Pre-requisites
 
-For the script to work there are a couple of things that need to be taken care of.
+Things you need to have set up for the script to work as expected.
+
+### A Debian based VPS
+
+Pretty much anything will do.
 
 ### Basic SSH root setup
 

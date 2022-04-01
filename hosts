@@ -1,5 +1,5 @@
 [root]
-"{{ users.root }}@{{ domain }}"
+"root@{{ ip }}"
 
 [ansible]
 "{{ users.login }}@{{ domain }}"

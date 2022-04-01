@@ -13,7 +13,7 @@
     ports:
       - "{{ internal_ports.vaultwarden }}:80"
 
-- name: Cron-Update
+- name: Cron - Keep vaultwarden updated
   cron:
     name: update vaultwarden
     weekday: "0"

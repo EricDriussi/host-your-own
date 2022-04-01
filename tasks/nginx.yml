@@ -1,10 +1,10 @@
 ---
-- name: Delete default config
+- name: Delete default Nginx config
   file:
     state: absent
     path: /etc/nginx/sites-enabled/default
 
-- name: Transfer nginx server file
+- name: Transfer website server files
   copy:
     src: "{{ item }}"
     dest: /etc/nginx/sites-enabled/
@@ -12,26 +12,27 @@
     - nginx-website
     - nginx-onion
 
-- name: Retrieve Onion Address
+- name: Retrieve Onion address
   command: cat /var/lib/tor/hidden_service/hostname
-  register: address
+  register: onion_address
+  when: onion_address is not defined
 
-- name: Set onion address
+- name: Set Onion address
   lineinfile:
     dest: "/etc/nginx/sites-enabled/nginx-onion"
     regexp: ".*server_name.*"
-    line: "        server_name {{ address.stdout }};"
+    line: "        server_name {{ onion_address }};"
 
-- name: Parse website config
+- name: Config website server
   lineinfile:
     dest: "/etc/nginx/sites-enabled/nginx-website"
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
   loop:
     - { regexp: '.*server_name .*', line: '        server_name {{ domain }} www.{{ domain }};' }
-    - { regexp: '.*add_header.*', line: '    add_header Onion-Location http://{{ address.stdout }}$request_uri;' }
+    - { regexp: '.*add_header.*', line: '    add_header Onion-Location http://{{ onion_address }}$request_uri;' }
 
-- name: Transfer proxy configs
+- name: Transfer proxy server configs
   copy:
     src: nginx-proxy
     dest: "{{ item }}"
@@ -39,7 +40,7 @@
     - /etc/nginx/sites-enabled/nginx-nextcloud
     - /etc/nginx/sites-enabled/nginx-vaultwarden
 
-- name: Parse nextcloud config
+- name: Config nextcloud proxy
   lineinfile:
     dest: "/etc/nginx/sites-enabled/nginx-nextcloud"
     regexp: "{{ item.regexp }}"
@@ -48,24 +49,24 @@
     - { regexp: '.*server_name .*', line: '        server_name cloud.{{ domain }} www.cloud.{{ domain }};' }
     - { regexp: '.*proxy_pass .*', line: '        proxy_pass          http://127.0.0.1:{{ internal_ports.nextcloud }};' }
 
-- name: Parse vaultwarden config
+- name: Config vaultwarden proxy
   lineinfile:
     dest: "/etc/nginx/sites-enabled/nginx-vaultwarden"
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
   loop:
-    - { regexp: '.*proxy_pass .*', line: '        proxy_pass          http://127.0.0.1:{{ internal_ports.vaultwarden }};' }
     - { regexp: '.*server_name .*', line: '        server_name vault.{{ domain }} www.vault.{{ domain }};' }
+    - { regexp: '.*proxy_pass .*', line: '        proxy_pass          http://127.0.0.1:{{ internal_ports.vaultwarden }};' }
 
 - name: Restart nginx
   service:
     name: nginx
     state: restarted
 
-- name: Run cert Script
+- name: Run cert script
   shell: "/usr/bin/certbot --nginx -n --agree-tos --email {{ email }} --domains {{ domain }},www.{{ domain }},cloud.{{ domain }},www.cloud.{{ domain }},vault.{{ domain }},www.vault.{{ domain }}"
 
-- name: Cron-Update
+- name: Cron - Keep certs updated
   cron:
     name: update system
     minute: "0"

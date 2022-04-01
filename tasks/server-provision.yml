@@ -1,28 +1,13 @@
 ---
-- name: APT Autoremove
+- name: Autoremove
   apt:
     autoremove: yes
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
-- name: Install Server Packages
+- name: Install server packages
   package:
     name: "{{ packages.server }}"
     state: latest
-
-- name: UFW Deny all except HTTP and HTTPS
-  ufw:
-    state: enabled
-    policy: deny
-    rule: allow
-    port: "{{ item }}"
-  with_items:
-    - '80'
-    - '443'
-
-- name: UFW Limit ssh
-  ufw:
-    rule: limit
-    port: '22'
 
 - name: Install snaps
   snap:
@@ -32,7 +17,22 @@
     state: present
   register: install
 
-- name: Change Nextcloud HTTP port
+- name: UFW deny all except HTTP and HTTPS
+  ufw:
+    state: enabled
+    policy: deny
+    rule: allow
+    port: "{{ item }}"
+  with_items:
+    - '80'
+    - '443'
+
+- name: UFW limit ssh traffic
+  ufw:
+    rule: limit
+    port: '22'
+
+- name: Setup Nextcloud port
   shell: "snap set nextcloud ports.http={{ internal_ports.nextcloud }}"
   when: install.changed
 
@@ -40,17 +40,17 @@
   shell: '/snap/bin/nextcloud.manual-install {{ username }} {{ pwd }}'
   when: install.changed
 
-- name: Ensure HTTPS is preferred
+- name: Ensure Nextcloud prefers HTTPS
   shell: '/snap/bin/nextcloud.occ config:system:set overwriteprotocol --value="https"'
   when: install.changed
 
-- name: Config trusted domain
+- name: Config Nextcloud trusted domain
   lineinfile:
     dest: /var/snap/nextcloud/current/nextcloud/config/config.php
     regexp: ".*0 => 'localhost'.*"
     line: "1 => 'cloud.{{ domain }}'"
 
-- name: Cron-Update
+- name: Cron - Keep system updated
   cron:
     name: update system
     weekday: "0"

@@ -31,4 +31,3 @@ packages:
     - docker-compose
 users:
   login: ansible
-  root: root

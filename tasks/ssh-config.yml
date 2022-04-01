@@ -1,5 +1,5 @@
 ---
-- name: Disable pwd For ssh
+- name: Disable password for ssh
   lineinfile:
     dest: /etc/ssh/sshd_config
     regexp: "^#PasswordAuthentication yes"

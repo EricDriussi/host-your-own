@@ -16,14 +16,14 @@
     createhome: yes
     home: "/home/{{ users.login }}"
 
-- name: Pwdless Sudo for {{ users.login }}
+- name: Password-less sudo for {{ users.login }}
   lineinfile:
     dest: /etc/sudoers
     regexp: "^%wheel"
     line: "{{ users.login }} ALL=(ALL) NOPASSWD: ALL"
     validate: "/usr/sbin/visudo -cf %s"
 
-- name: Setup ssh For {{ users.login }}
+- name: Setup ssh for {{ users.login }}
   authorized_key:
     user: "{{ users.login }}"
     key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
