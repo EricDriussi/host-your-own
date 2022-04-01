@@ -1,56 +1,54 @@
 ---
-- name: Update System
+- name: Update system
   become: true
   package:
     update_cache: yes
     upgrade: yes
 
-- name: Install Basic Packages
+- name: Install basic packages
   become: true
   package:
     name: "{{ packages.basic }}"
     state: latest
 
-- name: Install Ueberzug
+- name: Install ueberzug
   pip:
     name: ueberzug
 
-- name: Clone Dotfiles
+- name: Clone dotfiles
   git:
-    repo: 'https://gitlab.com/ericdriussi/dotfiles.git'
+    repo: "{{ dotfiles }}"
     dest: dotfiles
     force: yes
     track_submodules: yes
 
-- name: Default To zsh
+- name: Set zsh as default shell
   become: true
   user:
     name: "{{ login_user }}"
     shell: /usr/bin/zsh
 
-- name: Create Nvim Dir
+- name: Create Nvim directory
   file:
-    path: "{{ item }}"
+    path: "/home/{{ login_user }}/config/nvim"
     state: directory
-  with_items:
-    - /home/{{ login_user }}/config/nvim
-    - /home/root/config/nvim
 
-- name: Clone Nvim Config
+- name: Clone Nvim config
   get_url:
-    url: https://gitlab.com/ericdriussi/nvim/-/raw/master/init.vim
-    dest: "{{ item }}"
+    url: "{{ nvim }}"
+    dest: "/home/{{ login_user }}/config/nvim/init.vim"
+
+- name: Adapt zshrc and init.vim
+  shell: "{{ item }}"
   with_items:
-    - /home/{{ login_user }}/config/nvim/init.vim
-    - /home/root/config/nvim/init.vim
+    - "sed -Ee '/.*NVM.*/d' -Ee '/.*NODE.*/d' -Ee '/.*lua.*/d' ./dotfiles/base/.zshrc -i"
+    - "sed '/^source.*/d' ./.config/nvim/init.vim -i"
 
-- name: Modify zshrc
-  shell: "sed -Ee '/.*NVM.*/d' -Ee '/.*NODE.*/d' -Ee '/.*lua.*/d' ./dotfiles/base/.zshrc -i"
+- name: Copy Nvim config for root user
+  become: true
+  shell: mkdir -p /root/.config/nvim/ && cp /home/{{ login_user }}/.config/nvim/init.vim '$_'
 
-- name: Modify init.vim
-  shell: "sed '/^source.*/d' ./.config/nvim/init.vim -i"
-
-- name: Stow Basic Dotfiles
+- name: Unstow dotfiles
   shell:
     cmd: "stow -R {{ item }}"
     chdir: dotfiles
