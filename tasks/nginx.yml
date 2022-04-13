@@ -4,6 +4,14 @@
     state: absent
     path: /etc/nginx/sites-enabled/default
 
+- name: Enable big files upload
+  lineinfile:
+    dest: /etc/nginx/nginx.conf
+    insertafter: 'http \{'
+    regexp: 'http \{'
+    line: 'client_max_body_size 100M;'
+    state: present
+
 - name: Transfer website server files
   copy:
     src: "{{ item }}"
