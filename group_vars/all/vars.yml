@@ -1,32 +1,31 @@
 ---
 packages:
   basic:
-    - neovim
-    - exa
+    - curl
     - delta
-    - zsh
+    - docker
+    - docker-compose
+    - exa
+    - expect
     - fzf
     - git
+    - htop
+    - libjpeg-dev
+    - libxtst-dev
+    - neovim
+    - python3-pip
     - ripgrep
     - rsync
     - stow
-    - ufw
-    - htop
-    - expect
-    - vifm
-    - zsh
     - tree
-    - python3-pip
-    - libxtst-dev
-    - libjpeg-dev
+    - ufw
+    - vifm
     - zlib1g-dev
-    - curl
+    - zsh
   server:
+    - apt-transport-https
+    - gpg
     - nginx
     - python3-certbot-nginx
-    - gpg
-    - apt-transport-https
     - snapd
-    - docker
-    - docker-compose
 login_user: ansible
