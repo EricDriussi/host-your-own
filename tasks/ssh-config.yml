@@ -6,6 +6,20 @@
     line: "PasswordAuthentication no"
   register: sshd_config
 
+- name: Disable root login
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: ".*PermitRootLogin.*"
+    line: "PermitRootLogin no"
+  register: sshd_config
+
+- name: Set max auth attempts
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: ".*MaxAuthTries.*"
+    line: "MaxAuthTries 3"
+  register: sshd_config
+
 - name: Restart ssh
   service:
     name: sshd
