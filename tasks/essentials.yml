@@ -33,20 +33,19 @@
     path: "/home/{{ login_user }}/config/nvim"
     state: directory
 
-- name: Clone Nvim config
-  get_url:
-    url: "{{ nvim }}"
-    dest: "/home/{{ login_user }}/config/nvim/init.vim"
-
-- name: Adapt zshrc and init.vim
-  shell: "{{ item }}"
-  with_items:
-    - "sed -Ee '/.*NVM.*/d' -Ee '/.*NODE.*/d' -Ee '/.*lua.*/d' ./dotfiles/base/.zshrc -i"
-    - "sed '/^source.*/d' ./.config/nvim/init.vim -i"
+- name: Transfer Nvim config
+  copy:
+    src: init.vim
+    dest: "/home/{{ login_user }}/config/nvim/"
 
 - name: Copy Nvim config for root user
   become: true
   shell: mkdir -p /root/.config/nvim/ && cp /home/{{ login_user }}/.config/nvim/init.vim '$_'
+
+- name: Transfer zsh config
+  copy:
+    src: zshrc
+    dest: "/home/{{ login_user }}/dotfiles/base/.zshrc"
 
 - name: Unstow dotfiles
   shell:
