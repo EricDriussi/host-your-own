@@ -11,6 +11,12 @@ Simple Ansible playbook that provides you with:
 - HTTPS all the things.
 - Possibly more stuff in the future.
 
+## 📝 Note
+
+Please keep in mind that by the end, your `root` user won't be able to ssh into your VPS.
+
+This is intentional and considered best practice, but might be unexpected and will require you to ssh into it with the `ansible` user the script creates or with any other user you decide to configure.
+
 ## 🔧 Pre-requisites
 
 Things you need to have set up for the script to work as expected.
@@ -29,6 +35,8 @@ This connection is expected to use your id_rsa key pair. As in:
 ssh-copy-id -i ~/.ssh/id_rsa.pub root@[VPS-IP-ADDRESS]
 ```
 
+The script will use the same ssh key for the `ansible` user it creates.
+
 ### A website to serve
 
 The playbook expects a website to serve under `/var/www/website/`.
@@ -38,6 +46,16 @@ Assuming a working SSH connection you can use `rsync` (assuming its installed on
 ```sh
 rsync -rtvzP --rsh=ssh [LOCAL-WEBSITE-DIR] --rsync-path="mkdir -p /var/www/website && rsync" root@[VPS-IP-ADDRESS]:/var/www/website
 ```
+
+To update the website once the script is done you can use something like:
+
+```sh
+rsync -rtvzP --rsh=ssh [LOCAL-WEBSITE-DIR] ansible@[VPS-IP-ADDRESS]:/var/www/website
+```
+
+Given that you `chown ansible:ansible /var/www/website` previously.
+
+Of course, any user you decide to set up is equally valid, as described above.
 
 ### Obvious stuff
 
