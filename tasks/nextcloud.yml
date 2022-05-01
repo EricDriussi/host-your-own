@@ -1,4 +1,16 @@
 ---
+- name: Install snap
+  package:
+    name: snapd
+    state: latest
+
+- name: Install snap core and Nextcloud
+  snap:
+    name:
+      - core
+      - nextcloud
+    state: present
+
 - name: Setup Nextcloud port
   shell: "snap set nextcloud ports.http={{ internal_ports.nextcloud }}"
   when: install.changed

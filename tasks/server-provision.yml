@@ -13,9 +13,7 @@
   snap:
     name:
       - core
-      - nextcloud
     state: present
-  register: install
 
 - name: UFW deny all except HTTP and HTTPS
   ufw:
