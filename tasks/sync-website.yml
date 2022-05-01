@@ -1,4 +1,10 @@
 ---
+- name: Install rsync
+  become: true
+  package:
+    name: rsync
+    state: latest
+
 - name: Create and chown website dir
   become: true
   file:
