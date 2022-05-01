@@ -26,6 +26,12 @@
   tasks:
     - import_tasks: tasks/server-provision.yml
 
+- name: NEXTCLOUD
+  tags: nextcloud
+  hosts: ansible
+  tasks:
+    - import_tasks: tasks/nextcloud.yml
+
 - name: VAULT
   tags: vault
   hosts: ansible
