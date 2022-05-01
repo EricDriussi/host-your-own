@@ -1,4 +1,12 @@
 ---
+- name: Install docker
+  become: true
+  package:
+    name:
+      - docker
+      - docker-compose
+    state: latest
+
 - name: Run container
   docker_container:
     name: vaultwarden
