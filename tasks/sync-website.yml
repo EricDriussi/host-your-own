@@ -1,0 +1,13 @@
+---
+- name: Create and chown website dir
+  become: true
+  file:
+    owner: ansible
+    group: ansible
+    path: /var/www/website
+    state: directory
+
+- name: Rsync website
+  synchronize:
+    src: "{{ website }}"
+    dest: /var/www/website

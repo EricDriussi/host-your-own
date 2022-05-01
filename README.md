@@ -11,51 +11,13 @@ Simple Ansible playbook that provides you with:
 - HTTPS all the things.
 - Possibly more stuff in the future.
 
-## 📝 Note
-
-Please keep in mind that by the end, your `root` user won't be able to ssh into your VPS.
-
-This is intentional and considered best practice, but might be unexpected and will require you to ssh into it with the `ansible` user the script creates or with any other user you decide to configure.
-
 ## 🔧 Pre-requisites
 
-Things you need to have set up for the script to work as expected.
+Things you need to set up for the script to work as expected.
 
 ### A Debian based VPS
 
-Pretty much anything will do.
-
-### Basic SSH root setup
-
-There needs to be a working ssh connection from your machine to the root user of your VPS.
-
-This connection is expected to use your id_rsa key pair. As in:
-
-```sh
-ssh-copy-id -i ~/.ssh/id_rsa.pub root@[VPS-IP-ADDRESS]
-```
-
-The script will use the same ssh key for the `ansible` user it creates.
-
-### A website to serve
-
-The playbook expects a website to serve under `/var/www/website/`.
-
-Assuming a working SSH connection you can use `rsync` (assuming its installed on both machines) as such:
-
-```sh
-rsync -rtvzP --rsh=ssh [LOCAL-WEBSITE-DIR] --rsync-path="mkdir -p /var/www/website && rsync" root@[VPS-IP-ADDRESS]:/var/www/website
-```
-
-To update the website once the script is done you can use something like:
-
-```sh
-rsync -rtvzP --rsh=ssh [LOCAL-WEBSITE-DIR] ansible@[VPS-IP-ADDRESS]:/var/www/website
-```
-
-Given that you `chown ansible:ansible /var/www/website` previously.
-
-Of course, any user you decide to set up is equally valid, as described above.
+This should work with the cheapest most basic VPS you can find.
 
 ### Obvious stuff
 
@@ -64,6 +26,40 @@ Ports `80` and `443` need to be available.
 You **need** a valid domain name and your DNS records should be properly set up.
 
 This should include A and AAAA records for both `www` and non `www` versions of your domain, as well as your subdomains (at least `cloud` and `vault`).
+
+### SSH root user
+
+There needs to be a working ssh connection from your machine to your VPS's root user.
+
+This connection is expected to use your `id_rsa` key pair. As in:
+
+```sh
+ssh-copy-id -i ~/.ssh/id_rsa.pub root@[your.domain.com]
+```
+
+The script will use the same ssh key for the `ansible` user it creates.
+
+---
+
+#### 📝 Note
+
+Please keep in mind that by the end, you won't be able to ssh into your VPS with the `root` user.
+
+This is intentional and considered best practice, but might be unexpected and will require you to connect using the `ansible` user created by the script (or with any other user you decide to configure).
+
+---
+
+### A website to serve
+
+You need to set the `website` var to the local directory containing the website to serve.
+
+You can update the website once the script is done with something like:
+
+```sh
+rsync -rtvzP --rsh=ssh [LOCAL-WEBSITE-DIR] ansible@[your.domain.com]:/var/www/website
+```
+
+Of course, any user you decide to set up is equally valid, as described above.
 
 ## ⚙️ Config
 
