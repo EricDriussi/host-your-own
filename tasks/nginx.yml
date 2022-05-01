@@ -1,4 +1,12 @@
 ---
+- name: Install nginx
+  become: true
+  package:
+    name:
+      - nginx
+      - python3-certbot-nginx
+    state: latest
+
 - name: Delete default Nginx config
   file:
     state: absent
