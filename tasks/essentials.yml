@@ -30,22 +30,17 @@
 
 - name: Create Nvim directory
   file:
-    path: "/home/{{ login_user }}/config/nvim"
+    path: "/home/{{ login_user }}/.config/nvim"
     state: directory
 
 - name: Transfer Nvim config
   copy:
     src: init.vim
-    dest: "/home/{{ login_user }}/config/nvim/"
+    dest: "/home/{{ login_user }}/.config/nvim/"
 
 - name: Copy Nvim config for root user
   become: true
-  shell: mkdir -p /root/.config/nvim/ && cp /home/{{ login_user }}/.config/nvim/init.vim '$_'
-
-- name: Transfer zsh config
-  copy:
-    src: zshrc
-    dest: "/home/{{ login_user }}/dotfiles/base/.zshrc"
+  shell: 'mkdir -p /root/.config/nvim/ && cp /home/{{ login_user }}/.config/nvim/init.vim /root/.config/nvim/'
 
 - name: Unstow dotfiles
   shell:
