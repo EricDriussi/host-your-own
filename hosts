@@ -1,5 +1,3 @@
-[root]
-"root@{{ domain }}"
+root ansible_user=root ansible_host="{{ ip }}"
 
-[ansible]
-"{{ login_user }}@{{ domain }}"
+ansible ansible_user=ansible ansible_host="{{ ip }}"
