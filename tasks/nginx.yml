@@ -16,7 +16,7 @@
   lineinfile:
     dest: /etc/nginx/nginx.conf
     insertafter: 'http \{'
-    regexp: 'http \{'
+    regexp: 'client_max_body_size.*'
     line: 'client_max_body_size 100M;'
     state: present
 
@@ -29,15 +29,15 @@
     - nginx-onion
 
 - name: Retrieve Onion address
-  command: cat /var/lib/tor/hidden_service/hostname
+  become: true
+  command: 'cat /var/lib/tor/hidden_service/hostname'
   register: onion_address
-  when: onion_address is not defined
 
 - name: Set Onion address
   lineinfile:
     dest: "/etc/nginx/sites-enabled/nginx-onion"
     regexp: ".*server_name.*"
-    line: "        server_name {{ onion_address }};"
+    line: "        server_name {{ onion_address.stdout }};"
 
 - name: Config website server
   lineinfile:
@@ -46,7 +46,7 @@
     line: "{{ item.line }}"
   loop:
     - { regexp: '.*server_name .*', line: '        server_name {{ domain }} www.{{ domain }};' }
-    - { regexp: '.*add_header.*', line: '    add_header Onion-Location http://{{ onion_address }}$request_uri;' }
+    - { regexp: '.*add_header.*', line: '    add_header Onion-Location http://{{ onion_address.stdout }}$request_uri;' }
 
 - name: Transfer proxy server configs
   copy:
