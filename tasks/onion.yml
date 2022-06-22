@@ -1,6 +1,6 @@
 ---
 - name: Add repos for Tor
-  shell: echo "deb     [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org $(lsb_release -cs) main \ndeb-src [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org $(lsb_release -cs) main" > /etc/apt/sources.list.d/tor.list
+  shell: 'echo "deb     [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org $(lsb_release -cs) main \ndeb-src [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org $(lsb_release -cs) main" > /etc/apt/sources.list.d/tor.list'
   when: ansible_distribution == 'Debian'
 
 - name: Add GPG key for Tor
@@ -38,7 +38,7 @@
   when: tor_config.changed
 
 - name: Retrieve Onion address
-  command: cat /var/lib/tor/hidden_service/hostname
+  command: 'cat /var/lib/tor/hidden_service/hostname'
   register: onion_address
 
 - debug:
