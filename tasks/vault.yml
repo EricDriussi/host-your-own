@@ -21,13 +21,22 @@
     ports:
       - "{{ internal_ports.vaultwarden }}:80"
 
-- name: Cron - Keep vaultwarden updated
+- name: Keep vaultwarden updated
+  become: true
   cron:
-    name: update vaultwarden
+    name: nuke vaultwarden
+    state: present
     weekday: "0"
     minute: "0"
     hour: "3"
-    job: "{{ item }}"
-  with_items:
-    - "/usr/bin/docker system prune -f"
-    - "/usr/bin/docker run -d --name vaultwarden -e ADMIN_TOKEN={{ admin_token }} -e SIGNUPS_ALLOWED={{ signups }} -v /vw-data/:/data/ -p {{ internal_ports.vaultwarden }}:80 vaultwarden/server:latest"
+    job: "/usr/bin/docker system prune -f"
+
+- name: Keep vaultwarden updated
+  become: true
+  cron:
+    name: update vaultwarden
+    state: present
+    weekday: "0"
+    minute: "0"
+    hour: "3"
+    job: "/usr/bin/docker run -d --name vaultwarden -e ADMIN_TOKEN={{ admin_token }} -e SIGNUPS_ALLOWED={{ signups }} -v /vw-data/:/data/ -p {{ internal_ports.vaultwarden }}:80 vaultwarden/server:latest"

@@ -84,7 +84,8 @@
 
 - name: Cron - Keep certs updated
   cron:
-    name: update system
+    name: update certs
+    state: present
     minute: "0"
     hour: "0"
     day: "2"
