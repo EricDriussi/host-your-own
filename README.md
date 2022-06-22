@@ -43,9 +43,9 @@ The script will use the same ssh key for the `ansible` user it creates.
 
 #### 📝 Note
 
-Please keep in mind that by the end, you won't be able to ssh into your VPS with the `root` user.
+Please keep in mind that by the end, you won't be able to ssh into your VPS as the `root` user.
 
-This is intentional and considered best practice, but might be unexpected and will require you to connect using the `ansible` user created by the script (or with any other user you decide to configure).
+This is intentional and considered best practice, but might be unexpected and will require you to connect as the `ansible` user created by the script (or with any other user you decide to configure).
 
 ---
 
