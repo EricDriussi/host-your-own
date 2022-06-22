@@ -29,6 +29,7 @@
 - name: NEXTCLOUD
   tags: nextcloud
   hosts: ansible
+  become: true
   tasks:
     - import_tasks: tasks/nextcloud.yml
 

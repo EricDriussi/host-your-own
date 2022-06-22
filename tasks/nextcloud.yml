@@ -10,6 +10,7 @@
       - core
       - nextcloud
     state: present
+  register: install
 
 - name: Setup Nextcloud port
   shell: "snap set nextcloud ports.http={{ internal_ports.nextcloud }}"
