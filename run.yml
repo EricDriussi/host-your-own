@@ -39,6 +39,13 @@
   tasks:
     - import_tasks: tasks/vault.yml
 
+- name: SEARX
+  tags: searx
+  hosts: ansible
+  become: true
+  tasks:
+    - import_tasks: tasks/searx.yml
+
 - name: SYNC WEBSITE
   tags: website
   hosts: ansible

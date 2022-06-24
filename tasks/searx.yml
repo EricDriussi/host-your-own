@@ -1,0 +1,16 @@
+---
+- name: Clone repo
+  git:
+    repo: https://github.com/searxng/searxng
+    dest: searxng
+    force: yes
+
+- name: Install
+  shell: "{{ item }}"
+  with_items:
+    - FORCE_TIMEOUT=0 ./searxng/utils/searx.sh reinstall all
+    - FORCE_TIMEOUT=0 ./searxng/utils/filtron.sh reinstall all
+    - FORCE_TIMEOUT=0 ./searxng/utils/morty.sh reinstall all
+
+- name: Restart searx
+  shell: service uwsgi restart searx

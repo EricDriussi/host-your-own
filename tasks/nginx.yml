@@ -1,6 +1,5 @@
 ---
 - name: Install nginx
-  become: true
   package:
     name:
       - nginx
@@ -29,7 +28,6 @@
     - nginx-onion
 
 - name: Retrieve Onion address
-  become: true
   command: 'cat /var/lib/tor/hidden_service/hostname'
   register: onion_address
 
@@ -74,13 +72,26 @@
     - { regexp: '.*server_name .*', line: '        server_name vault.{{ domain }} www.vault.{{ domain }};' }
     - { regexp: '.*proxy_pass .*', line: '        proxy_pass          http://127.0.0.1:{{ internal_ports.vaultwarden }};' }
 
+- name: Transfer searx proxy server
+  copy:
+    src: nginx-searx
+    dest: /etc/nginx/sites-enabled/nginx-searx
+
+- name: Config searx proxy
+  lineinfile:
+    dest: "/etc/nginx/sites-enabled/nginx-searx"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  loop:
+    - { regexp: '.*server_name .*', line: '        server_name searx.{{ domain }} www.searx.{{ domain }};' }
+
 - name: Restart nginx
   service:
     name: nginx
     state: restarted
 
 - name: Run cert script
-  shell: "/usr/bin/certbot --nginx -n --agree-tos --email {{ email }} --domains {{ domain }},www.{{ domain }},cloud.{{ domain }},www.cloud.{{ domain }},vault.{{ domain }},www.vault.{{ domain }}"
+  shell: "/usr/bin/certbot --nginx -n --agree-tos --email {{ email }} --domains {{ domain }},www.{{ domain }},cloud.{{ domain }},www.cloud.{{ domain }},vault.{{ domain }},www.vault.{{ domain }},searx.{{ domain }},www.searx.{{ domain }}"
 
 - name: Cron - Keep certs updated
   cron:
