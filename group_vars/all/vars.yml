@@ -22,10 +22,12 @@ packages:
     - vifm
     - zlib1g-dev
     - zsh
+
   server:
     - apt-transport-https
     - gpg
     - nginx
     - python3-certbot-nginx
     - snapd
+
 login_user: ansible
