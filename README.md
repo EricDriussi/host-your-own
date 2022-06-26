@@ -1,6 +1,5 @@
 # Host your stuff!
 > '*Easy to use*' Ansible script to set up a VPS in one go.
-> **This is only tested on Debian systems!**
 
 Simple Ansible playbook that provides you with:
 
@@ -8,6 +7,7 @@ Simple Ansible playbook that provides you with:
 - An onion version of your website served to Tor.
 - A [Nextcloud](https://nextcloud.com/) instance @ `cloud.domain`.
 - A [Vaultwarden](https://github.com/dani-garcia/vaultwarden) instance @ `vault.domain`.
+- A [SearxNG](https://github.com/searxng/searxng) instance @ `searx.domain`.
 - HTTPS all the things.
 - Possibly more stuff in the future.
 
@@ -19,13 +19,13 @@ Things you need to set up for the script to work as expected.
 
 This should work with the cheapest most basic VPS you can find.
 
-### Obvious stuff
+### Ports and DNS
 
 Ports `80` and `443` need to be available.
 
 You **need** a valid domain name and your DNS records should be properly set up.
 
-This should include A and AAAA records for both `www` and non `www` versions of your domain, as well as your subdomains (at least `cloud` and `vault`).
+This should include A and AAAA records for your root domain, as well as your subdomains (at least `cloud`, `vault` and `searx`).
 
 ### SSH root user
 
@@ -68,16 +68,12 @@ Create it by renaming `.env-sample.yml` and filling in the correct information.
 
 ### ⚠️ Note on Vars
 
-#### Ports 
+The `signups` var is set as `false` by default, which means that random users (or yourself) can't just create an account on your Vaultwarden instance.
 
-The `internal_ports` vars are there in case you have other things taking up ports `81` and/or `82`.
+Instead, permission needs to be granted through the admin panel at `vault.domain.com/admin`.
+Access the panel with the `admin_token`.
 
-If that's not the case there's no need to change them.
-
-The `admin_token` is optional and should be set to the output of something like `openssl rand -base64 48` as recommended in the [documentation](https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page) for Vaultwarden.
-
-**Keep in mind** that not setting it will leave you out of the admin panel.
-If on top of this you leave the `signups` as `false`, you won't be able to access your vault at all!
+The `admin_token` should be set to the output of something like `openssl rand -base64 48` as recommended in the [documentation](https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page) for Vaultwarden.
 
 ## 🏃 Run
 
@@ -87,7 +83,7 @@ To run the whole playbook in one go, run:
 ansible-playbook run.yml --extra-vars=@.env.yml
 ```
 
-Optionally and in case you need to debug, use the `--tags` flag:
+Optionally and in case you need to debug, use the `--tags` flag, to run only the selected tasks:
 
 ```sh
 ansible-playbook run.yml --extra-vars=@.env.yml --tags="user,ssh,install"
