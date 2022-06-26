@@ -61,7 +61,7 @@
     line: "{{ item.line }}"
   loop:
     - { regexp: '.*server_name .*', line: '        server_name cloud.{{ domain }} www.cloud.{{ domain }};' }
-    - { regexp: '.*proxy_pass .*', line: '        proxy_pass          http://127.0.0.1:{{ internal_ports.nextcloud }};' }
+    - { regexp: '.*proxy_pass .*', line: '        proxy_pass          http://127.0.0.1:81;' }
 
 - name: Config vaultwarden proxy
   lineinfile:
@@ -70,7 +70,7 @@
     line: "{{ item.line }}"
   loop:
     - { regexp: '.*server_name .*', line: '        server_name vault.{{ domain }} www.vault.{{ domain }};' }
-    - { regexp: '.*proxy_pass .*', line: '        proxy_pass          http://127.0.0.1:{{ internal_ports.vaultwarden }};' }
+    - { regexp: '.*proxy_pass .*', line: '        proxy_pass          http://127.0.0.1:82;' }
 
 - name: Transfer searx proxy server
   copy:

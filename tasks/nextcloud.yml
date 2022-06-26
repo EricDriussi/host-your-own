@@ -13,7 +13,7 @@
   register: install
 
 - name: Setup Nextcloud port
-  shell: "snap set nextcloud ports.http={{ internal_ports.nextcloud }}"
+  shell: snap set nextcloud ports.http=81
   when: install.changed
 
 - name: Setup Nextcloud admin account
