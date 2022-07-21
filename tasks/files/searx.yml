@@ -1,0 +1,23 @@
+---
+use_default_settings: true
+
+general:
+  debug: false
+  instance_name: "SearX!"
+
+search:
+  safe_search: 0
+  autocomplete: 'duckduckgo'
+  autocomplete_min: 3
+  default_lang: ''
+  formats:
+    - html
+
+server:
+  secret_key: "CHANGE_ME!!"
+  limiter: true
+  image_proxy: true
+
+engines:
+  - name: google
+    use_mobile_ui: true
