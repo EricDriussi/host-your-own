@@ -15,5 +15,5 @@
 
 - name: Rsync website
   synchronize:
-    src: "{{ website }}"
+    src: "{{ website_path }}"
     dest: /var/www/website

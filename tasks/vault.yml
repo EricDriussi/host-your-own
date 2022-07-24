@@ -46,4 +46,4 @@
     weekday: "0"
     minute: "0"
     hour: "3"
-    job: /usr/bin/docker run -d --name vaultwarden -e ADMIN_TOKEN={{ admin_token }} -e SIGNUPS_ALLOWED={{ signups }} -v /vw-data/:/data/ -p 82:80 vaultwarden/server:latest
+    job: "/usr/bin/docker run -d --name vaultwarden -e ADMIN_TOKEN={{ admin_token }} -e SIGNUPS_ALLOWED={{ signups }} -v /vw-data/:/data/ -p 82:80 vaultwarden/server:latest"

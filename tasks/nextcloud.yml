@@ -17,7 +17,7 @@
   when: install.changed
 
 - name: Setup Nextcloud admin account
-  shell: '/snap/bin/nextcloud.manual-install {{ nextcloud_username }} {{ nextcloud_pwd }}'
+  shell: '/snap/bin/nextcloud.manual-install {{ nextcloud_username }} {{ user_pwd }}'
   when: install.changed
 
 - name: Ensure Nextcloud prefers HTTPS

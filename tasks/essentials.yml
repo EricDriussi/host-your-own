@@ -28,6 +28,7 @@
     name: "{{ username }}"
     shell: /usr/bin/zsh
 
+# TODO.Actually clone nvim config
 - name: Create Nvim directory
   file:
     path: "/home/{{ username }}/.config/nvim"
@@ -38,6 +39,7 @@
     src: init.vim
     dest: "/home/{{ username }}/.config/nvim/"
 
+# TODO.Copy whole dir and rename base-init to init
 - name: Copy Nvim config for root user
   become: true
   shell: 'mkdir -p /root/.config/nvim/ && cp /home/{{ username }}/.config/nvim/init.vim /root/.config/nvim/'
