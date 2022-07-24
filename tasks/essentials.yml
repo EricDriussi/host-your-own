@@ -25,22 +25,22 @@
 - name: Set zsh as default shell
   become: true
   user:
-    name: "{{ login_user }}"
+    name: "{{ username }}"
     shell: /usr/bin/zsh
 
 - name: Create Nvim directory
   file:
-    path: "/home/{{ login_user }}/.config/nvim"
+    path: "/home/{{ username }}/.config/nvim"
     state: directory
 
 - name: Transfer Nvim config
   copy:
     src: init.vim
-    dest: "/home/{{ login_user }}/.config/nvim/"
+    dest: "/home/{{ username }}/.config/nvim/"
 
 - name: Copy Nvim config for root user
   become: true
-  shell: 'mkdir -p /root/.config/nvim/ && cp /home/{{ login_user }}/.config/nvim/init.vim /root/.config/nvim/'
+  shell: 'mkdir -p /root/.config/nvim/ && cp /home/{{ username }}/.config/nvim/init.vim /root/.config/nvim/'
 
 - name: Unstow dotfiles
   shell:

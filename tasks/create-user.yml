@@ -4,9 +4,9 @@
     name: docker
     state: present
 
-- name: Create {{ login_user }} User
+- name: Create {{ username }} User
   user:
-    name: "{{ login_user }}"
+    name: "{{ username }}"
     groups:
       - sudo
       - docker
@@ -14,16 +14,16 @@
     shell: /bin/bash
     system: no
     createhome: yes
-    home: "/home/{{ login_user }}"
+    home: "/home/{{ username }}"
 
-- name: Password-less sudo for {{ login_user }}
+- name: Password-less sudo for {{ username }}
   lineinfile:
     dest: /etc/sudoers
     regexp: "^%wheel"
-    line: "{{ login_user }} ALL=(ALL) NOPASSWD: ALL"
+    line: "{{ username }} ALL=(ALL) NOPASSWD: ALL"
     validate: "/usr/sbin/visudo -cf %s"
 
-- name: Setup ssh for {{ login_user }}
+- name: Setup ssh for {{ username }}
   authorized_key:
-    user: "{{ login_user }}"
+    user: "{{ username }}"
     key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"

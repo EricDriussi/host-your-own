@@ -30,4 +30,4 @@ packages:
     - python3-certbot-nginx
     - snapd
 
-login_user: ansible
+username: ansible
