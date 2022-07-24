@@ -20,8 +20,35 @@
     line: "MaxAuthTries 3"
   register: sshd_config
 
+# TODO.Merge with ⬆️
+- name: Update SSH configuration to be more secure
+  register: ssh_config
+  lineinfile:
+    dest: "/etc/ssh/sshd_config"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+    validate: "sshd -T -f %s"
+    mode: 0644
+  with_items:
+    - regexp: "^PasswordAuthentication"
+      line: "PasswordAuthentication no"
+    - regexp: "^PermitRootLogin"
+      line: "PermitRootLogin no"
+    - regexp: "^Port"
+      line: "Port 22"
+    - regexp: "^PermitEmptyPasswords"
+      line: "PermitEmptyPasswords no"
+    - regexp: "^X11Forwarding"
+      line: "X11Forwarding no"
+
 - name: Restart ssh
   service:
     name: sshd
     state: restarted
   when: sshd_config.changed
+
+# TODO.Test
+# TODO.This needs the bootstrap script to ask the user if use existing ssh key
+# - name: Generate keypair
+# import_tasks: keypair.yml
