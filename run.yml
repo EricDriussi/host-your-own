@@ -26,10 +26,10 @@
   tasks:
     - import_tasks: tasks/server-provision.yml
 
-# TODO.Test
 - name: FAIL 2 BAN
   tags: ban
   hosts: ansible
+  become: true
   tasks:
     - import_tasks: tasks/fail2ban.yml
 

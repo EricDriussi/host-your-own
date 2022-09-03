@@ -11,18 +11,14 @@
     mode: 0644
     owner: root
     group: root
-  notify:
-    - Restart fail2ban
 
 - name: Install the jail file
-  template:
+  copy:
     src: "jail"
     dest: "/etc/fail2ban/jail.local"
     mode: 0644
     owner: root
     group: root
-  notify:
-    - Restart fail2ban
 
 - name: Make sure the fail2ban systemd service is enabled and started
   service:
