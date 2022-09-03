@@ -1,26 +1,4 @@
 ---
-- name: Disable password for ssh
-  lineinfile:
-    dest: /etc/ssh/sshd_config
-    regexp: "^#PasswordAuthentication yes"
-    line: "PasswordAuthentication no"
-  register: sshd_config
-
-- name: Disable root login
-  lineinfile:
-    dest: /etc/ssh/sshd_config
-    regexp: ".*PermitRootLogin.*"
-    line: "PermitRootLogin no"
-  register: sshd_config
-
-- name: Set max auth attempts
-  lineinfile:
-    dest: /etc/ssh/sshd_config
-    regexp: ".*MaxAuthTries.*"
-    line: "MaxAuthTries 3"
-  register: sshd_config
-
-# TODO.Merge with ⬆️
 - name: Update SSH configuration to be more secure
   register: ssh_config
   lineinfile:
@@ -31,16 +9,18 @@
     validate: "sshd -T -f %s"
     mode: 0644
   with_items:
-    - regexp: "^PasswordAuthentication"
+    - regexp: "^#?PasswordAuthentication"
       line: "PasswordAuthentication no"
-    - regexp: "^PermitRootLogin"
+    - regexp: "^#?PermitRootLogin"
       line: "PermitRootLogin no"
-    - regexp: "^Port"
+    - regexp: "^#?Port"
       line: "Port 22"
-    - regexp: "^PermitEmptyPasswords"
+    - regexp: "^#?PermitEmptyPasswords"
       line: "PermitEmptyPasswords no"
-    - regexp: "^X11Forwarding"
+    - regexp: "^#?X11Forwarding"
       line: "X11Forwarding no"
+    - regexp: "^#?MaxAuthTries"
+      line: "MaxAuthTries 3"
 
 - name: Restart ssh
   service:
