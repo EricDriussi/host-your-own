@@ -24,19 +24,19 @@
     name: "{{ item }}"
     shell: /usr/bin/zsh
   with_items:
-    - "{{ user }}"
+    - "{{ username }}"
     - root
 
 - name: Clone nvim config
   git:
-    repo: "{{ nvim }}"
+    repo: "{{ nvim_config }}"
     dest: ~/.config/nvim
     force: yes
 
 - name: Copy for root user
   become: true
   copy:
-    src: "/home/{{ user }}/{{ item.src }}"
+    src: "/home/{{ username }}/{{ item.src }}"
     dest: "/root/{{ item.dest }}"
     remote_src: yes
   with_items:

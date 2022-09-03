@@ -26,7 +26,7 @@
   service:
     name: sshd
     state: restarted
-  when: sshd_config.changed
+  when: ssh_config.changed
 
 # TODO.Test
 # TODO.This needs the bootstrap script to ask the user if use existing ssh key
