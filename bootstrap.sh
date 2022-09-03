@@ -159,7 +159,11 @@ cat <<"EOF"
 EOF
 # TODO.Implement admin token generation
 echo
-echo "Would you like to use an existing admin token for your password vault?"
+echo "By default, public sign up to your vault are turned off."
+echo "This means that you'll have to give explicit permission through the admin portal."
+echo "To change this behavior uncomment the relevant line in .env.yml"
+echo
+echo "Would you like to use an existing admin token for your vault?"
 echo "Press 'n' if you want to generate a new admin token"
 echo
 read -p "Use existing admin token? [y/N]: " use_existing_token
