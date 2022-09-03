@@ -45,7 +45,7 @@ cat <<"EOF"
 EOF
 
 echo
-echo "Enter your desired UNIX username"
+echo "Enter your desired username"
 echo "This will be used for your Nextcloud login"
 read -p "Username: " username
 until [[ "$username" =~ ^[a-z0-9]*$ ]]; do
@@ -58,7 +58,8 @@ echo "nextcloud_username: \"${username}\"" >>.env.yml
 
 echo
 echo "Enter your user password"
-echo "This password will be used for Nextcloud login, admin access and SSH login"
+echo "This will be your Nextcloud admin password as well as your SSH passphrase."
+echo "CHANGE IT."
 read -s -p "Password: " user_password
 until [[ "${#user_password}" -lt 60 ]]; do
 	echo
@@ -142,10 +143,7 @@ until [[ "$use_existing_ssh_keys" =~ ^[yYnN]*$ ]]; do
 	read -p "[y/N]: " use_existing_ssh_keys
 done
 
-if [[ "$use_existing_ssh_keys" =~ ^[nN]$ ]]; then
-	echo "generate_ssh_keys: true" >>.env.yml
-else
-	echo "generate_ssh_keys: false" >>.env.yml
+if [[ "$use_existing_ssh_keys" =~ ^[yY]$ ]]; then
 	echo
 	read -p "Please enter your SSH public key: " ssh_key_pair
 	echo "ssh_public_key: \"${ssh_key_pair}\"" >>.env.yml
@@ -171,10 +169,7 @@ until [[ "$use_existing_token" =~ ^[yYnN]*$ ]]; do
 	read -p "[y/N]: " use_existing_token
 done
 
-if [[ "$use_existing_token" =~ ^[nN]$ ]]; then
-	echo "generate_admin_token: true" >>.env.yml
-else
-	echo "generate_admin_token: false" >>.env.yml
+if [[ "$use_existing_token" =~ ^[yY]$ ]]; then
 	echo
 	read -p "Please enter your admin token: " admin_token
 	echo "admin_token: \"${admin_token}\"" >>.env.yml
