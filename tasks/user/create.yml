@@ -5,8 +5,6 @@
     groups:
       - sudo
       - docker
-    state: present
-    shell: /bin/bash
     system: no
     createhome: yes
     home: "/home/{{ username }}"

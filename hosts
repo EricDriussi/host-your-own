@@ -1,3 +1,0 @@
-root ansible_user=root ansible_host="{{ domain }}"
-
-ansible ansible_user=ansible ansible_host="{{ domain }}"

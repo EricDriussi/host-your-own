@@ -1,0 +1,9 @@
+---
+all:
+  hosts:
+    ansible:
+      ansible_host: "{{ ip }}"
+      ansible_user: "{{ username }}"
+    root:
+      ansible_host: "{{ ip }}"
+      ansible_user: "root"
