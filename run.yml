@@ -11,7 +11,7 @@
   hosts: ansible
   become: true
   tasks:
-    - import_tasks: tasks/ssh-config.yml
+    - import_tasks: tasks/ssh/main.yml
 
 - name: INSTALL ESSENTIALS
   tags: install
