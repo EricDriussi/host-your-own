@@ -1,0 +1,28 @@
+---
+basic_packages:
+  - curl
+  - delta
+  - docker
+  - docker-compose
+  - exa
+  - expect
+  - fzf
+  - git
+  - htop
+  - libjpeg-dev
+  - libxtst-dev
+  - lua5.4
+  - lsof
+  - neovim
+  - python3-pip
+  - ripgrep
+  - rsync
+  - stow
+  - tree
+  - ufw
+  - vifm
+  - zlib1g-dev
+  - zsh
+
+dotfiles: https://gitlab.com/ericdriussi/dotfiles.git
+nvim_config: https://gitlab.com/ericdriussi/nvim.git

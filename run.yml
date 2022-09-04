@@ -2,7 +2,6 @@
 - name: USER
   tags: user
   hosts: root
-  become: true
   tasks:
     - import_tasks: tasks/user/main.yml
 

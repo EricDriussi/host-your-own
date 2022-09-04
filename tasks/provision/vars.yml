@@ -1,0 +1,7 @@
+---
+server_packages:
+  - apt-transport-https
+  - gpg
+  - nginx
+  - python3-certbot-nginx
+  - snapd

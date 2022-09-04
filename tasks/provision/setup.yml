@@ -6,7 +6,7 @@
 
 - name: Install server packages
   package:
-    name: "{{ packages.server }}"
+    name: "{{ server_packages }}"
     state: latest
 
 - name: Install snaps

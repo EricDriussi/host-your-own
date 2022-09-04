@@ -7,3 +7,6 @@ all:
     root:
       ansible_host: "{{ ip }}"
       ansible_user: "root"
+
+  vars:
+    username: ansible

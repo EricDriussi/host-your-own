@@ -8,5 +8,5 @@
 - name: Install basic packages
   become: true
   package:
-    name: "{{ packages.basic }}"
+    name: "{{ basic_packages }}"
     state: latest
