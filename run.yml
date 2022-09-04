@@ -31,7 +31,7 @@
   hosts: ansible
   become: true
   tasks:
-    - import_tasks: tasks/fail2ban.yml
+    - import_tasks: tasks/fail2ban/main.yml
 
 - name: NEXTCLOUD
   tags: nextcloud
