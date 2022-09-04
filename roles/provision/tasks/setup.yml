@@ -1,0 +1,16 @@
+---
+- name: Autoremove
+  apt:
+    autoremove: yes
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Install server packages
+  package:
+    name: "{{ server_packages }}"
+    state: latest
+
+- name: Install snaps
+  snap:
+    name:
+      - core
+    state: present

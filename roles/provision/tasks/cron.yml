@@ -1,0 +1,9 @@
+---
+- name: Cron - Keep system updated
+  cron:
+    name: update system
+    state: present
+    weekday: "0"
+    minute: "30"
+    hour: "2"
+    job: "apt -y update && apt -y upgrade"

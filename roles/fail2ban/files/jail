@@ -1,0 +1,15 @@
+[DEFAULT]
+banaction = iptables-allports
+bantime  = -1
+findtime  = 600
+maxretry = 5
+ignoreip = 127.0.0.1/8 ::1
+action = %(action_mwl)s
+destemail =
+sender =
+
+[sshd]
+enabled = true
+port = 22
+filter = sshd
+

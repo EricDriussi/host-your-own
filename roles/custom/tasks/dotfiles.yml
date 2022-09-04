@@ -1,0 +1,31 @@
+---
+- name: Clone dotfiles
+  git:
+    repo: "{{ dotfiles }}"
+    dest: dotfiles
+    force: yes
+    track_submodules: yes
+
+- name: Set zsh as default shell
+  become: true
+  user:
+    name: "{{ item }}"
+    shell: /usr/bin/zsh
+  with_items:
+    - "{{ username }}"
+    - root
+
+- name: Clone nvim config
+  git:
+    repo: "{{ nvim_config }}"
+    dest: ~/.config/nvim
+    force: yes
+
+- name: Unstow dotfiles
+  shell:
+    cmd: "stow -R {{ item }}"
+    chdir: dotfiles
+  with_items:
+    - base
+    - fontconfig
+    - vifm

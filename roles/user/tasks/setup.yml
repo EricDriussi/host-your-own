@@ -1,0 +1,24 @@
+---
+- name: Create docker group
+  group:
+    name: docker
+    state: present
+
+- name: Add {{ username }} user to docker group
+  user:
+    name: "{{ username }}"
+    groups:
+      - docker
+    state: present
+
+- name: Password-less sudo for {{ username }}
+  lineinfile:
+    dest: /etc/sudoers
+    regexp: "^%wheel"
+    line: "{{ username }} ALL=(ALL) NOPASSWD: ALL"
+    validate: "/usr/sbin/visudo -cf %s"
+
+- name: Setup ssh for {{ username }}
+  authorized_key:
+    user: "{{ username }}"
+    key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"

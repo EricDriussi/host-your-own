@@ -1,0 +1,29 @@
+---
+- name: Secure ssh config
+  register: ssh_config
+  lineinfile:
+    dest: "/etc/ssh/sshd_config"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+    validate: "sshd -T -f %s"
+    mode: 0644
+  with_items:
+    - regexp: "^#?PasswordAuthentication"
+      line: "PasswordAuthentication no"
+    - regexp: "^#?PermitRootLogin"
+      line: "PermitRootLogin no"
+    - regexp: "^#?Port"
+      line: "Port 22"
+    - regexp: "^#?PermitEmptyPasswords"
+      line: "PermitEmptyPasswords no"
+    - regexp: "^#?X11Forwarding"
+      line: "X11Forwarding no"
+    - regexp: "^#?MaxAuthTries"
+      line: "MaxAuthTries 3"
+
+- name: Restart ssh
+  service:
+    name: sshd
+    state: restarted
+  when: ssh_config.changed

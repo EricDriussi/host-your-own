@@ -1,36 +1,36 @@
 ---
-- name: USER
-  tags: user
-  hosts: root
-  tasks:
-    - import_tasks: tasks/user/main.yml
+- hosts: root
 
-- name: SSH
-  tags: ssh
-  hosts: ansible
+  vars_files:
+    - .env.yml
+
+  roles:
+    - role: user
+      tags:
+        - user
+
+- hosts: ansible
   become: true
-  tasks:
-    - import_tasks: tasks/ssh/main.yml
 
-- name: CUSTOM INSTALL
-  tags: custom
-  hosts: ansible
-  tasks:
-    - import_tasks: tasks/custom/main.yml
+  vars_files:
+    - .env.yml
 
-- name: PROVISION SERVER
-  tags: provision
-  hosts: ansible
-  become: true
-  tasks:
-    - import_tasks: tasks/provision/main.yml
+  roles:
+    - role: ssh
+      tags:
+        - ssh
 
-- name: FAIL 2 BAN
-  tags: ban
-  hosts: ansible
-  become: true
-  tasks:
-    - import_tasks: tasks/fail2ban/main.yml
+    - role: custom
+      tags:
+        - custom
+
+    - role: provision
+      tags:
+        - provision
+
+    - role: fail2ban
+      tags:
+        - ban
 
 - name: NEXTCLOUD
   tags: nextcloud
