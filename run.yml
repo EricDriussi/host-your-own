@@ -1,23 +1,23 @@
 ---
-- name: CREATE USER
+- name: USER
   tags: user
   hosts: root
   become: true
   tasks:
     - import_tasks: tasks/user/main.yml
 
-- name: SSH CONFIG
+- name: SSH
   tags: ssh
   hosts: ansible
   become: true
   tasks:
     - import_tasks: tasks/ssh/main.yml
 
-- name: INSTALL ESSENTIALS
-  tags: install
+- name: CUSTOM INSTALL
+  tags: custom
   hosts: ansible
   tasks:
-    - import_tasks: tasks/essentials.yml
+    - import_tasks: tasks/custom/main.yml
 
 - name: PROVISION SERVER
   tags: provision
