@@ -12,6 +12,7 @@ packages:
     - htop
     - libjpeg-dev
     - libxtst-dev
+    - lua5.4
     - neovim
     - python3-pip
     - ripgrep

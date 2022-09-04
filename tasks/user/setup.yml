@@ -1,20 +1,15 @@
 ---
-- name: Create Docker Group
+- name: Create docker group
   group:
     name: docker
     state: present
 
-- name: Create {{ username }} User
+- name: Add {{ username }} user to docker group
   user:
     name: "{{ username }}"
     groups:
-      - sudo
       - docker
     state: present
-    shell: /bin/bash
-    system: no
-    createhome: yes
-    home: "/home/{{ username }}"
 
 - name: Password-less sudo for {{ username }}
   lineinfile:

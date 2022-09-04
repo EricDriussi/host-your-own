@@ -4,7 +4,7 @@
   hosts: root
   become: true
   tasks:
-    - import_tasks: tasks/create-user.yml
+    - import_tasks: tasks/user/main.yml
 
 - name: SSH CONFIG
   tags: ssh
