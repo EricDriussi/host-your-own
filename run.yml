@@ -24,7 +24,7 @@
   hosts: ansible
   become: true
   tasks:
-    - import_tasks: tasks/server-provision.yml
+    - import_tasks: tasks/provision/main.yml
 
 - name: FAIL 2 BAN
   tags: ban
