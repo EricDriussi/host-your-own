@@ -1,6 +1,5 @@
 ---
 - name: Copy for root user
-  become: true
   copy:
     src: "/home/{{ username }}/{{ item.src }}"
     dest: "/root/{{ item.dest }}"
@@ -11,5 +10,4 @@
     - {src: ".config/nvim", dest: ".config/"}
 
 - name: Set base init for root
-  become: true
   shell: 'rm /root/.config/nvim/init.vim && cp /root/.config/nvim/base-init.vim /root/.config/nvim/init.vim'

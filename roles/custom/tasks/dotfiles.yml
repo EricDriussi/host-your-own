@@ -7,7 +7,6 @@
     track_submodules: yes
 
 - name: Set zsh as default shell
-  become: true
   user:
     name: "{{ item }}"
     shell: /usr/bin/zsh
