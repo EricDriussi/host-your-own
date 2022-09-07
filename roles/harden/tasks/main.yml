@@ -1,0 +1,6 @@
+---
+- name: SSH
+  import_tasks: ssh.yml
+
+- name: UFW
+  import_tasks: firewall.yml

@@ -17,17 +17,19 @@
     - .env.yml
 
   roles:
-    - role: ssh
+    - role: harden
       tags:
-        - ssh
+        - harden
 
-    - role: custom
+    - role: update
       tags:
-        - custom
+        - update
 
     - role: provision
+    - role: custom
       tags:
         - provision
+        - custom
 
     - role: fail2ban
       tags:
