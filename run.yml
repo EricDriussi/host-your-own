@@ -1,6 +1,6 @@
 ---
 - hosts: root
-
+  name: Create ansible user
   vars_files:
     - .env.yml
 
@@ -10,6 +10,7 @@
         - user
 
 - hosts: ansible
+  name: Server setup
   become: true
 
   vars_files:

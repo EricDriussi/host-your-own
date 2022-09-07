@@ -27,5 +27,6 @@
     chdir: dotfiles
   with_items:
     - base
+    - custom-zsh
     - fontconfig
     - vifm

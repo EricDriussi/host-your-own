@@ -5,3 +5,4 @@ server_packages:
   - nginx
   - python3-certbot-nginx
   - snapd
+  - php
