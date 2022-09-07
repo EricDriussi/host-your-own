@@ -1,8 +1,11 @@
 ---
 - name: Install snap
   package:
-    name: snapd
+    name: "{{ item }}"
     state: latest
+  with_items:
+    - snapd
+    - php
 
 - name: Install snap core and Nextcloud
   snap:

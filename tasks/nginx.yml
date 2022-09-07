@@ -4,6 +4,7 @@
     name:
       - nginx
       - python3-certbot-nginx
+      - apt-transport-https
     state: latest
 
 - name: Delete default Nginx config

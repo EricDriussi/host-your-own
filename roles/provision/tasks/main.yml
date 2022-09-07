@@ -1,9 +1,0 @@
----
-- name: Setup
-  import_tasks: setup.yml
-
-- name: Firewall
-  import_tasks: firewall.yml
-
-- name: Keep system updated
-  import_tasks: cron.yml
