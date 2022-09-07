@@ -1,0 +1,31 @@
+---
+- name: Install snap
+  package:
+    name: snapd
+    state: latest
+
+- name: Install snap core and Nextcloud
+  snap:
+    name:
+      - core
+      - nextcloud
+    state: present
+  register: install
+
+- name: Setup Nextcloud port
+  shell: snap set nextcloud ports.http=81
+  when: install.changed
+
+- name: Setup Nextcloud admin account
+  shell: '/snap/bin/nextcloud.manual-install {{ nextcloud_username }} {{ user_password }}'
+  when: install.changed
+
+- name: Ensure Nextcloud prefers HTTPS
+  shell: '/snap/bin/nextcloud.occ config:system:set overwriteprotocol --value="https"'
+  when: install.changed
+
+- name: Config Nextcloud trusted domain
+  lineinfile:
+    dest: /var/snap/nextcloud/current/nextcloud/config/config.php
+    regexp: ".*0 => 'localhost'.*"
+    line: "1 => 'cloud.{{ domain }}'"
