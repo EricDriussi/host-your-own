@@ -1,4 +1,9 @@
 ---
+- name: Create docker group
+  group:
+    name: docker
+    state: present
+
 - name: Create {{ username }} user
   user:
     name: "{{ username }}"

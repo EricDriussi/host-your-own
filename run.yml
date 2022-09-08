@@ -41,12 +41,9 @@
       tags:
         - vault
 
-- name: SEARX
-  tags: searx
-  hosts: ansible
-  become: true
-  tasks:
-    - import_tasks: tasks/searx.yml
+    - role: searx
+      tags:
+        - searx
 
 - name: SYNC WEBSITE
   tags: website
