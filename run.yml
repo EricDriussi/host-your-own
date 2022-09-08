@@ -37,11 +37,9 @@
       tags:
         - nextcloud
 
-- name: VAULT
-  tags: vault
-  hosts: ansible
-  tasks:
-    - import_tasks: tasks/vault.yml
+    - role: vault
+      tags:
+        - vault
 
 - name: SEARX
   tags: searx

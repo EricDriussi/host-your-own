@@ -2,5 +2,5 @@
 - name: Create user
   import_tasks: create.yml
 
-- name: Stup user
+- name: Setup user
   import_tasks: setup.yml

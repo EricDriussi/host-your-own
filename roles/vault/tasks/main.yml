@@ -1,0 +1,9 @@
+---
+- name: Setup docker
+  import_tasks: docker.yml
+
+- name: Setup vault
+  import_tasks: vault.yml
+
+- name: Keep vaultwarden updated
+  import_tasks: update.yml
