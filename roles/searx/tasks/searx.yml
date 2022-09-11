@@ -4,11 +4,10 @@
     name: searx
     image: searxng/searxng:latest
     env:
-      BASE_URL: "false"
       INSTANCE_NAME: "SearX!"
     detach: yes
     state: started
     volumes:
       - "/home/{{ username }}/searxng:/etc/searxng"
     ports:
-      - 8888:8080
+      - 83:8080

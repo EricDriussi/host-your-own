@@ -5,13 +5,11 @@
     state: present
     special_time: monthly
     job: >
-      "/usr/bin/docker stop searx &
-      /usr/bin/docker rm searx &
       /usr/bin/docker pull searxng/searxng:latest &
-      /usr/bin/docker run -d
+      /usr/bin/docker run --rm -d
       --name searx
       -e BASE_URL=false
       -e INSTANCE_NAME=SearX!
       -v /home/{{ username }}/searxng:/etc/searxng
-      -p 8888:8080
+      -p 83:8080
       searxng/searxng"

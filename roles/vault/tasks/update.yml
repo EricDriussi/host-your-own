@@ -5,10 +5,8 @@
     state: present
     special_time: monthly
     job: >
-      "/usr/bin/docker stop vaultwarden &
-      /usr/bin/docker rm vaultwarden &
       /usr/bin/docker pull vaultwarden/server:latest &
-      /usr/bin/docker run -d
+      /usr/bin/docker run --rm -d
       --name vaultwarden
       -e ADMIN_TOKEN={{ admin_token }}
       -e SIGNUPS_ALLOWED={{ allow_signups | default('false') }}
