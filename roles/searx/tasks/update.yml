@@ -8,6 +8,7 @@
       /usr/bin/docker pull searxng/searxng:latest &
       /usr/bin/docker run --rm -d
       --name searx
+      --restart unless-stopped
       -e BASE_URL=false
       -e INSTANCE_NAME=SearX!
       -v /home/{{ username }}/searxng:/etc/searxng

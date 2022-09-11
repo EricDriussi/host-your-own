@@ -8,6 +8,7 @@
       /usr/bin/docker pull vaultwarden/server:latest &
       /usr/bin/docker run --rm -d
       --name vaultwarden
+      --restart unless-stopped
       -e ADMIN_TOKEN={{ admin_token }}
       -e SIGNUPS_ALLOWED={{ allow_signups | default('false') }}
       -v /vw-data/:/data/

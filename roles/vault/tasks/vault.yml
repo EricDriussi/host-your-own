@@ -3,6 +3,7 @@
   docker_container:
     name: vaultwarden
     image: vaultwarden/server:latest
+    restart_policy: unless-stopped
     env:
       ADMIN_TOKEN: "{{ admin_token }}"
       SIGNUPS_ALLOWED: "{{ allow_signups | default('false') }}"

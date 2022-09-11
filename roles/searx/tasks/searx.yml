@@ -3,6 +3,7 @@
   docker_container:
     name: searx
     image: searxng/searxng:latest
+    restart_policy: unless-stopped
     env:
       INSTANCE_NAME: "SearX!"
     detach: yes
