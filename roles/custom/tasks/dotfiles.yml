@@ -20,6 +20,9 @@
     dest: "/home/{{ username }}/.config/nvim"
     force: yes
 
+- name: Use plugin-less config
+  shell: 'rm /home/{{ username }}/.config/nvim/init.vim && cp /home/{{ username }}/.config/nvim/base-init.vim /home/{{ username }}/.config/nvim/init.vim'
+
 - name: Unstow dotfiles
   shell:
     cmd: "stow -R {{ item }}"
