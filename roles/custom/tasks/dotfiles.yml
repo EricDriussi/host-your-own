@@ -2,7 +2,7 @@
 - name: Clone dotfiles
   git:
     repo: "{{ dotfiles }}"
-    dest: dotfiles
+    dest: "/home/{{ username }}/dotfiles"
     force: yes
     track_submodules: yes
 
@@ -17,13 +17,13 @@
 - name: Clone nvim config
   git:
     repo: "{{ nvim_config }}"
-    dest: ~/.config/nvim
+    dest: "/home/{{ username }}/.config/nvim"
     force: yes
 
 - name: Unstow dotfiles
   shell:
     cmd: "stow -R {{ item }}"
-    chdir: dotfiles
+    chdir: "/home/{{ username }}/dotfiles"
   with_items:
     - base
     - custom-zsh
