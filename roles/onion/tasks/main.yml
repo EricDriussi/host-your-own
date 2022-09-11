@@ -1,0 +1,6 @@
+---
+- name: Install Tor
+  import_tasks: tor.yml
+
+- name: Setup onion address
+  import_tasks: onion.yml

@@ -45,18 +45,9 @@
       tags:
         - searx
 
-- name: SYNC WEBSITE
-  tags: website
-  hosts: ansible
-  tasks:
-    - import_tasks: tasks/sync-website.yml
-
-- name: ONION
-  tags: onion
-  hosts: ansible
-  become: true
-  tasks:
-    - import_tasks: tasks/onion.yml
+    - role: onion
+      tags:
+        - onion
 
 - name: NGINX
   tags: nginx
