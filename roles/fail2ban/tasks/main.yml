@@ -5,7 +5,7 @@
     state: present
 
 - name: Disable e-mail notifications on jail stop and start
-  copy:
+  template:
     src: "fail2ban"
     dest: "/etc/fail2ban/action.d/sendmail-common.local"
     mode: 0644
@@ -13,7 +13,7 @@
     group: root
 
 - name: Install the jail file
-  copy:
+  template:
     src: "jail"
     dest: "/etc/fail2ban/jail.local"
     mode: 0644
