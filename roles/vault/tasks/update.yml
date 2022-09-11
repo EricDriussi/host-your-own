@@ -6,7 +6,9 @@
     special_time: monthly
     job: >
       /usr/bin/docker pull vaultwarden/server:latest &
-      /usr/bin/docker run --rm -d
+      /usr/bin/docker run -d
+      --rm
+      --pull=always
       --name vaultwarden
       --restart unless-stopped
       -e ADMIN_TOKEN={{ admin_token }}

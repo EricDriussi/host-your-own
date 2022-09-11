@@ -1,13 +1,14 @@
 ---
 - name: Run container
   docker_container:
-    name: searx
-    image: searxng/searxng:latest
+    name: "searx"
+    image: "searxng/searxng:latest"
+    pull: true
+    detach: true
+    state: "started"
     restart_policy: unless-stopped
     env:
       INSTANCE_NAME: "SearX!"
-    detach: yes
-    state: started
     volumes:
       - "/home/{{ username }}/searxng:/etc/searxng"
     ports:

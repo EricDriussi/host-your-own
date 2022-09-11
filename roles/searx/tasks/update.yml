@@ -6,7 +6,9 @@
     special_time: monthly
     job: >
       /usr/bin/docker pull searxng/searxng:latest &
-      /usr/bin/docker run --rm -d
+      /usr/bin/docker run -d
+      --rm
+      --pull=always
       --name searx
       --restart unless-stopped
       -e BASE_URL=false
