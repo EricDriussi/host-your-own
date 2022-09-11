@@ -14,7 +14,7 @@
     - regexp: "^#?PermitRootLogin"
       line: "PermitRootLogin no"
     - regexp: "^#?Port"
-      line: "Port 22"
+      line: "Port {{ ports.ssh }}"
     - regexp: "^#?PermitEmptyPasswords"
       line: "PermitEmptyPasswords no"
     - regexp: "^#?X11Forwarding"

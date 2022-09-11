@@ -11,8 +11,8 @@
     rule: allow
     port: "{{ item }}"
   with_items:
-    - '80'
-    - '443'
+    - "{{ ports.http }}"
+    - "{{ ports.https }}"
 
 - name: UFW limit ssh traffic
   ufw:

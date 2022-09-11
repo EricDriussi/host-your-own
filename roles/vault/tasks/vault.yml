@@ -11,4 +11,4 @@
     volumes:
       - "/vw-data/:/data/"
     ports:
-      - 82:80
+      - "{{ ports.vaultwarden }}:80"

@@ -10,3 +10,10 @@ all:
 
   vars:
     username: ansible
+    ports:
+      nextcloud: 81
+      vaultwarden: 82
+      searx: 83
+      ssh: 22
+      http: 80
+      https: 443
