@@ -17,3 +17,7 @@ all:
       ssh: 22
       http: 80
       https: 443
+    subdomains:
+      nextcloud: "cloud"
+      vaultwarden: "vault"
+      searx: "searx"

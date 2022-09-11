@@ -1,0 +1,70 @@
+---
+- name: Clear HTTP port
+  shell: "sudo lsof -i tcp:{{ ports.http }} | awk 'NR!=1 {print $2}' | xargs sudo kill &> /dev/null"
+  ignore_errors: true
+
+- name: Add repos for nginx
+  template:
+    src: "nginx_repos"
+    dest: "/etc/apt/sources.list.d/nginx.list"
+
+- name: Add GPG key for nginx
+  apt_key:
+    url: https://nginx.org/keys/nginx_signing.key
+    keyring: /usr/share/keyrings/nginx-archive-keyring.gpg
+    state: present
+
+- block:
+    - name: Check if bunkerweb is installed
+      package_facts:
+        manager: auto
+
+    - name: Run bunkerweb setup script
+      shell: 'curl -s https://packagecloud.io/install/repositories/bunkerity/bunkerweb/script.deb.sh | sudo bash'
+      when: "'bunkerweb' not in ansible_facts.packages"
+
+- name: Update repos
+  package:
+    update_cache: yes
+    upgrade: yes
+
+- name: Install specific versions
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "nginx=1.20.2-1~{{ ansible_distribution_release }}"
+    - "bunkerweb=1.4.3"
+
+- name: Fix versions
+  dpkg_selections:
+    name: "{{ item }}"
+    selection: hold
+  with_items:
+    - nginx
+    - bunkerweb
+
+- name: Copy config file
+  template:
+    src: bunker.conf
+    dest: "/opt/bunkerweb/variables.env"
+
+# Belongs to a different file / task
+- name: Create website dir
+  file:
+    path: "/home/{{ username }}/website"
+    state: directory
+
+- name: Symlink website
+  file:
+    src: "/home/{{ username }}/website"
+    dest: "/opt/bunkerweb/www/{{ domain }}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    state: link
+
+- name: Enable and restart service
+  service:
+    name: bunkerweb
+    state: restarted
+    enabled: yes

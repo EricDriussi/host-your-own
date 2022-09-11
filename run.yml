@@ -49,6 +49,10 @@
       tags:
         - onion
 
+    - role: bunker
+      tags:
+        - bunker
+
 - name: NGINX
   tags: nginx
   hosts: ansible
