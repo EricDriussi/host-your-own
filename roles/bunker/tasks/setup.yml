@@ -1,0 +1,25 @@
+---
+- name: Add repos for nginx
+  template:
+    src: "nginx_repos"
+    dest: "/etc/apt/sources.list.d/nginx.list"
+
+- name: Add GPG key for nginx
+  apt_key:
+    url: https://nginx.org/keys/nginx_signing.key
+    keyring: /usr/share/keyrings/nginx-archive-keyring.gpg
+    state: present
+
+- block:
+    - name: Check if bunkerweb is installed
+      package_facts:
+        manager: auto
+
+    - name: Run bunkerweb setup script
+      shell: 'curl -s https://packagecloud.io/install/repositories/bunkerity/bunkerweb/script.deb.sh | sudo bash'
+      when: "'bunkerweb' not in ansible_facts.packages"
+
+- name: Update repos
+  package:
+    update_cache: yes
+    upgrade: yes

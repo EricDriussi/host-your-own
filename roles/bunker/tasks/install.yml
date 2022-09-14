@@ -1,0 +1,16 @@
+---
+- name: Install specific versions
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "nginx=1.20.2-1~{{ ansible_distribution_release }}"
+    - "bunkerweb=1.4.3"
+
+- name: Fix versions
+  dpkg_selections:
+    name: "{{ item }}"
+    selection: hold
+  with_items:
+    - nginx
+    - bunkerweb

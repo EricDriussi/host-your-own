@@ -1,0 +1,29 @@
+---
+- name: Copy config file
+  template:
+    src: bunker.conf
+    dest: "/opt/bunkerweb/variables.env"
+
+# Belongs to a different file / task
+- name: Create website dir
+  file:
+    path: "/home/{{ username }}/website"
+    state: directory
+
+- name: Symlink website
+  file:
+    src: "/home/{{ username }}/website"
+    dest: "/opt/bunkerweb/www/{{ domain }}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    state: link
+
+- name: Clear HTTP port
+  shell: "sudo lsof -i tcp:{{ ports.http }} | awk 'NR!=1 {print $2}' | xargs sudo kill &> /dev/null"
+  ignore_errors: true
+
+- name: Enable and restart service
+  service:
+    name: bunkerweb
+    state: restarted
+    enabled: yes
