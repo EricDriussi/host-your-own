@@ -1,0 +1,17 @@
+---
+- name: Create and chown website dir
+  file:
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    path: "/home/{{ username }}/website"
+    state: directory
+
+- name: Sample index
+  copy:
+    dest: "/home/{{ username }}/website/index.html"
+    content: |
+      <body>
+        <h1>
+          Hi mom!
+        </h1>
+      </body>

@@ -4,12 +4,6 @@
     src: bunker.conf
     dest: "/opt/bunkerweb/variables.env"
 
-# Belongs to a different file / task
-- name: Create website dir
-  file:
-    path: "/home/{{ username }}/website"
-    state: directory
-
 - name: Symlink website
   file:
     src: "/home/{{ username }}/website"

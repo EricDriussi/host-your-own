@@ -45,9 +45,13 @@
       tags:
         - searx
 
-    - role: onion
+    - role: bunker
       tags:
-        - onion
+        - bunker
+
+    - role: website
+      tags:
+        - website
 
     - role: bunker
       tags:
