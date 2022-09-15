@@ -1,0 +1,16 @@
+---
+- name: Create backup dir
+  file:
+    path: "/home/{{ username }}/backups/cloud"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
+- name: Backup nextcloud
+  cron:
+    name: backup nextcloud
+    state: present
+    special_time: monthly
+    job: >
+      /snap/bin/nextcloud.export &
+      mv /var/snap/nextcloud/common/backups/* /home/{{ username }}/backups/cloud
