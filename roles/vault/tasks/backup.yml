@@ -1,7 +1,7 @@
 ---
 - name: Create backup dir
   file:
-    path: "/home/{{ username }}/backups/vault"
+    path: "{{ backup_dir }}/vault"
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
@@ -12,5 +12,5 @@
     state: present
     special_time: monthly
     job: >
-      rm -rf /home/{{ username }}/backups/vault/*
-      cp /vw-data/db.sqlite* /home/{{ username }}/backups/vault
+      rm -rf {{ backup_dir }}/vault/*
+      cp /vw-data/db.sqlite* {{ backup_dir }}/vault

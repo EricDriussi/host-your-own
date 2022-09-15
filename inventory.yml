@@ -10,6 +10,7 @@ all:
 
   vars:
     username: ansible
+    backup_dir: "/home/{{ username }}/backups"
     ports:
       nextcloud: 81
       vaultwarden: 82
