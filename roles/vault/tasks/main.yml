@@ -7,3 +7,6 @@
 
 - name: Keep vaultwarden updated
   import_tasks: update.yml
+
+- name: Keep vaultwarden backed up
+  import_tasks: backup.yml

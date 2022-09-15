@@ -1,0 +1,15 @@
+---
+- name: Create backup dir
+  file:
+    path: "/home/{{ username }}/backups/vault"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
+- name: Backup vaultwarden
+  cron:
+    name: backup vaultwarden
+    state: present
+    special_time: monthly
+    job: >
+      cp /vw-data/db.sqlite* /home/{{ username }}/backups/vault
