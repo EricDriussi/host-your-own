@@ -13,4 +13,5 @@
     special_time: monthly
     job: >
       /snap/bin/nextcloud.export &
+      rm -rf /home/{{ username }}/backups/cloud/*
       mv /var/snap/nextcloud/common/backups/* /home/{{ username }}/backups/cloud
