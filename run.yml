@@ -1,14 +1,4 @@
 ---
-#- hosts: root
-  #name: Create ansible user
-  #vars_files:
-    #- .env.yml
-
-  #roles:
-    #- role: user
-      #tags:
-        #- user
-
 - hosts: ansible
   name: Server setup
   become: true

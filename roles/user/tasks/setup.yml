@@ -16,4 +16,5 @@
 - name: Setup ssh for {{ username }}
   authorized_key:
     user: "{{ username }}"
+    # TODO.lookup in .env
     key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
