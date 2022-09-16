@@ -1,6 +1,0 @@
----
-- name: Create user
-  import_tasks: create.yml
-
-- name: Stup user
-  import_tasks: setup.yml
