@@ -14,5 +14,5 @@
       -e ADMIN_TOKEN={{ admin_token }}
       -e SIGNUPS_ALLOWED={{ allow_signups | default('false') }}
       -v /vw-data/:/data/
-      -p {{ ports.vaultwarden }}:80
+      -p {{ service.vault.port }}:80
       vaultwarden/server:latest"

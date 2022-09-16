@@ -12,4 +12,4 @@
     volumes:
       - "/home/{{ username }}/searxng:/etc/searxng"
     ports:
-      - "{{ ports.searx }}:8080"
+      - "{{ service.searx.port }}:8080"

@@ -11,14 +11,17 @@ all:
   vars:
     username: ansible
     backup_dir: "/home/{{ username }}/backups"
+    service:
+      cloud:
+        subdomain: "cloud"
+        port: 81
+      vault:
+        subdomain: "vault"
+        port: 82
+      searx:
+        subdomain: "searx"
+        port: 83
     ports:
-      nextcloud: 81
-      vaultwarden: 82
-      searx: 83
       ssh: 22
       http: 80
       https: 443
-    subdomains:
-      nextcloud: "cloud"
-      vaultwarden: "vault"
-      searx: "searx"

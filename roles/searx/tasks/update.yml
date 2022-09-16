@@ -14,5 +14,5 @@
       -e BASE_URL=false
       -e INSTANCE_NAME=SearX!
       -v /home/{{ username }}/searxng:/etc/searxng
-      -p {{ ports.searx }}:8080
+      -p {{ service.searx.port }}:8080
       searxng/searxng"

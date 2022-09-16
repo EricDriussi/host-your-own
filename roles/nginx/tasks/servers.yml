@@ -24,16 +24,16 @@
 
 - name: Copy nextcloud proxy server template
   vars: 
-    subdom: "{{ subdomains.nextcloud }}"
-    port: "{{ ports.nextcloud }}"
+    subdom: "{{ service.cloud.subdomain }}"
+    port: "{{ service.cloud.port }}"
   template:
     src: nginx-proxy
     dest: /etc/nginx/sites-enabled/nginx-nextcloud
 
 - name: Copy vaultwarden proxy server template
   vars: 
-    subdom: "{{ subdomains.vaultwarden }}"
-    port: "{{ ports.vaultwarden }}"
+    subdom: "{{ service.vault.subdomain }}"
+    port: "{{ service.vault.port }}"
   template:
     src: nginx-proxy
     dest: /etc/nginx/sites-enabled/nginx-vaultwarden

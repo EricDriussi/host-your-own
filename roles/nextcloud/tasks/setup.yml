@@ -1,6 +1,6 @@
 ---
 - name: Setup nextcloud port
-  shell: "snap set nextcloud ports.http={{ ports.nextcloud }}"
+  shell: "snap set nextcloud ports.http={{ service.cloud.port }}"
   when: install.changed
 
 - name: Setup nextcloud admin account
