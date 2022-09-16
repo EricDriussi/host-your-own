@@ -1,3 +1,0 @@
-deb     [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org {{ ansible_distribution_release }} main 
-
-deb-src [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org {{ ansible_distribution_release }} main

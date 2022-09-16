@@ -5,7 +5,6 @@
     state: latest
   with_items:
     - snapd
-    - php
 
 - name: Install snap core and nextcloud
   snap:
