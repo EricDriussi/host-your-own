@@ -1,13 +1,13 @@
 ---
-- hosts: root
-  name: Create ansible user
-  vars_files:
-    - .env.yml
+#- hosts: root
+  #name: Create ansible user
+  #vars_files:
+    #- .env.yml
 
-  roles:
-    - role: user
-      tags:
-        - user
+  #roles:
+    #- role: user
+      #tags:
+        #- user
 
 - hosts: ansible
   name: Server setup
@@ -45,13 +45,14 @@
       tags:
         - searx
 
-    - role: bunker
-      tags:
-        - bunker
-
     - role: website
       tags:
         - website
+
+    # TODO.test in prod, might need tinkering with bunker conf
+    - role: onion
+      tags:
+        - onion
 
     - role: bunker
       tags:
