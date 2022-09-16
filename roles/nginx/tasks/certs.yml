@@ -1,0 +1,12 @@
+---
+- name: Run cert script
+  shell: "/usr/bin/certbot --nginx -n --agree-tos --email {{ email }} --domains {{ domain }},www.{{ domain }},cloud.{{ domain }},www.cloud.{{ domain }},vault.{{ domain }},www.vault.{{ domain }},searx.{{ domain }},www.searx.{{ domain }}"
+
+- name: Cron - Keep certs updated
+  cron:
+    name: update certs
+    state: present
+    minute: "0"
+    hour: "0"
+    day: "2"
+    job: "certbot --nginx renew"

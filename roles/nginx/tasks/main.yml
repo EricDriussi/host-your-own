@@ -1,0 +1,12 @@
+---
+- name: Install
+  import_tasks: install.yml
+
+- name: Servers
+  import_tasks: servers.yml
+
+- name: Setup
+  import_tasks: setup.yml
+
+- name: Certs
+  import_tasks: certs.yml
