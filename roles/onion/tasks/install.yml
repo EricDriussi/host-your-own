@@ -7,7 +7,7 @@
     components:
       - "main"
   import_role:
-    name: subroles/add_repo
+    name: common_roles/add_repo
 
 - name: Install Tor
   package:

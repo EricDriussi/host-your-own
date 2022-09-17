@@ -7,7 +7,7 @@
     components:
       - "nginx"
   import_role:
-    name: subroles/add_repo
+    name: common_roles/add_repo
 
 - block:
     - name: Check if bunkerweb is installed

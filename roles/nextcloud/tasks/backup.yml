@@ -7,4 +7,4 @@
       rm -rf {{ backup_dir }}/{{ backup }}/*
       mv /var/snap/nextcloud/common/backups/* {{ backup_dir }}/{{ backup }}
   import_role:
-    name: subroles/backup
+    name: common_roles/backup

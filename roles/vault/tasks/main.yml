@@ -1,7 +1,7 @@
 ---
 - name: Setup docker
   import_role:
-    name: subroles/docker
+    name: common_roles/docker
 
 - name: Run container
   docker_container:
@@ -44,4 +44,4 @@
       rm -rf {{ backup_dir }}/{{ backup }}/*
       cp /vw-data/db.sqlite* {{ backup_dir }}/{{ backup }}
   import_role:
-    name: subroles/backup
+    name: common_roles/backup

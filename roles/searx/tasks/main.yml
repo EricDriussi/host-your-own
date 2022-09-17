@@ -1,7 +1,7 @@
 ---
 - name: Setup docker
   import_role:
-    name: subroles/docker
+    name: common_roles/docker
 
 - name: Run container
   docker_container:
