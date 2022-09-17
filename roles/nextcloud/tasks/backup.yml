@@ -1,7 +1,7 @@
 ---
 - name: Create backup dir
   file:
-    path: "{{ backup_dir }}/cloud"
+    path: "{{ backup_dir }}/{{ service.cloud.subdomain }}"
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
@@ -13,5 +13,5 @@
     special_time: monthly
     job: >
       /snap/bin/nextcloud.export &
-      rm -rf {{ backup_dir }}/cloud/*
-      mv /var/snap/nextcloud/common/backups/* {{ backup_dir }}/cloud
+      rm -rf {{ backup_dir }}/{{ service.cloud.subdomain }}/*
+      mv /var/snap/nextcloud/common/backups/* {{ backup_dir }}/{{ service.cloud.subdomain }}

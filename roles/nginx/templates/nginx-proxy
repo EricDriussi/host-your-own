@@ -1,6 +1,6 @@
 server {
-    listen 80 ;
-    listen [::]:80 ;
+    listen {{ ports.http }} ;
+    listen [::]:{{ ports.http }} ;
     server_name {{ subdom }}.{{ domain }} www.{{ subdom }}.{{ domain }};
 
     location / {

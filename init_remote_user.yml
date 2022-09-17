@@ -1,6 +1,6 @@
 ---
 - hosts: root
-  name: Create ansible user
+  name: Create user
   vars_files:
     - .env.yml
 
