@@ -1,6 +1,5 @@
 ---
 - name: Secure ssh config
-  register: ssh_config
   lineinfile:
     dest: "/etc/ssh/sshd_config"
     regexp: "{{ item.regexp }}"
@@ -27,4 +26,3 @@
     name: sshd
     state: restarted
     enabled: true
-  when: ssh_config.changed

@@ -1,9 +1,0 @@
----
-- name: Backup
-  vars:
-    backup: "{{ service.vault.subdomain }}"
-    command: >
-      rm -rf {{ backup_dir }}/{{ backup }}/*
-      cp /vw-data/db.sqlite* {{ backup_dir }}/{{ backup }}
-  import_role:
-    name: subroles/backup

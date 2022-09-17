@@ -3,8 +3,35 @@
   import_role:
     name: subroles/docker
 
-- name: Setup searx
-  import_tasks: searx.yml
+- name: Run searx container
+  docker_container:
+    name: "searx"
+    image: "searxng/searxng:latest"
+    pull: true
+    detach: true
+    state: "started"
+    restart_policy: unless-stopped
+    env:
+      INSTANCE_NAME: "SearX!"
+    volumes:
+      - "/home/{{ username }}/searxng:/etc/searxng"
+    ports:
+      - "{{ service.searx.port }}:8080"
 
 - name: Keep searx updated
-  import_tasks: update.yml
+  cron:
+    name: update searx
+    state: present
+    special_time: monthly
+    job: >
+      /usr/bin/docker pull searxng/searxng:latest &
+      /usr/bin/docker run -d
+      --rm
+      --pull=always
+      --name searx
+      --restart unless-stopped
+      -e BASE_URL=false
+      -e INSTANCE_NAME=SearX!
+      -v /home/{{ username }}/searxng:/etc/searxng
+      -p {{ service.searx.port }}:8080
+      searxng/searxng"
