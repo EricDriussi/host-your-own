@@ -1,13 +1,13 @@
 ---
 - name: Autoremove
   apt:
-    autoremove: yes
+    autoremove: true
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: Update system
   package:
-    update_cache: yes
-    upgrade: yes
+    update_cache: true
+    upgrade: true
 
 - name: Cron - Keep system updated
   cron:

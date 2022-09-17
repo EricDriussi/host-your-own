@@ -20,4 +20,4 @@
   service:
     name: bunkerweb
     state: restarted
-    enabled: yes
+    enabled: true

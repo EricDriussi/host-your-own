@@ -10,6 +10,6 @@
     groups:
       - sudo
       - docker
-    system: no
-    createhome: yes
+    system: false
+    createhome: true
     home: "/home/{{ username }}"

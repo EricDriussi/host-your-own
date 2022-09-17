@@ -3,8 +3,8 @@
   git:
     repo: "{{ dotfiles }}"
     dest: "/home/{{ username }}/dotfiles"
-    force: yes
-    track_submodules: yes
+    force: true
+    track_submodules: true
 
 - name: Set zsh as default shell
   user:
@@ -18,7 +18,7 @@
   git:
     repo: "{{ nvim_config }}"
     dest: "/home/{{ username }}/.config/nvim"
-    force: yes
+    force: true
 
 - name: Use plugin-less config
   shell: 'rm /home/{{ username }}/.config/nvim/init.vim && cp /home/{{ username }}/.config/nvim/base-init.vim /home/{{ username }}/.config/nvim/init.vim'

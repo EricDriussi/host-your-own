@@ -3,7 +3,7 @@
   copy:
     src: "/home/{{ username }}/{{ item.src }}"
     dest: "/root/{{ item.dest }}"
-    remote_src: yes
+    remote_src: true
   with_items:
     - {src: "dotfiles/base/.zshrc", dest: ".zshrc"}
     - {src: "dotfiles/custom-zsh/.config/custom-zsh", dest: ".config/"}

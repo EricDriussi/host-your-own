@@ -14,8 +14,8 @@
 
 - name: Update repos
   package:
-    update_cache: yes
-    upgrade: yes
+    update_cache: true
+    upgrade: true
 
 - name: Install Tor
   package:

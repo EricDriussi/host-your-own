@@ -8,7 +8,7 @@
   git:
     repo: https://github.com/searxng/searxng
     dest: searxng
-    force: yes
+    force: true
 
 - name: Install
   shell: "{{ item }}"
@@ -24,4 +24,4 @@
   service:
     name: uwsgi
     state: restarted
-    enabled: yes
+    enabled: true

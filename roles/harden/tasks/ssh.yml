@@ -26,5 +26,5 @@
   service:
     name: sshd
     state: restarted
-    enabled: yes
+    enabled: true
   when: ssh_config.changed
