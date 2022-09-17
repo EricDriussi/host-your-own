@@ -1,21 +1,13 @@
 ---
-- name: Add GPG key for tor
-  apt_key:
-    url: https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc
-    keyring: /usr/share/keyrings/tor-archive-keyring.gpg
-    state: present
-
-- name: Add repos for tor
-  copy:
-    dest: "/etc/apt/sources.list.d/tor.list"
-    content: |
-      deb     [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org {{ ansible_distribution_release }} main
-      deb-src [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org {{ ansible_distribution_release }} main
-
-- name: Update repos
-  package:
-    update_cache: true
-    upgrade: true
+- name: Setup tor repos
+  vars:
+    pkg_name: "tor"
+    pkg_url: "https://deb.torproject.org/torproject.org"
+    key_url: "https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc"
+    components:
+      - "main"
+  import_role:
+    name: subroles/add_repo
 
 - name: Install Tor
   package:

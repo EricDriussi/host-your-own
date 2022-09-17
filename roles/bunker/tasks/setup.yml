@@ -1,15 +1,13 @@
 ---
-- name: Add GPG key for nginx
-  apt_key:
-    url: https://nginx.org/keys/nginx_signing.key
-    keyring: /usr/share/keyrings/nginx-archive-keyring.gpg
-    state: present
-
-- name: Add repos for nginx
-  copy:
-    dest: "/etc/apt/sources.list.d/nginx.list"
-    content: |
-      deb     [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/debian {{ ansible_distribution_release }} nginx
+- name: Setup nginx repos
+  vars:
+    pkg_name: "nginx"
+    pkg_url: "http://nginx.org/packages/debian"
+    key_url: "https://nginx.org/keys/nginx_signing.key"
+    components:
+      - "nginx"
+  import_role:
+    name: subroles/add_repo
 
 - block:
     - name: Check if bunkerweb is installed
@@ -23,4 +21,3 @@
 - name: Update repos
   package:
     update_cache: true
-    upgrade: true
