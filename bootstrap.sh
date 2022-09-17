@@ -27,94 +27,15 @@ if [ -f .env.yml ]; then
 	exit 1
 fi
 
-touch .env.yml
-sed -n '/dotfiles/p' .env-sample.yml >>.env.yml
-sed -n '/nvim_config/p' .env-sample.yml >>.env.yml
-
-clear
-tput cup "$(tput lines)"
 echo "If you prefer to fill in the .env.yml file manually,"
 echo "press [Ctrl+C] to quit this script"
-echo
-
-cat <<"EOF"
-.-. .-. .----..----..----.    .-. .-.   .----. .-. . .-..----. 
-| { } |{ {__  | {_  | {}  }   |  `| |   | {}  }| |/ \| || {}  \
-| {_} |.-._} }| {__ | .-. \   | |\  |   | .--' |  .'.  ||     /
-`-----'`----' `----'`-' `-'   `-' `-'   `-'    `-'   `-'`----' 
-EOF
 
 echo
-echo "Enter your desired username"
-echo "This will be used for your Nextcloud login"
-read -p "Username: " username
-until [[ "$username" =~ ^[a-z0-9]*$ ]]; do
-	echo
-	echo "Invalid username"
-	echo "Make sure the username only contains lowercase letters and numbers"
-	read -p "Username: " username
-done
-echo "nextcloud_username: \"${username}\"" >>.env.yml
-
-echo
-echo "Enter your user password"
-echo "This will be your Nextcloud admin password as well as your SSH passphrase."
-echo "CHANGE IT."
-read -s -p "Password: " user_password
-until [[ "${#user_password}" -lt 60 ]]; do
-	echo
-	echo "The password is too long"
-	echo "OpenSSH does not support passwords longer than 72 characters"
-	read -s -p "Password: " user_password
-done
-echo
-read -s -p "Repeat password: " user_password2
-echo
-until [[ "$user_password" == "$user_password2" ]]; do
-	echo
-	echo "The passwords don't match"
-	read -s -p "Password: " user_password
-	echo
-	read -s -p "Repeat password: " user_password2
-done
-echo "user_pwd: \"${user_password}\"" >>.env.yml
-
-clear
-tput cup "$(tput lines)"
 cat <<"EOF"
 .-. . .-..----..----.  .----..-. .---. .----.
 | |/ \| || {_  | {}  }{ {__  | |{_   _}| {_  
 |  .'.  || {__ | {}  }.-._} }| |  | |  | {__ 
 `-'   `-'`----'`----' `----' `-'  `-'  `----'
-EOF
-echo
-echo "Enter the local path to your static website"
-echo
-read -p "Path: " website_path
-echo "website_path: \"${website_path}\"" >>.env.yml
-
-clear
-tput cup "$(tput lines)"
-cat <<"EOF"
-.----..-.   .-.  .--.  .-..-.   
-| {_  |  `.'  | / {} \ | || |   
-| {__ | |\ /| |/  /\  \| || `--.
-`----'`-' ` `-'`-'  `-'`-'`----'
-EOF
-echo
-echo "Enter your email"
-echo "This is needed for HTTPS certs"
-echo
-read -p "Email address: " email
-echo "email: \"${email}\"" >>.env.yml
-
-clear
-tput cup "$(tput lines)"
-cat <<"EOF"
-.----.  .----. .-.   .-.  .--.  .-..-. .-.
-| {}  \/  {}  \|  `.'  | / {} \ | ||  `| |
-|     /\      /| |\ /| |/  /\  \| || |\  |
-`----'  `----' `-' ` `-'`-'  `-'`-'`-' `-'
 EOF
 echo
 echo "Enter your domain name"
@@ -123,8 +44,14 @@ echo
 read -p "Domain name: " domain
 echo "domain: \"${domain}\"" >>.env.yml
 
-clear
-tput cup "$(tput lines)"
+echo
+echo "Enter your email"
+echo "This is needed for HTTPS certs"
+echo
+read -p "Email address: " email
+echo "email: \"${email}\"" >>.env.yml
+
+echo
 cat <<"EOF"
  .----. .----..-. .-.
 { {__  { {__  | {_} |
@@ -149,19 +76,56 @@ if [[ "$use_existing_ssh_keys" =~ ^[yY]$ ]]; then
 	echo "ssh_public_key: \"${ssh_key_pair}\"" >>.env.yml
 fi
 
-clear
-tput cup "$(tput lines)"
+echo
+cat <<"EOF"
+ .---. .-.    .----. .-. .-..----. 
+/  ___}| |   /  {}  \| { } || {}  \
+\     }| `--.\      /| {_} ||     /
+ `---' `----' `----' `-----'`----' 
+EOF
+
+echo
+echo "Enter your nextcloud username"
+read -p "Username: " username
+until [[ "$username" =~ ^[a-z0-9]*$ ]]; do
+	echo
+	echo "Invalid username"
+	echo "Make sure the username only contains lowercase letters and numbers"
+	read -p "Username: " username
+done
+echo "nextcloud_username: \"${username}\"" >>.env.yml
+
+echo
+echo "Enter your password"
+read -s -p "Password: " user_password
+until [[ "${#user_password}" -lt 60 ]]; do
+	echo
+	echo "The password is too long"
+	read -s -p "Password: " user_password
+done
+echo
+read -s -p "Repeat password: " user_password2
+echo
+until [[ "$user_password" == "$user_password2" ]]; do
+	echo
+	echo "The passwords don't match"
+	read -s -p "Password: " user_password
+	echo
+	read -s -p "Repeat password: " user_password2
+done
+echo "user_pwd: \"${user_password}\"" >>.env.yml
+
+echo
 cat <<"EOF"
 .-. .-.  .--.  .-. .-..-.  .---. 
 | | | | / {} \ | { } || | {_   _}
 \ \_/ //  /\  \| {_} || `--.| |  
  `---' `-'  `-'`-----'`----'`-'  
 EOF
-# TODO.Implement admin token generation
 echo
 echo "By default, public sign up to your vault are turned off."
-echo "This means that you'll have to give explicit permission through the admin portal."
-echo "To change this behavior uncomment the relevant line in .env.yml"
+echo "This means that you'll have to give explicit login permission through the admin portal."
+echo "To change this behavior add 'allow_signups: true' in .env.yml"
 echo
 echo "Would you like to use an existing admin token for your vault?"
 echo "Press 'n' if you want to generate a new admin token"
@@ -176,11 +140,14 @@ done
 if [[ "$use_existing_token" =~ ^[yY]$ ]]; then
 	echo
 	read -p "Please enter your admin token: " admin_token
-	echo "admin_token: \"${admin_token}\"" >>.env.yml
+else
+	echo
+	admin_token=$(openssl rand -base64 48)
+	echo "Your admin token $(admin_token) has been saved in .env.yml"
 fi
+echo "admin_token: \"${admin_token}\"" >>.env.yml
 
-clear
-tput cup "$(tput lines)"
+echo
 cat <<"EOF"
 .----.  .----. .-. .-..----.
 | {}  \/  {}  \|  `| || {_  
@@ -195,10 +162,14 @@ until [[ "$launch_playbook" =~ ^[yYnN]*$ ]]; do
 	read -p "[y/N]: " launch_playbook
 done
 if [[ "$launch_playbook" =~ ^[yY]$ ]]; then
-	ansible-playbook run.yml --extra-vars=@.env.yml
+	ansible-playbook init_remote_user.yml &
+	ansible-playbook run.yml
 else
 	echo
-	echo "You can run the playbook by executing the following command"
-	echo "ansible-playbook run.yml --extra-vars=@.env.yml"
+	echo "You can run the playbook by executing the following commands"
+	echo "ansible-playbook init_remote_user.yml"
+	echo "ansible-playbook run.yml"
+	echo
+	echo "Skip the first command after the first run"
 	exit
 fi
