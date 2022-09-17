@@ -16,8 +16,8 @@
   shell: "sudo lsof -i tcp:{{ ports.http }} | awk 'NR!=1 {print $2}' | xargs sudo kill &> /dev/null"
   ignore_errors: true
 
-- name: Enable and restart service
+- name: Enable and restart bunkerweb
   service:
     name: bunkerweb
-    state: restarted
     enabled: true
+    state: restarted

@@ -10,7 +10,8 @@
     - regexp: "^#?HiddenServiceDir"
       line: "HiddenServicePort {{ ports.http }} 127.0.0.1:{{ ports.http }}"
 
-- name: Restart tor
+- name: Enable and restart tor
   service:
     name: tor
+    enabled: true
     state: restarted

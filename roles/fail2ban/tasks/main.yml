@@ -20,8 +20,8 @@
     owner: root
     group: root
 
-- name: Make sure the fail2ban systemd service is enabled and started
+- name: Enable and restart fail2ban
   service:
     name: fail2ban
-    state: started
     enabled: true
+    state: restarted

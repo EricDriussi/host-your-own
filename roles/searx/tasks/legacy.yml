@@ -20,8 +20,8 @@
     src: searx.yml
     dest: /etc/searxng/settings.yml
 
-- name: Restart uwsgi
+- name: Enable and restart uwsgi
   service:
     name: uwsgi
-    state: restarted
     enabled: true
+    state: restarted

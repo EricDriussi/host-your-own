@@ -21,8 +21,8 @@
     - regexp: "^#?MaxAuthTries"
       line: "MaxAuthTries 3"
 
-- name: Restart ssh
+- name: Enable and restart ssh
   service:
     name: sshd
-    state: restarted
     enabled: true
+    state: restarted
