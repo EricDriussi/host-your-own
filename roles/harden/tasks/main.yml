@@ -1,6 +1,6 @@
 ---
-- name: SSH
+- name: Harden ssh
   import_tasks: ssh.yml
 
-- name: UFW
+- name: Configure ufw
   import_tasks: firewall.yml

@@ -2,5 +2,5 @@
 - name: Install Tor
   import_tasks: install.yml
 
-- name: Config onion address
+- name: Configure Tor
   import_tasks: config.yml

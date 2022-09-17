@@ -1,6 +1,6 @@
 ---
-- name: Setup
-  import_tasks: setup.yml
+- name: Install basick packages
+  import_tasks: install.yml
 
 - name: Clone dotfiles
   import_tasks: dotfiles.yml
