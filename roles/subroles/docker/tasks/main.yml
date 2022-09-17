@@ -1,12 +1,12 @@
 ---
-- name: Install docker
+- name: Install docker and compose
   package:
     name:
       - docker
       - docker-compose
     state: latest
 
-- name: Make sure Docker is running and enabled
+- name: Start and enable docker
   systemd:
     name: docker
     daemon_reload: true

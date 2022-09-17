@@ -1,6 +1,7 @@
 ---
 - name: Setup docker
-  import_tasks: docker.yml
+  import_role:
+    name: subroles/docker
 
 - name: Setup searx
   import_tasks: searx.yml
