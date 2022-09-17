@@ -1,6 +1,6 @@
 ---
 - name: Install Tor
-  import_tasks: tor.yml
+  import_tasks: install.yml
 
-- name: Setup onion address
-  import_tasks: onion.yml
+- name: Config onion address
+  import_tasks: config.yml

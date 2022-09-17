@@ -5,8 +5,8 @@
 - name: Servers
   import_tasks: servers.yml
 
-- name: Setup
-  import_tasks: setup.yml
+- name: Config
+  import_tasks: config.yml
 
 - name: Certs
   import_tasks: certs.yml

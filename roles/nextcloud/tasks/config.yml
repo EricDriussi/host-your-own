@@ -1,9 +1,9 @@
 ---
-- name: Setup nextcloud port
+- name: Config nextcloud port
   shell: "snap set nextcloud ports.http={{ service.cloud.port }}"
   when: install.changed
 
-- name: Setup nextcloud admin account
+- name: Config nextcloud admin account
   shell: '/snap/bin/nextcloud.manual-install {{ nextcloud_username }} {{ user_password }}'
   when: install.changed
 
