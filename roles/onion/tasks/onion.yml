@@ -4,21 +4,13 @@
     dest: /etc/tor/torrc
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
-  loop:
-    - { regexp: '^#HiddenServiceDir.*', line: 'HiddenServiceDir /var/lib/tor/hidden_service/' }
-    - { regexp: '^#HiddenServicePort.*', line: 'HiddenServicePort {{ ports.http }} 127.0.0.1:{{ ports.http }}' }
+  with_items:
+    - regexp: "^#?HiddenServiceDir"
+      line: "HiddenServiceDir /var/lib/tor/hidden_service/"
+    - regexp: "^#?HiddenServiceDir"
+      line: "HiddenServicePort {{ ports.http }} 127.0.0.1:{{ ports.http }}"
 
 - name: Restart tor
   service:
     name: tor
     state: restarted
-
-- name: Get onion address
-  block:
-    - name: Read from file
-      command: 'cat /var/lib/tor/hidden_service/hostname'
-      register: onion_address
-
-    - name: Set variable
-      set_fact:
-        onion: "{{ onion_address.stdout }}"
