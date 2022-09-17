@@ -1,5 +1,5 @@
 ---
-- name: Backup
+- name: Monthly backups
   vars:
     backup: "{{ service.cloud.subdomain }}"
     command: >

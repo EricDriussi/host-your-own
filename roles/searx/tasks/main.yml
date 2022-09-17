@@ -3,7 +3,7 @@
   import_role:
     name: subroles/docker
 
-- name: Run searx container
+- name: Run container
   docker_container:
     name: "searx"
     image: "searxng/searxng:latest"
@@ -18,7 +18,7 @@
     ports:
       - "{{ service.searx.port }}:8080"
 
-- name: Keep searx updated
+- name: Monthly updates
   cron:
     name: update searx
     state: present

@@ -19,7 +19,7 @@
     ports:
       - "{{ service.vault.port }}:80"
 
-- name: Keep vaultwarden updated
+- name: Monthly updates
   cron:
     name: update vaultwarden
     state: present
@@ -37,7 +37,7 @@
       -p {{ service.vault.port }}:80
       vaultwarden/server:latest"
 
-- name: Backup
+- name: Monthly backups
   vars:
     backup: "{{ service.vault.subdomain }}"
     command: >
