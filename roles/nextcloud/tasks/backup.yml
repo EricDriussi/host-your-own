@@ -1,17 +1,10 @@
 ---
-- name: Create backup dir
-  file:
-    path: "{{ backup_dir }}/{{ service.cloud.subdomain }}"
-    state: directory
-    owner: "{{ username }}"
-    group: "{{ username }}"
-
-- name: Backup nextcloud
-  cron:
-    name: backup nextcloud
-    state: present
-    special_time: monthly
-    job: >
+- name: Backup
+  vars:
+    backup: "{{ service.cloud.subdomain }}"
+    command: >
       /snap/bin/nextcloud.export &
-      rm -rf {{ backup_dir }}/{{ service.cloud.subdomain }}/*
-      mv /var/snap/nextcloud/common/backups/* {{ backup_dir }}/{{ service.cloud.subdomain }}
+      rm -rf {{ backup_dir }}/{{ backup }}/*
+      mv /var/snap/nextcloud/common/backups/* {{ backup_dir }}/{{ backup }}
+  import_role:
+    name: subroles/backup

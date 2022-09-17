@@ -1,16 +1,9 @@
 ---
-- name: Create backup dir
-  file:
-    path: "{{ backup_dir }}/{{ service.vault.subdomain }}"
-    state: directory
-    owner: "{{ username }}"
-    group: "{{ username }}"
-
-- name: Backup vaultwarden
-  cron:
-    name: backup vaultwarden
-    state: present
-    special_time: monthly
-    job: >
-      rm -rf {{ backup_dir }}/{{ service.vault.subdomain }}/*
-      cp /vw-data/db.sqlite* {{ backup_dir }}/{{ service.vault.subdomain }}
+- name: Backup
+  vars:
+    backup: "{{ service.vault.subdomain }}"
+    command: >
+      rm -rf {{ backup_dir }}/{{ backup }}/*
+      cp /vw-data/db.sqlite* {{ backup_dir }}/{{ backup }}
+  import_role:
+    name: subroles/backup

@@ -1,0 +1,14 @@
+---
+- name: Create backup dir
+  file:
+    path: "{{ backup_dir }}/{{ backup }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
+- name: Create backup cronjob
+  cron:
+    name: "backup {{ backup }}"
+    state: present
+    special_time: monthly
+    job: "{{ command }}"
