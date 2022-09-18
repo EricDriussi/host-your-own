@@ -8,11 +8,12 @@
   when: install.changed
 
 - name: Ensure nextcloud prefers HTTPS
-  shell: '/snap/bin/nextcloud.occ config:system:set overwriteprotocol --value="https"'
+  shell: '/snap/bin/nextcloud.occ config:system:set overwriteprotocol --value="http"'
   when: install.changed
 
 - name: Config nextcloud trusted domain
   lineinfile:
     dest: /var/snap/nextcloud/current/nextcloud/config/config.php
-    regexp: ".*0 => 'localhost'.*"
+    insertafter: "0 => 'localhost'"
     line: "1 => 'cloud.{{ domain }}'"
+    state: present
