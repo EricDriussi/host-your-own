@@ -41,6 +41,9 @@ echo
 echo "Enter your domain name"
 echo "The domain name should correctly resolve to the IP address of your server"
 echo
+echo "If the server is behind Cloudflare, you'll need to also add your server's IP to .env.yml"
+echo "Something like ip: \"192.168.123.123\""
+echo
 read -p "Domain name: " domain
 echo "domain: \"${domain}\"" >>.env.yml
 
