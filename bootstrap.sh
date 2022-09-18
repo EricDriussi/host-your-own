@@ -96,7 +96,6 @@ if [[ "$root_setup" =~ ^[yY]$ ]]; then
 		ssh-keygen -b 4096 -t rsa -f ./ssh_keys/root_key -q -N ""
 		ssh-copy-id -i ./ssh_keys/root_key root@"${domain}"
 		eval "$(ssh-agent -s)" && ssh-add ./ssh_keys/root_key
-		# TODO.README -> eval "$(ssh-agent -s)" && ssh-add ./ssh_keys/root_key for this use case (or mv it to ~/.ssh/id_rsa)
 		echo
 	fi
 fi
