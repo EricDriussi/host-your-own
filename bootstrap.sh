@@ -59,47 +59,6 @@ cat <<"EOF"
 .-._} }.-._} }| { } |
 `----' `----' `-' `-'
 EOF
-
-echo
-echo "Setup root shh key pair?"
-echo "Only needed if you don't have a working root ssh connection"
-echo
-read -p "[y/N]: " root_setup
-until [[ "$root_setup" =~ ^[yYnN]*$ ]]; do
-	echo
-	echo "$root_setup: invalid selection"
-	read -p "[y/N]: " root_setup
-done
-
-if [[ "$root_setup" =~ ^[yY]$ ]]; then
-	echo
-	echo "Use existing key pair?"
-	echo
-	read -p "[y/N]: " root_use_existing_key
-	until [[ "$root_use_existing_key" =~ ^[yYnN]*$ ]]; do
-		echo
-		echo "$root_use_existing_key: invalid selection"
-		read -p "[y/N]: " root_use_existing_key
-	done
-	if [[ "$root_use_existing_key" =~ ^[yY]$ ]]; then
-		echo
-		read -p "Please enter the full path to your SSH public key: " root_ssh_key_path
-		echo "Copying public key to server..."
-		ssh-copy-id -i "${root_ssh_key_path}" root@"${domain}"
-		echo
-	else
-		echo
-		echo "-- Generating key pair --"
-		echo "Your keys will be stored in ./ssh_keys/"
-		echo
-		mkdir -p ssh_keys
-		ssh-keygen -b 4096 -t rsa -f ./ssh_keys/root_key -q -N ""
-		ssh-copy-id -i ./ssh_keys/root_key root@"${domain}"
-		eval "$(ssh-agent -s)" && ssh-add ./ssh_keys/root_key
-		echo
-	fi
-fi
-
 echo
 echo "Use existing key for remote ansible user?"
 echo
@@ -162,7 +121,7 @@ until [[ "$user_password" == "$user_password2" ]]; do
 	echo
 	read -s -p "Repeat password: " user_password2
 done
-echo "user_pwd: \"${user_password}\"" >>.env.yml
+echo "user_password: \"${user_password}\"" >>.env.yml
 
 echo
 cat <<"EOF"
@@ -217,7 +176,7 @@ else
 	echo
 	echo "You can run the playbook by executing the following commands"
 	echo
-	echo "ansible-playbook init_remote_user.yml"
+	echo "ansible-playbook init_remote_user.yml --ask-pass"
 	echo "ansible-playbook run.yml"
 	echo
 	echo "The init_remote_user.yml script is only needed on the first run"
