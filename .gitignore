@@ -1,2 +1,3 @@
 .env.yml
 ./*.vim
+ssh_keys/

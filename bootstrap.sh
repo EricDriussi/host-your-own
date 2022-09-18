@@ -39,7 +39,7 @@ cat <<"EOF"
 EOF
 echo
 echo "Enter your domain name"
-echo "The domain name should already resolve to the IP address of your server"
+echo "The domain name should correctly resolve to the IP address of your server"
 echo
 read -p "Domain name: " domain
 echo "domain: \"${domain}\"" >>.env.yml
@@ -58,22 +58,72 @@ cat <<"EOF"
 .-._} }.-._} }| { } |
 `----' `----' `-' `-'
 EOF
-# TODO.Implement SSH key generation
+
 echo
-echo "Would you like to use an existing SSH key?"
-echo "Press 'n' if you want to generate a new SSH key pair"
+echo "Setup root shh key pair?"
+echo "Only needed if you don't have a working root ssh connection"
 echo
-read -p "Use existing SSH key? [y/N]: " use_existing_ssh_keys
-until [[ "$use_existing_ssh_keys" =~ ^[yYnN]*$ ]]; do
+read -p "[y/N]: " root_setup
+until [[ "$root_setup" =~ ^[yYnN]*$ ]]; do
 	echo
-	echo "$use_existing_ssh_keys: invalid selection"
-	read -p "[y/N]: " use_existing_ssh_keys
+	echo "$root_setup: invalid selection"
+	read -p "[y/N]: " root_setup
 done
 
-if [[ "$use_existing_ssh_keys" =~ ^[yY]$ ]]; then
+if [[ "$root_setup" =~ ^[yY]$ ]]; then
+	echo
+	echo "Use existing key pair?"
+	echo
+	read -p "[y/N]: " root_use_existing_key
+	until [[ "$root_use_existing_key" =~ ^[yYnN]*$ ]]; do
+		echo
+		echo "$root_use_existing_key: invalid selection"
+		read -p "[y/N]: " root_use_existing_key
+	done
+	if [[ "$root_use_existing_key" =~ ^[yY]$ ]]; then
+		echo
+		read -p "Please enter the full path to your SSH public key: " root_ssh_key_path
+		echo "Copying public key to server..."
+		ssh-copy-id -i "${root_ssh_key_path}" root@"${domain}"
+		echo
+	else
+		echo
+		echo "-- Generating key pair --"
+		echo "Your keys will be stored in ./ssh_keys/"
+		echo
+		mkdir -p ssh_keys
+		ssh-keygen -b 4096 -t rsa -f ./ssh_keys/root_key -q -N ""
+		ssh-copy-id -i ./ssh_keys/root_key root@"${domain}"
+		eval "$(ssh-agent -s)" && ssh-add ./ssh_keys/root_key
+		# TODO.README -> eval "$(ssh-agent -s)" && ssh-add ./ssh_keys/root_key for this use case (or mv it to ~/.ssh/id_rsa)
+		echo
+	fi
+fi
+
+echo
+echo "Use existing key for remote ansible user?"
+echo
+read -p "[y/N]: " ansible_use_existing_key
+until [[ "$ansible_use_existing_key" =~ ^[yYnN]*$ ]]; do
+	echo
+	echo "$ansible_use_existing_key: invalid selection"
+	read -p "[y/N]: " ansible_use_existing_key
+done
+if [[ "$ansible_use_existing_key" =~ ^[yY]$ ]]; then
 	echo
 	read -p "Please enter your SSH public key: " ssh_key_pair
 	echo "ssh_public_key: \"${ssh_key_pair}\"" >>.env.yml
+	echo
+else
+	echo
+	echo "-- Generating key pair --"
+	echo "Your keys will be stored in ./ssh_keys/"
+	echo
+	mkdir -p ssh_keys
+	ssh-keygen -b 4096 -t rsa -f ./ssh_keys/key -q -N ""
+	ssh_public_key=$(cat ./ssh_keys/key.pub)
+	echo "ssh_public_key: \"${ssh_public_key}\"" >>.env.yml
+	echo
 fi
 
 echo
@@ -83,7 +133,6 @@ cat <<"EOF"
 \     }| `--.\      /| {_} ||     /
  `---' `----' `----' `-----'`----' 
 EOF
-
 echo
 echo "Enter your nextcloud username"
 read -p "Username: " username
@@ -123,7 +172,7 @@ cat <<"EOF"
  `---' `-'  `-'`-----'`----'`-'  
 EOF
 echo
-echo "By default, public sign up to your vault are turned off."
+echo "By default, public sign ups to your vault are turned off."
 echo "This means that you'll have to give explicit login permission through the admin portal."
 echo "To change this behavior add 'allow_signups: true' in .env.yml"
 echo
@@ -143,7 +192,7 @@ if [[ "$use_existing_token" =~ ^[yY]$ ]]; then
 else
 	echo
 	admin_token=$(openssl rand -base64 48)
-	echo "Your admin token $(admin_token) has been saved in .env.yml"
+	echo "Your admin token $admin_token has been saved in .env.yml"
 fi
 echo "admin_token: \"${admin_token}\"" >>.env.yml
 
@@ -167,9 +216,11 @@ if [[ "$launch_playbook" =~ ^[yY]$ ]]; then
 else
 	echo
 	echo "You can run the playbook by executing the following commands"
+	echo
 	echo "ansible-playbook init_remote_user.yml"
 	echo "ansible-playbook run.yml"
 	echo
-	echo "Skip the first command after the first run"
-	exit
+	echo "The init_remote_user.yml script is only needed on the first run"
+	echo
+	exit 0
 fi
