@@ -9,15 +9,13 @@
 # | ▓▓    ▓▓\▓▓    ▓▓\▓▓    ▓▓  | ▓▓   \▓▓    ▓▓  | ▓▓  | ▓▓  | ▓▓ ▓▓  | ▓▓ ▓▓
 #  \▓▓▓▓▓▓▓  \▓▓▓▓▓▓  \▓▓▓▓▓▓    \▓▓    \▓▓▓▓▓▓    \▓▓   \▓▓   \▓▓\▓▓   \▓▓\▓▓
 
-# TODO.Test
-
 # Discard stdin. Needed when running from an one-liner which includes a newline
-#read -N 999999 -t 0.001
+read -N 999999 -t 0.001
 # Quit on error
 set -e
-# Clone the Ansible playbook
-#[ -d "${PWD}/HYO" ] || git clone https://github.com/EricDriussi/host-your-own.git "${PWD}"/HYO
-#cd HYO
+# Clone the repo
+[ -d "${PWD}/HYO" ] || git clone https://github.com/EricDriussi/host-your-own.git "${PWD}"/HYO
+cd HYO
 
 # Don't overwrite .env.yml
 if [ -f .env.yml ]; then
