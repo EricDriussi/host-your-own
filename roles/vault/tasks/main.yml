@@ -39,11 +39,12 @@
       vaultwarden/server:latest"
 
 - name: Monthly backups
-  vars:
-    backup: "{{ service.vault.subdomain }}"
-    command: >
-      rm -rf {{ backup_dir }}/{{ backup }}/* &
-      cp /vw-data/db.sqlite* {{ backup_dir }}/{{ backup }} &
-      chown -R {{ username }}:{{ username }} {{ backup_dir }}/{{ backup }}
-  import_role:
-    name: common_roles/backup
+  cron:
+    name: "backup vault"
+    state: "present"
+    special_time: "monthly"
+    job: >
+      /bin/mkdir -p {{ backup_dir }}/vault &
+      /bin/rm -rf {{ backup_dir }}/vault/* &
+      /bin/cp /vw-data/db.sqlite* {{ backup_dir }}/vault &
+      chown -R {{ username }}:{{ username }} {{ backup_dir }}
