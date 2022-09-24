@@ -4,6 +4,7 @@
     name: common_roles/docker
 
 - name: Run container
+  become_user: "{{ username }}"
   docker_container:
     name: "searx"
     image: "searxng/searxng:latest"
@@ -19,6 +20,7 @@
       - "{{ service.searx.port }}:8080"
 
 - name: Monthly updates
+  become_user: "{{ username }}"
   cron:
     name: update searx
     state: present
@@ -26,10 +28,9 @@
     job: >
       /usr/bin/docker pull searxng/searxng:latest &
       /usr/bin/docker run -d
-      --rm
+      --restart unless-stopped
       --pull=always
       --name searx
-      --restart unless-stopped
       -e BASE_URL=false
       -e INSTANCE_NAME=SearX!
       -v /home/{{ username }}/searxng:/etc/searxng

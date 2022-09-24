@@ -1,10 +1,10 @@
 ---
 - name: Clone dotfiles
+  become_user: "{{ username }}"
   git:
     repo: "{{ dotfiles }}"
     dest: "/home/{{ username }}/dotfiles"
     force: true
-    track_submodules: true
 
 - name: Set zsh as default shell
   user:
@@ -15,15 +15,18 @@
     - root
 
 - name: Clone nvim config
+  become_user: "{{ username }}"
   git:
     repo: "{{ nvim_config }}"
     dest: "/home/{{ username }}/.config/nvim"
     force: true
 
 - name: Use plugin-less config
+  become_user: "{{ username }}"
   shell: 'rm /home/{{ username }}/.config/nvim/init.vim && cp /home/{{ username }}/.config/nvim/base-init.vim /home/{{ username }}/.config/nvim/init.vim'
 
 - name: Unstow dotfiles
+  become_user: "{{ username }}"
   shell:
     cmd: "stow -R {{ item }}"
     chdir: "/home/{{ username }}/dotfiles"

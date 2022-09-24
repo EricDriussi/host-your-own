@@ -9,16 +9,12 @@
     src: "fail2ban"
     dest: "/etc/fail2ban/action.d/sendmail-common.local"
     mode: 0644
-    owner: root
-    group: root
 
 - name: Install the jail file
   template:
     src: "jail"
     dest: "/etc/fail2ban/jail.local"
     mode: 0644
-    owner: root
-    group: root
 
 - name: Enable and restart fail2ban
   service:

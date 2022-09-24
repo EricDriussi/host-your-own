@@ -4,6 +4,7 @@
     name: common_roles/docker
 
 - name: Run container
+  become_user: "{{ username }}"
   docker_container:
     name: "vaultwarden"
     image: "vaultwarden/server:latest"
@@ -20,6 +21,7 @@
       - "{{ service.vault.port }}:80"
 
 - name: Monthly updates
+  become_user: "{{ username }}"
   cron:
     name: update vaultwarden
     state: present
@@ -27,10 +29,9 @@
     job: >
       /usr/bin/docker pull vaultwarden/server:latest &
       /usr/bin/docker run -d
-      --rm
+      --restart unless-stopped
       --pull=always
       --name vaultwarden
-      --restart unless-stopped
       -e ADMIN_TOKEN={{ admin_token }}
       -e SIGNUPS_ALLOWED={{ allow_signups | default('false') }}
       -v /vw-data/:/data/
@@ -41,7 +42,8 @@
   vars:
     backup: "{{ service.vault.subdomain }}"
     command: >
-      rm -rf {{ backup_dir }}/{{ backup }}/*
-      cp /vw-data/db.sqlite* {{ backup_dir }}/{{ backup }}
+      rm -rf {{ backup_dir }}/{{ backup }}/* &
+      cp /vw-data/db.sqlite* {{ backup_dir }}/{{ backup }} &
+      chown -R {{ username }}:{{ username }} {{ backup_dir }}/{{ backup }}
   import_role:
     name: common_roles/backup

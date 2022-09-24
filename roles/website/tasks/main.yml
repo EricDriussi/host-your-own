@@ -1,8 +1,6 @@
 ---
 - name: Create and chown website dir
   file:
-    owner: "{{ username }}"
-    group: "{{ username }}"
     path: "/home/{{ username }}/website"
     state: directory
 

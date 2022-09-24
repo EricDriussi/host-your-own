@@ -2,7 +2,6 @@
 - name: Autoremove
   apt:
     autoremove: true
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: Update system
   package:

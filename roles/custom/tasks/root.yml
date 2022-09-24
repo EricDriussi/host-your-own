@@ -3,6 +3,8 @@
   copy:
     src: "/home/{{ username }}/{{ item.src }}"
     dest: "/root/{{ item.dest }}"
+    owner: root
+    group: root
     remote_src: true
   with_items:
     - {src: "dotfiles/base/.zshrc", dest: ".zshrc"}

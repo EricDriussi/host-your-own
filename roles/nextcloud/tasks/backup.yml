@@ -4,7 +4,8 @@
     backup: "{{ service.cloud.subdomain }}"
     command: >
       /snap/bin/nextcloud.export &
-      rm -rf {{ backup_dir }}/{{ backup }}/*
-      mv /var/snap/nextcloud/common/backups/* {{ backup_dir }}/{{ backup }}
+      rm -rf {{ backup_dir }}/{{ backup }}/* &
+      mv /var/snap/nextcloud/common/backups/* {{ backup_dir }}/{{ backup }} &
+      chown -R {{ username }}:{{ username }} {{ backup_dir }}/{{ backup }}
   import_role:
     name: common_roles/backup

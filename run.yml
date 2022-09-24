@@ -36,6 +36,7 @@
         - searx
 
     - role: website
+      become_user: "{{ username }}"
       tags:
         - website
 
