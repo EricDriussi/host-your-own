@@ -4,6 +4,7 @@
   git:
     repo: "{{ dotfiles }}"
     dest: "/home/{{ username }}/dotfiles"
+    track_submodules: true
     force: true
 
 - name: Set zsh as default shell
@@ -14,16 +15,9 @@
     - "{{ username }}"
     - root
 
-- name: Clone nvim config
+- name: Use plugin-less nvim config
   become_user: "{{ username }}"
-  git:
-    repo: "{{ nvim_config }}"
-    dest: "/home/{{ username }}/.config/nvim"
-    force: true
-
-- name: Use plugin-less config
-  become_user: "{{ username }}"
-  shell: 'rm /home/{{ username }}/.config/nvim/init.vim && cp /home/{{ username }}/.config/nvim/base-init.vim /home/{{ username }}/.config/nvim/init.vim'
+  shell: 'rm /home/{{ username }}/dotfiles/nvim/.config/nvim/init.vim && cp /home/{{ username }}/dotfiles/nvim/.config/nvim/base-init.vim /home/{{ username }}/dotfiles/nvim/.config/nvim/init.vim'
 
 - name: Unstow dotfiles
   become_user: "{{ username }}"
@@ -32,6 +26,7 @@
     chdir: "/home/{{ username }}/dotfiles"
   with_items:
     - base
-    - custom-zsh
+    - zsh
+    - nvim
     - fontconfig
     - vifm

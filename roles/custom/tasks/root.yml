@@ -1,12 +1,13 @@
 ---
 - name: Copy for root user
   copy:
-    src: "/home/{{ username }}/{{ item.src }}"
+    src: "/home/{{ username }}/dotfiles/{{ item.src }}"
     dest: "/root/{{ item.dest }}"
     owner: root
     group: root
     remote_src: true
   with_items:
-    - {src: "dotfiles/base/.zshrc", dest: ".zshrc"}
-    - {src: "dotfiles/custom-zsh/.config/custom-zsh", dest: ".config/"}
-    - {src: ".config/nvim", dest: ".config/"}
+    - {src: "base/.zshrc", dest: ".zshrc"}
+    - {src: "zsh/.config/zsh", dest: ".config/"}
+    - {src: "nvim/.config/nvim", dest: ".config/"}
+    - {src: "vifm/.config/vifm", dest: ".config/"}

@@ -24,5 +24,4 @@ basic_packages:
   - zlib1g-dev
   - zsh
 
-dotfiles: https://gitlab.com/ericdriussi/dotfiles.git
-nvim_config: https://gitlab.com/ericdriussi/nvim.git
+dotfiles: https://github.com/ericdriussi/dotfiles.git
