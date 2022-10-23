@@ -14,4 +14,4 @@
     name:
       - tor
       - deb.torproject.org-keyring
-    state: latest
+    state: present

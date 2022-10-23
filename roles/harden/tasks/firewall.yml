@@ -2,7 +2,7 @@
 - name: Install firewall
   package:
     name: ufw
-    state: latest
+    state: present
 
 - name: UFW deny all except HTTP and HTTPS
   ufw:

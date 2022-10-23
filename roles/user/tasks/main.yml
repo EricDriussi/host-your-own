@@ -4,7 +4,7 @@
     name: docker
     state: present
 
-- name: Create {{ username }} user
+- name: Create user {{ username }}
   user:
     name: "{{ username }}"
     groups:

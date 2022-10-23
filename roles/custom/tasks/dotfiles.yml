@@ -17,11 +17,21 @@
 
 - name: Use plugin-less nvim config
   become_user: "{{ username }}"
-  shell: 'rm /home/{{ username }}/dotfiles/nvim/.config/nvim/init.vim && cp /home/{{ username }}/dotfiles/nvim/.config/nvim/base-init.vim /home/{{ username }}/dotfiles/nvim/.config/nvim/init.vim'
+  block:
+    - name: Remove init.vim
+      file:
+        state: absent
+        path: "/home/{{ username }}/dotfiles/nvim/.config/nvim/init.vim"
+
+    - name: Set plugin-less config
+      copy:
+        src: "/home/{{ username }}/dotfiles/nvim/.config/nvim/base-init.vim"
+        dest: "/home/{{ username }}/dotfiles/nvim/.config/nvim/init.vim"
+        remote_src: true
 
 - name: Unstow dotfiles
   become_user: "{{ username }}"
-  shell:
+  commmand:
     cmd: "stow -R {{ item }}"
     chdir: "/home/{{ username }}/dotfiles"
   with_items:
@@ -30,3 +40,4 @@
     - nvim
     - fontconfig
     - vifm
+  changed_when: true

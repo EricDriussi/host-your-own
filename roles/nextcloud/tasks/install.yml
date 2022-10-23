@@ -2,7 +2,7 @@
 - name: Install snap
   package:
     name: "{{ item }}"
-    state: latest
+    state: present
   with_items:
     - snapd
 

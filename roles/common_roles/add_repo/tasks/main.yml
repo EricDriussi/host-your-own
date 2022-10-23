@@ -5,7 +5,7 @@
     keyring: "/usr/share/keyrings/{{ pkg_name }}-archive-keyring.gpg"
     state: present
 
-- name: Add repos
+- name: Add repos # noqa: jinja yaml
   copy:
     dest: "/etc/apt/sources.list.d/{{ pkg_name }}.list"
     content: |

@@ -1,14 +1,14 @@
 ---
 - name: Config nextcloud port
-  shell: "snap set nextcloud ports.http={{ service.cloud.port }}"
+  command: "snap set nextcloud ports.http={{ service.cloud.port }}"
   when: install.changed
 
 - name: Config nextcloud admin account
-  shell: '/snap/bin/nextcloud.manual-install {{ nextcloud_username }} {{ user_password }}'
+  command: '/snap/bin/nextcloud.manual-install {{ nextcloud_username }} {{ user_password }}'
   when: install.changed
 
 - name: Ensure nextcloud prefers HTTPS
-  shell: '/snap/bin/nextcloud.occ config:system:set overwriteprotocol --value="http"'
+  command: '/snap/bin/nextcloud.occ config:system:set overwriteprotocol --value="http"'
   when: install.changed
 
 - name: Config nextcloud trusted domain

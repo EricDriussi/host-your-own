@@ -4,7 +4,7 @@
     name:
       - docker
       - docker-compose
-    state: latest
+    state: present
 
 - name: Start and enable docker
   systemd:

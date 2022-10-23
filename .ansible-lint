@@ -1,0 +1,6 @@
+---
+skip_list:
+  - fqcn
+  - latest[git]
+  - risky-file-permissions
+  - no-handler

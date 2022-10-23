@@ -9,6 +9,7 @@
     - name: Read from file
       command: 'cat /var/lib/tor/hidden_service/hostname'
       register: onion_address
+      changed_when: onion_address.rc != 0
 
     - name: Set variable
       set_fact:
@@ -23,7 +24,7 @@
     - nginx-onion
 
 - name: Copy nextcloud proxy server template
-  vars: 
+  vars:
     subdom: "{{ service.cloud.subdomain }}"
     port: "{{ service.cloud.port }}"
   template:
@@ -31,7 +32,7 @@
     dest: /etc/nginx/sites-enabled/nginx-nextcloud
 
 - name: Copy vaultwarden proxy server template
-  vars: 
+  vars:
     subdom: "{{ service.vault.subdomain }}"
     port: "{{ service.vault.port }}"
   template:

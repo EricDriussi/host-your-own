@@ -9,12 +9,13 @@
   import_role:
     name: common_roles/add_repo
 
-- block:
+- name: Setup system for Bunkerweb
+  block:
     - name: Check if bunkerweb is installed
       package_facts:
         manager: auto
 
-    - name: Run bunkerweb setup script
+    - name: Run bunkerweb setup script # noqa: command-instead-of-module
       shell: 'curl -s https://packagecloud.io/install/repositories/bunkerity/bunkerweb/script.deb.sh | sudo bash'
       when: "'bunkerweb' not in ansible_facts.packages"
 

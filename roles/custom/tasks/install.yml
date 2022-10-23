@@ -7,4 +7,4 @@
 - name: Install basic packages
   package:
     name: "{{ basic_packages }}"
-    state: latest
+    state: present

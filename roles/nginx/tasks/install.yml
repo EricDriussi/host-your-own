@@ -4,4 +4,4 @@
     name:
       - nginx
       - python3-certbot-nginx
-    state: latest
+    state: present
