@@ -26,10 +26,11 @@
     state: present
     special_time: monthly
     job: >
+      /usr/bin/docker stop searxng &
+      /usr/bin/docker rm searxng &
       /usr/bin/docker pull searxng/searxng:latest &
       /usr/bin/docker run -d
       --restart unless-stopped
-      --pull=always
       --name searx
       -e BASE_URL=false
       -e INSTANCE_NAME=SearX!
