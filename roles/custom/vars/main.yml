@@ -13,7 +13,6 @@ basic_packages:
   - libxtst-dev
   - lua5.4
   - lsof
-  - neovim
   - python3-pip
   - ripgrep
   - rsync
@@ -23,5 +22,19 @@ basic_packages:
   - vifm
   - zlib1g-dev
   - zsh
+
+nvim_deps:
+  - ninja-build
+  - gettext
+  - libtool
+  - libtool-bin
+  - autoconf
+  - automake
+  - cmake
+  - g++
+  - pkg-config
+  - unzip
+  - curl
+  - doxygen
 
 dotfiles: https://github.com/ericdriussi/dotfiles.git

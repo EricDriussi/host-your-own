@@ -4,7 +4,32 @@
     update_cache: true
     upgrade: true
 
-- name: Install basic packages
+- name: Install packages
   package:
-    name: "{{ basic_packages }}"
+    name: "{{ item }}"
     state: present
+  with_items:
+    - "{{ basic_packages }}"
+    - "{{ nvim_deps }}"
+
+- name: Build nvim from source
+  block:
+    - name: Clone
+      become_user: "{{ username }}"
+      git:
+        repo: "https://github.com/neovim/neovim"
+        dest: "/home/{{ username }}/neovim"
+        version: stable
+        force: true
+
+    - name: Make Build
+      make:
+        chdir: "/home/{{ username }}/neovim"
+        target: all
+        params:
+          CMAKE_BUILD_TYPE: RelWithDebInfo
+
+    - name: Make Install
+      make:
+        chdir: "/home/{{ username }}/neovim"
+        target: install
