@@ -31,7 +31,7 @@
 
 - name: Unstow dotfiles
   become_user: "{{ username }}"
-  commmand:
+  ansible.builtin.command:
     cmd: "stow -R {{ item }}"
     chdir: "/home/{{ username }}/dotfiles"
   with_items:
