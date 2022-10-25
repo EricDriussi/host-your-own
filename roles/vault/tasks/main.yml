@@ -43,7 +43,7 @@
   cron:
     name: "backup vault"
     state: "present"
-    special_time: "monthly"
+    special_time: "weekly"
     job: >
       /bin/mkdir -p {{ backup_dir }}/vault &
       /bin/rm -rf {{ backup_dir }}/vault/* &

@@ -3,7 +3,7 @@
   cron:
     name: "backup cloud"
     state: "present"
-    special_time: "monthly"
+    special_time: "weekly"
     job: >
       /bin/mkdir -p {{ backup_dir }}/cloud &
       /bin/rm -rf /var/snap/nextcloud/common/backups/* &
