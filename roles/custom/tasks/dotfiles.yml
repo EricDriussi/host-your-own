@@ -18,15 +18,15 @@
 - name: Use plugin-less nvim config
   become_user: "{{ username }}"
   block:
-    - name: Remove init.vim
+    - name: Remove init.lua
       file:
         state: absent
-        path: "/home/{{ username }}/dotfiles/nvim/.config/nvim/init.vim"
+        path: "/home/{{ username }}/dotfiles/nvim/.config/nvim/init.lua"
 
     - name: Set plugin-less config
       copy:
-        src: "/home/{{ username }}/dotfiles/nvim/.config/nvim/base-init.vim"
-        dest: "/home/{{ username }}/dotfiles/nvim/.config/nvim/init.vim"
+        src: "/home/{{ username }}/dotfiles/nvim/.config/nvim/base-init.lua"
+        dest: "/home/{{ username }}/dotfiles/nvim/.config/nvim/init.lua"
         remote_src: true
 
 - name: Unstow dotfiles
