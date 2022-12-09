@@ -1,6 +1,27 @@
 ---
 - name: Install Tor
-  import_tasks: install.yml
+  package:
+    name:
+      - tor
+      - deb.torproject.org-keyring
+    state: present
 
-- name: Configure Tor
-  import_tasks: config.yml
+- name: Config tor port and directory
+  lineinfile:
+    dest: /etc/tor/torrc
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  with_items:
+    - regexp: "^#?HiddenServiceDir"
+      line: "HiddenServiceDir /var/lib/tor/hidden_service/"
+    - regexp: "^#?HiddenServicePort"
+      line: "HiddenServicePort {{ ports.http }} 127.0.0.1:{{ ports.http }}"
+
+- name: Enable and restart tor
+  service:
+    name: tor
+    enabled: true
+    state: restarted
+
+# FIXME. currently not served due to conflicts with "AUTO_LETS_ENCRYPT=yes" in bunker.conf
