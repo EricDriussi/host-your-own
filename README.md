@@ -22,7 +22,7 @@ Simple Ansible playbook that provides you with:
 
 ### A Debian based VPS
 
-This should work with the cheapest most basic VPS you can find.
+This should work with the cheapest most basic VPS you can find with Debian Bullseye.
 
 ### DNS
 

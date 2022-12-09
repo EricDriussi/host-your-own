@@ -19,10 +19,6 @@
       tags:
         - custom
 
-    - role: fail2ban
-      tags:
-        - ban
-
     - role: nextcloud
       tags:
         - nextcloud
@@ -40,10 +36,13 @@
       tags:
         - website
 
-    # TODO.test in prod, might need tinkering with bunker conf
     - role: onion
       tags:
         - onion
+
+    - role: fail2ban
+      tags:
+        - ban
 
     - role: bunker
       tags:
