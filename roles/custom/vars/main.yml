@@ -11,7 +11,7 @@ basic_packages:
   - htop
   - libjpeg-dev
   - libxtst-dev
-  - lua5.4
+  - lua5.3
   - lsof
   - python3-pip
   - ripgrep
@@ -34,7 +34,6 @@ nvim_deps:
   - g++
   - pkg-config
   - unzip
-  - curl
   - doxygen
 
 dotfiles: https://github.com/ericdriussi/dotfiles.git
