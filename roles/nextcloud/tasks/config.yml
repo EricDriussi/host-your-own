@@ -3,6 +3,10 @@
   command: "snap set nextcloud ports.http={{ service.cloud.port }}"
   when: install.changed
 
+- name: Increase php memory limit
+  command: "snap set nextcloud php.memory-limit=256M"
+  when: install.changed
+
 - name: Config nextcloud admin account
   command: '/snap/bin/nextcloud.manual-install {{ nextcloud_username }} {{ user_password }}'
   when: install.changed

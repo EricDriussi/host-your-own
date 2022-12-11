@@ -1,4 +1,7 @@
 ---
+# TODO. find a way to expose onion address
+# TODO. turn USE_MODSECURITY on when bunkerweb updates CRS to > v3.4.0
+# https://github.com/coreruleset/coreruleset/issues/3049#issuecomment-1346309713
 - name: Copy config file
   template:
     src: bunker.conf
@@ -11,12 +14,6 @@
     owner: "{{ username }}"
     group: "{{ username }}"
     state: link
-
-- name: Clear HTTP port
-  shell: "sudo lsof -i tcp:{{ ports.http }} | awk 'NR!=1 {print $2}' | xargs sudo kill &> /dev/null"
-  ignore_errors: true
-  register: err_reg
-  changed_when: true
 
 - name: Enable and restart bunkerweb
   service:
