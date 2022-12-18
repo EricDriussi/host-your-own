@@ -1,13 +1,14 @@
 ---
 - name: Copy for root user
   copy:
-    src: "/home/{{ username }}/dotfiles/{{ item.src }}"
-    dest: "/root/{{ item.dest }}"
+    src: "/home/{{ username }}/dotfiles/"
+    dest: "/root/"
     owner: root
     group: root
     remote_src: true
-  with_items:
-    - {src: "base/.zshrc", dest: ".zshrc"}
-    - {src: "zsh/.config/zsh", dest: ".config/"}
-    - {src: "nvim/.config/nvim", dest: ".config/"}
-    - {src: "vifm/.config/vifm", dest: ".config/"}
+
+- name: Unstow dotfiles
+  ansible.builtin.command:
+    cmd: "stow -R *"
+    chdir: "/root/dotfiles"
+  changed_when: true
