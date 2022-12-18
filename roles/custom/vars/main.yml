@@ -35,5 +35,3 @@ nvim_deps:
   - pkg-config
   - unzip
   - doxygen
-
-dotfiles: https://github.com/ericdriussi/dotfiles.git
