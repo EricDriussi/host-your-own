@@ -6,16 +6,18 @@
 
 Simple Ansible playbook that provides you with:
 
-- A static website to upload whatever you want.
-- That same website mirrored to Tor.
+- A static website server.
+- That same website mirrored to Tor (WIP).
 - Basic ssh and firewall hardening.
 - A [Nextcloud](https://nextcloud.com/) instance @ `cloud.domain`.
 - A [Vaultwarden](https://github.com/dani-garcia/vaultwarden) instance @ `vault.domain`.
 - A [SearxNG](https://github.com/searxng/searxng) instance @ `searx.domain`.
+- Regular backups and updates for these services.
+- Your dotfiles set up and ready to go (using GNU-Stow).
+- Up to date [neovim](https://github.com/neovim/neovim) install (if dotfiles are provided).
 - [Fail2ban](https://github.com/fail2ban/fail2ban) protection.
 - [Bunkerweb](https://github.com/bunkerity/bunkerweb) protection.
 - HTTPS all the things.
-- Backup and update regularly all the things.
 - Possibly more stuff in the future.
 
 ## 🔧 Pre-requisites
@@ -32,7 +34,7 @@ This should include A and AAAA records for your root domain, as well as your sub
 
 ## ⚙️ Config
 
-User config of the desired output is done through the `.env.yml` file.
+User config and vars are set up in the `.env.yml` file.
 
 There are two ways to set up this file:
 
@@ -42,8 +44,6 @@ There are two ways to set up this file:
 ```sh
 wget https://raw.githubusercontent.com/EricDriussi/host-your-own/master/bootstrap.sh -O bootstrap.sh && bash bootstrap.sh
 ```
-
-Further configuration can be achieved if needed by modifying the `inventory.yml` file.
 
 ## 🏃 Run
 
@@ -56,9 +56,9 @@ Further configuration can be achieved if needed by modifying the `inventory.yml`
   This user should also have the required <code>ssh_public_key</code> in its <code>~/.ssh/authorized_keys</code> file.
   <br>
   <br>
-  You can configure this on your own or run <code>ansible-playbook init_remote_user.yml --ask-pass</code>
+  You can configure this on your own or run <code>ansible-playbook init_remote_user.yml --ask-pass</code>.
   <br>
-  Now you should be set up to run <code>ansible-playbook run.yml</code> and watch the magic happen!
+  Once this is done you should be able to run <code>ansible-playbook run.yml</code> and watch the magic happen!
   <br>
   <br>
   Please keep in mind that, after the main playbook is done, root connections to the server will be disabled to improve security.

@@ -37,10 +37,8 @@ cat <<"EOF"
 EOF
 echo
 echo "Enter your domain name"
-echo "The domain name should correctly resolve to the IP address of your server"
 echo
 echo "If the server is behind Cloudflare, you'll need to also add your server's IP to .env.yml"
-echo "Something like ip: \"192.168.123.123\""
 echo
 read -p "Domain name: " domain
 echo "domain: \"${domain}\"" >>.env.yml
@@ -70,7 +68,7 @@ until [[ "$ansible_use_existing_key" =~ ^[yYnN]*$ ]]; do
 done
 if [[ "$ansible_use_existing_key" =~ ^[yY]$ ]]; then
 	echo
-	read -p "Please enter your SSH public key: " ssh_key_pair
+	read -p "Enter your SSH public key: " ssh_key_pair
 	echo "ssh_public_key: \"${ssh_key_pair}\"" >>.env.yml
 	echo
 else
@@ -147,13 +145,35 @@ done
 
 if [[ "$use_existing_token" =~ ^[yY]$ ]]; then
 	echo
-	read -p "Please enter your admin token: " admin_token
+	read -p "Enter your admin token: " admin_token
 else
 	echo
 	admin_token=$(openssl rand -base64 48)
 	echo "Your admin token $admin_token has been saved in .env.yml"
 fi
 echo "admin_token: \"${admin_token}\"" >>.env.yml
+
+echo
+cat <<"EOF"
+.----.  .----.  .---. .----..-..-.   .----. .----.
+| {}  \/  {}  \{_   _}| {_  | || |   | {_  { {__  
+|     /\      /  | |  | |   | || `--.| {__ .-._} }
+`----'  `----'   `-'  `-'   `-'`----'`----'`----' 
+EOF
+echo
+read -p "Set up your dotfiles? [y/N]: " setup_dotfiles
+until [[ "$setup_dotfiles" =~ ^[yYnN]*$ ]]; do
+	echo
+	echo "$setup_dotfiles: invalid selection."
+	read -p "[y/N]: " setup_dotfiles
+done
+
+if [[ "$setup_dotfiles" =~ ^[yY]$ ]]; then
+	echo
+	echo "Enter your dotfiles repo git clone (SSH) url: "
+	read -p "Dotfiles url: " dotfiles
+	echo "dotfiles_repo: \"${dotfiles}\"" >>.env.yml
+fi
 
 echo
 cat <<"EOF"
