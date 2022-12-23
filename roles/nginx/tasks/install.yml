@@ -1,7 +1,0 @@
----
-- name: Install nginx
-  package:
-    name:
-      - nginx
-      - python3-certbot-nginx
-    state: present
