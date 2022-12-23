@@ -7,7 +7,7 @@
 Simple Ansible playbook that provides you with:
 
 - A static website server.
-- That same website mirrored to Tor (WIP).
+- The same website mirrored to Tor (WIP).
 - Basic ssh and firewall hardening.
 - A [Nextcloud](https://nextcloud.com/) instance @ `cloud.domain`.
 - A [Vaultwarden](https://github.com/dani-garcia/vaultwarden) instance @ `vault.domain`.
@@ -34,7 +34,7 @@ This should include A and AAAA records for your root domain, as well as your sub
 
 ## ⚙️ Config
 
-User config and vars are set up in the `.env.yml` file.
+User config is done through the `.env.yml` file.
 
 There are two ways to set up this file:
 
@@ -44,6 +44,12 @@ There are two ways to set up this file:
 ```sh
 wget https://raw.githubusercontent.com/EricDriussi/host-your-own/master/bootstrap.sh -O bootstrap.sh && bash bootstrap.sh
 ```
+
+### A note on dotfiles
+
+The script assumes your dotfiles are set up using GNU Stow, don't provide a URL if that's not your case.
+It also installs the latest' version of Neovim if a dotfiles URL is provided.
+This is simply due to my personal use case.
 
 ## 🏃 Run
 
@@ -87,7 +93,7 @@ ansible-playbook run.yml --tags="harden,nextcloud,searx"
 
 ### General
 
-After the main playbook is done, you should find a Nextcloud and SearXG instances under their respective subdomains.
+After the main playbook is done, you should find a Nextcloud and SearxNG instances under their respective subdomains.
 
 These should work as expected out of the box.
 
@@ -95,7 +101,7 @@ Have a look around and make yourself at home!
 
 ### Vaultwarden
 
-As explained in the `bootstrap.sh` script, public signups are disabled by default for Vaultwarden to improve security.
+Public signups are disabled by default for Vaultwarden to improve security.
 
 This means that you'll have to visit `vault.your.domain/admin` first, enter the `admin_token` defined in the`.env.yml` file, and manually allow your desired email address to sign up.
 
