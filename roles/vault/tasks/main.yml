@@ -39,6 +39,7 @@
       -p {{ service.vault.port }}:80
       vaultwarden/server:latest"
 
+# FIXME. montly or weekly?
 - name: Monthly backups
   cron:
     name: "backup vault"

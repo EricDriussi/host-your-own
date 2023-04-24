@@ -12,6 +12,7 @@ all:
     username: ansible
     backup_dir: "/home/{{ username }}/backups"
     service:
+      # TODO. unify data dir structure for backups
       cloud:
         subdomain: "cloud"
         port: 81

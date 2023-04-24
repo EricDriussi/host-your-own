@@ -1,4 +1,5 @@
 ---
+# TODO. this role aint common...
 - name: Add GPG key
   apt_key:
     url: "{{ key_url }}"
