@@ -39,14 +39,13 @@
       -p {{ service.vault.port }}:80
       vaultwarden/server:latest"
 
-# FIXME. montly or weekly?
-- name: Monthly backups
+- name: Weekly backups
   cron:
     name: "backup vault"
     state: "present"
     special_time: "weekly"
     job: >
-      /bin/mkdir -p {{ backup_dir }}/vault &
-      /bin/rm -rf {{ backup_dir }}/vault/* &
-      /bin/cp /vw-data/db.sqlite* {{ backup_dir }}/vault &
-      chown -R {{ username }}:{{ username }} {{ backup_dir }}
+      /bin/mkdir -p {{ service.vault.backup_dir }} &
+      /bin/rm -rf {{ service.vault.backup_dir }}/* &
+      /bin/cp /vw-data/db.sqlite* {{ service.vault.backup_dir }} &
+      chown -R {{ username }}:{{ username }} {{ service.vault.backup_dir }}

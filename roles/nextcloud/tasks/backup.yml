@@ -1,13 +1,13 @@
 ---
-- name: Monthly backups
+- name: Weekly backups
   cron:
     name: "backup cloud"
     state: "present"
     special_time: "weekly"
     job: >
-      /bin/mkdir -p {{ backup_dir }}/cloud &
+      /bin/mkdir -p {{ service.cloud.backup_dir }} &
       /bin/rm -rf /var/snap/nextcloud/common/backups/* &
       /snap/bin/nextcloud.export &
-      /bin/rm -rf {{ backup_dir }}/cloud/* &
-      /bin/mv /var/snap/nextcloud/common/backups/* {{ backup_dir }}/cloud &
-      chown -R {{ username }}:{{ username }} {{ backup_dir }}
+      /bin/rm -rf {{ service.cloud.backup_dir }}/* &
+      /bin/mv /var/snap/nextcloud/common/backups/* {{ service.cloud.backup_dir }} &
+      chown -R {{ username }}:{{ username }} {{ service.cloud.backup_dir }}

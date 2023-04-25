@@ -10,15 +10,16 @@ all:
 
   vars:
     username: ansible
-    backup_dir: "/home/{{ username }}/backups"
+    base_backup_dir: "/home/{{ username }}/backups"
     service:
-      # TODO. unify data dir structure for backups
       cloud:
         subdomain: "cloud"
         port: 81
+        backup_dir: "{{ base_backup_dir }}/{{ service.cloud.subdomain }}"
       vault:
         subdomain: "vault"
         port: 82
+        backup_dir: "{{ base_backup_dir }}/{{ service.vault.subdomain }}"
       searx:
         subdomain: "searx"
         port: 83

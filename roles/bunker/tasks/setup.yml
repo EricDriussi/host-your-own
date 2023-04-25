@@ -1,13 +1,22 @@
 ---
 - name: Setup nginx repos
-  vars:
-    pkg_name: "nginx"
-    pkg_url: "http://nginx.org/packages/debian"
-    key_url: "https://nginx.org/keys/nginx_signing.key"
-    components:
-      - "nginx"
-  import_role:
-    name: common_roles/add_repo
+  block:
+  - name: Add GPG key
+    apt_key:
+      url: "https://nginx.org/keys/nginx_signing.key"
+      keyring: "/usr/share/keyrings/nginx-archive-keyring.gpg"
+      state: present
+
+  - name: Add repos # noqa: jinja yaml
+    copy:
+      dest: "/etc/apt/sources.list.d/nginx.list"
+      content: |
+        deb     [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/debian {{ ansible_distribution_release }} nginx
+        deb-src     [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/debian {{ ansible_distribution_release }} nginx
+
+  - name: Update repos
+    package:
+      update_cache: true
 
 - name: Setup system for Bunkerweb
   block:
