@@ -1,51 +1,58 @@
 ---
-- name: Setup docker
-  import_role:
-    name: common_roles/docker
-
-- name: Run container
-  become_user: "{{ username }}"
-  docker_container:
-    name: "vaultwarden"
+- name: VaultWarden - Docker
+  # TODO.test
+  vars: 
+    container: "vaultwarden"
     image: "vaultwarden/server:latest"
-    pull: true
-    detach: true
-    state: "started"
-    restart_policy: unless-stopped
-    env:
-      ADMIN_TOKEN: "{{ admin_token }}"
-      SIGNUPS_ALLOWED: "{{ allow_signups | default('false') }}"
-    volumes:
-      - "/vw-data/:/data/"
-    ports:
-      - "{{ service.vault.port }}:80"
+    data_dir: "/{{ service.vault.subdomain }}-data/"
+  block:
+    - name: Setup docker
+      import_role:
+        name: common_roles/docker
 
-- name: Monthly updates
-  become_user: "{{ username }}"
-  cron:
-    name: update vaultwarden
-    state: present
-    special_time: monthly
-    job: >
-      /usr/bin/docker stop vaultwarden &
-      /usr/bin/docker rm vaultwarden &
-      /usr/bin/docker pull vaultwarden/server:latest &
-      /usr/bin/docker run -d
-      --restart unless-stopped
-      --name vaultwarden
-      -e ADMIN_TOKEN={{ admin_token }}
-      -e SIGNUPS_ALLOWED={{ allow_signups | default('false') }}
-      -v /vw-data/:/data/
-      -p {{ service.vault.port }}:80
-      vaultwarden/server:latest
+    - name: Run container
+      become_user: "{{ username }}"
+      docker_container:
+        name: "{{ container }}"
+        image: "{{ image }}"
+        pull: true
+        detach: true
+        state: "started"
+        restart_policy: unless-stopped
+        env:
+          ADMIN_TOKEN: "{{ admin_token }}"
+          SIGNUPS_ALLOWED: "{{ allow_signups | default('false') }}"
+        volumes:
+          - "{{ data_dir }}:/data/"
+        ports:
+          - "{{ service.vault.port }}:80"
 
-- name: Weekly backups
-  cron:
-    name: "backup vault"
-    state: "present"
-    special_time: "weekly"
-    job: >
-      /bin/mkdir -p {{ service.vault.backup_dir }} &
-      /bin/rm -rf {{ service.vault.backup_dir }}/* &
-      /bin/cp /vw-data/db.sqlite* {{ service.vault.backup_dir }} &
-      chown -R {{ username }}:{{ username }} {{ service.vault.backup_dir }}
+    - name: Monthly updates
+      become_user: "{{ username }}"
+      cron:
+        name: update vaultwarden
+        state: present
+        special_time: monthly
+        job: >
+          /usr/bin/docker stop {{ container }} &
+          /usr/bin/docker rm {{ container }} &
+          /usr/bin/docker pull {{ image }} &
+          /usr/bin/docker run -d
+          --restart unless-stopped
+          --name {{ container }}
+          -e ADMIN_TOKEN={{ admin_token }}
+          -e SIGNUPS_ALLOWED={{ allow_signups | default('false') }}
+          -v {{ data_dir }}:/data/
+          -p {{ service.vault.port }}:80
+          {{ image }}
+
+    - name: Weekly backups
+      cron:
+        name: "backup vault"
+        state: "present"
+        special_time: "weekly"
+        job: >
+          /bin/mkdir -p {{ service.vault.backup_dir }} &
+          /bin/rm -rf {{ service.vault.backup_dir }}/* &
+          /bin/cp {{ data_dir }}db.sqlite* {{ service.vault.backup_dir }} &
+          chown -R {{ username }}:{{ username }} {{ service.vault.backup_dir }}
