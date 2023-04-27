@@ -1,0 +1,60 @@
+---
+- name: Gitea - Docker
+  # TODO.test
+  # TODO.customize install
+  vars: 
+    container: "gitea"
+    image: "gitea/gitea:latest"
+    data_dir: "/{{ service.gitea.subdomain }}-data/"
+  block:
+    - name: Setup docker
+      import_role:
+        name: common_roles/docker
+
+    - name: Run container
+      become_user: "{{ username }}"
+      docker_container:
+        name: "{{ container }}"
+        image: "{{ image }}"
+        pull: true
+        detach: true
+        state: "started"
+        restart_policy: unless-stopped
+        volumes:
+          - "{{ data_dir }}:/data"
+          - /etc/timezone:/etc/timezone:ro
+          - /etc/localtime:/etc/localtime:ro
+        ports:
+          - "{{ service.gitea.port }}:3000"
+          - "{{ ports.ssh }}:22"
+
+    - name: Monthly updates
+      become_user: "{{ username }}"
+      cron:
+        name: update gitea
+        state: present
+        special_time: monthly
+        job: >
+          /usr/bin/docker stop {{ name }} &
+          /usr/bin/docker rm {{ name }} &
+          /usr/bin/docker pull {{ image }} &
+          /usr/bin/docker run -d
+          --restart unless-stopped
+          --name {{ name }}
+          -v {{ data_dir }}:/data
+          -v /etc/timezone:/etc/timezone:ro
+          -v /etc/localtime:/etc/localtime:ro
+          -p {{ service.vault.port }}:3000
+          -p {{ ports.ssh }}:22
+          {{ image }}
+
+    - name: Weekly backups
+      cron:
+        name: "backup gitea"
+        state: "present"
+        special_time: "weekly"
+        job: >
+          /bin/mkdir -p {{ service.gitea.backup_dir }} &
+          /bin/rm -rf {{ service.gitea.backup_dir }}/* &
+          /bin/cp {{ data_dir }}* {{ service.gitea.backup_dir }} &
+          chown -R {{ username }}:{{ username }} {{ service.gitea.backup_dir }}

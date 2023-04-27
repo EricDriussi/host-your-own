@@ -23,6 +23,10 @@ all:
       searx:
         subdomain: "searx"
         port: 83
+      gitea:
+        subdomain: "git"
+        port: 84
+        backup_dir: "{{ base_backup_dir }}/{{ service.gitea.subdomain }}"
     ports:
       ssh: 22
       http: 80
