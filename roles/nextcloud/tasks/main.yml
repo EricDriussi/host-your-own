@@ -1,9 +1,55 @@
 ---
-- name: Install nextcloud and dependencies
-  import_tasks: install.yml
+- name: Setup docker
+  import_role:
+    name: common_roles/docker
 
-- name: Config nextcloud
-  import_tasks: config.yml
+- name: Run container
+  become_user: "{{ username }}"
+  docker_container:
+    name: "nextcloud"
+    image: "nextcloud"
+    pull: true
+    detach: true
+    state: "started"
+    restart_policy: unless-stopped
+    env:
+      NEXTCLOUD_ADMIN_USER: "{{ nextcloud_username }}"
+      NEXTCLOUD_ADMIN_PASSWORD: "{{ nextcloud_password }}"
+      NEXTCLOUD_TRUSTED_DOMAINS: "localhost {{ service.cloud.subdomain }}.{{ domain }}"
+      SQLITE_DATABASE: "nextcloud_db"
+    volumes:
+      - "/cloud-data/:/data/"
+    ports:
+      - "{{ service.cloud.port }}:80"
 
-- name: Keep nextcloud backed up
-  import_tasks: backup.yml
+- name: Monthly updates
+  become_user: "{{ username }}"
+  cron:
+    name: update nextcloud
+    state: present
+    special_time: monthly
+    job: >
+      /usr/bin/docker stop nextcloud &
+      /usr/bin/docker rm nextcloud &
+      /usr/bin/docker pull nextcloud &
+      /usr/bin/docker run -d
+      --restart unless-stopped
+      --name nextcloud
+      -e NEXTCLOUD_ADMIN_USER={{ nextcloud_username }}
+      -e NEXTCLOUD_ADMIN_PASSWORD={{ nextcloud_password }}
+      -e NEXTCLOUD_TRUSTED_DOMAINS=localhost {{ service.cloud.subdomain }}.{{ domain }}
+      -e SQLITE_DATABASE=nextcloud_db
+      -v /cloud-data/:/data/
+      -p {{ service.cloud.port }}:80
+      nextcloud
+
+- name: Weekly backups
+  cron:
+    name: "backup cloud"
+    state: "present"
+    special_time: "weekly"
+    job: >
+      /bin/mkdir -p {{ service.cloud.backup_dir }} &
+      /bin/rm -rf {{ service.cloud.backup_dir }}/* &
+      /bin/cp /cloud-data/* {{ service.cloud.backup_dir }} &
+      chown -R {{ username }}:{{ username }} {{ service.cloud.backup_dir }}

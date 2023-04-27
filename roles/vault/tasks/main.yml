@@ -37,7 +37,7 @@
       -e SIGNUPS_ALLOWED={{ allow_signups | default('false') }}
       -v /vw-data/:/data/
       -p {{ service.vault.port }}:80
-      vaultwarden/server:latest"
+      vaultwarden/server:latest
 
 - name: Weekly backups
   cron:
