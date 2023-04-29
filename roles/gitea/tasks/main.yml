@@ -1,7 +1,6 @@
 ---
 - name: Gitea - Docker
   # TODO.test
-  # TODO.customize install
   vars: 
     container: "gitea"
     image: "gitea/gitea:latest"
@@ -20,6 +19,12 @@
         detach: true
         state: "started"
         restart_policy: unless-stopped
+        env:
+          GITEA__security__INSTALL_LOCK: "true"
+          GITEA__service__DISABLE_REGISTRATION: "true"
+          GITEA__repository__ROOT: "/data/gitea/git/repositories"
+          GITEA__repository__DEFAULT_BRANCH: "master"
+          GITEA__lfs__PATH: "/data/gitea/git/lfs"
         volumes:
           - "{{ data_dir }}:/data"
           - /etc/timezone:/etc/timezone:ro
@@ -27,6 +32,12 @@
         ports:
           - "{{ service.gitea.port }}:3000"
           - "{{ ports.ssh }}:22"
+
+    - name: Create admin user
+      docker_container_exec:
+        container: "{{ container }}"
+        user: "git"
+        command: "gitea admin user create --admin --username {{ gitea_username }} --password {{ gitea_password }} --email {{ email }}"
 
     - name: Monthly updates
       become_user: "{{ username }}"
