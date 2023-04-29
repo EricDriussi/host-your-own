@@ -5,7 +5,6 @@ basic_packages:
   - docker
   - docker-compose
   - exa
-  - expect
   - fzf
   - git
   - htop

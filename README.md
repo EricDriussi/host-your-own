@@ -48,8 +48,6 @@ wget https://raw.githubusercontent.com/EricDriussi/host-your-own/master/bootstra
 ### A note on dotfiles
 
 The script assumes your dotfiles are set up using GNU Stow, don't provide a URL if that's not your case.
-It also installs the latest' version of Neovim if a dotfiles URL is provided.
-This is simply due to my personal use case.
 
 ## 🏃 Run
 

@@ -1,4 +1,18 @@
 ---
+- name: Update system
+  package:
+    update_cache: true
+    upgrade: true
+
+- name: Install packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "git"
+    - "zsh"
+    - "stow"
+
 - name: Clone dotfiles
   become_user: "{{ username }}"
   git:

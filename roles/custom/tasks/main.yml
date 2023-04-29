@@ -2,11 +2,11 @@
 - name: Custom dotfiles
   when: dotfiles_repo is defined
   block:
-    - name: Install basick packages
-      import_tasks: install.yml
-
     - name: Clone dotfiles
       import_tasks: dotfiles.yml
+
+    - name: Install basick packages
+      import_tasks: install.yml
 
     - name: Copy configs for root
       import_tasks: root.yml
