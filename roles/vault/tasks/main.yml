@@ -21,7 +21,7 @@
         restart_policy: unless-stopped
         env:
           ADMIN_TOKEN: "{{ admin_token }}"
-          SIGNUPS_ALLOWED: "{{ allow_signups | default('false') }}"
+          SIGNUPS_ALLOWED: "false"
         volumes:
           - "{{ data_dir }}:/data/"
         ports:
@@ -41,7 +41,7 @@
           --restart unless-stopped
           --name {{ container }}
           -e ADMIN_TOKEN={{ admin_token }}
-          -e SIGNUPS_ALLOWED={{ allow_signups | default('false') }}
+          -e SIGNUPS_ALLOWED=false
           -v {{ data_dir }}:/data/
           -p {{ service.vault.port }}:80
           {{ image }}
