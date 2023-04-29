@@ -10,23 +10,20 @@ all:
 
   vars:
     username: ansible
-    base_backup_dir: "/home/{{ username }}/backups"
+    common_backup_dir: "/home/{{ username }}/backups"
     service:
       cloud:
         subdomain: "cloud"
         port: 81
-        backup_dir: "{{ base_backup_dir }}/{{ service.cloud.subdomain }}"
       vault:
         subdomain: "vault"
         port: 82
-        backup_dir: "{{ base_backup_dir }}/{{ service.vault.subdomain }}"
       searx:
         subdomain: "searx"
         port: 83
       gitea:
         subdomain: "git"
         port: 84
-        backup_dir: "{{ base_backup_dir }}/{{ service.gitea.subdomain }}"
     ports:
       ssh: 22
       http: 80

@@ -5,6 +5,7 @@
     container: "vaultwarden"
     image: "vaultwarden/server:latest"
     data_dir: "/{{ service.vault.subdomain }}-data/"
+    backup_dir: "{{ common_backup_dir }}/{{ service.vault.subdomain }}"
   block:
     - name: Setup docker
       import_role:
@@ -52,7 +53,7 @@
         state: "present"
         special_time: "weekly"
         job: >
-          /bin/mkdir -p {{ service.vault.backup_dir }} &
-          /bin/rm -rf {{ service.vault.backup_dir }}/* &
-          /bin/cp {{ data_dir }}db.sqlite* {{ service.vault.backup_dir }} &
-          chown -R {{ username }}:{{ username }} {{ service.vault.backup_dir }}
+          /bin/mkdir -p {{ backup_dir }} &
+          /bin/rm -rf {{ backup_dir }}/* &
+          /bin/cp {{ data_dir }}db.sqlite* {{ backup_dir }} &
+          chown -R {{ username }}:{{ username }} {{ backup_dir }}

@@ -5,6 +5,7 @@
     container: "gitea"
     image: "gitea/gitea:latest"
     data_dir: "/{{ service.gitea.subdomain }}-data/"
+    backup_dir: "{{ common_backup_dir }}/{{ service.gitea.subdomain }}"
   block:
     - name: Setup docker
       import_role:
@@ -65,7 +66,7 @@
         state: "present"
         special_time: "weekly"
         job: >
-          /bin/mkdir -p {{ service.gitea.backup_dir }} &
-          /bin/rm -rf {{ service.gitea.backup_dir }}/* &
-          /bin/cp {{ data_dir }}* {{ service.gitea.backup_dir }} &
-          chown -R {{ username }}:{{ username }} {{ service.gitea.backup_dir }}
+          /bin/mkdir -p {{ backup_dir }} &
+          /bin/rm -rf {{ backup_dir }}/* &
+          /bin/cp {{ data_dir }}* {{ backup_dir }} &
+          chown -R {{ username }}:{{ username }} {{ backup_dir }}
