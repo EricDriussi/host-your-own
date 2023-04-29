@@ -40,7 +40,7 @@
           /usr/bin/docker run -d
           --restart unless-stopped
           --name {{ container }}
-          -e ADMIN_TOKEN={{ admin_token }}
+          -e ADMIN_TOKEN={{ vaultwarden_token }}
           -e SIGNUPS_ALLOWED=false
           -v {{ data_dir }}:/data/
           -p {{ service.vault.port }}:80
