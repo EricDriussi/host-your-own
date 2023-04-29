@@ -21,7 +21,7 @@
         state: "started"
         restart_policy: unless-stopped
         env:
-          ADMIN_TOKEN: "{{ admin_token }}"
+          ADMIN_TOKEN: "{{ vaultwarden_token }}"
           SIGNUPS_ALLOWED: "false"
         volumes:
           - "{{ data_dir }}:/data/"

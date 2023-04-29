@@ -103,23 +103,9 @@ echo "nextcloud_username: \"${username}\"" >>.env.yml
 
 echo
 echo "Enter your password"
-read -s -p "Password: " user_password
-until [[ "${#user_password}" -lt 60 ]]; do
-	echo
-	echo "The password is too long"
-	read -s -p "Password: " user_password
-done
 echo
-read -s -p "Repeat password: " user_password2
-echo
-until [[ "$user_password" == "$user_password2" ]]; do
-	echo
-	echo "The passwords don't match"
-	read -s -p "Password: " user_password
-	echo
-	read -s -p "Repeat password: " user_password2
-done
-echo "user_password: \"${user_password}\"" >>.env.yml
+read -s -p "Password: " nextcloud_password
+echo "nextcloud_password: \"${nextcloud_password}\"" >>.env.yml
 
 echo
 cat <<"EOF"
@@ -129,29 +115,12 @@ cat <<"EOF"
  `---' `-'  `-'`-----'`----'`-'  
 EOF
 echo
-echo "By default, public sign ups to your vault are turned off."
-echo "This means that you'll have to give explicit login permission through the admin portal."
-echo "To change this behavior add 'allow_signups: true' in .env.yml"
+echo "Public sign ups to your vault are turned off."
+echo "Use the token to access the admin portal."
 echo
-echo "Would you like to use an existing admin token for your vault?"
-echo "Press 'n' if you want to generate a new admin token"
-echo
-read -p "Use existing admin token? [y/N]: " use_existing_token
-until [[ "$use_existing_token" =~ ^[yYnN]*$ ]]; do
-	echo
-	echo "$use_existing_token: invalid selection."
-	read -p "[y/N]: " use_existing_token
-done
-
-if [[ "$use_existing_token" =~ ^[yY]$ ]]; then
-	echo
-	read -p "Enter your admin token: " admin_token
-else
-	echo
-	admin_token=$(openssl rand -base64 48)
-	echo "Your admin token $admin_token has been saved in .env.yml"
-fi
-echo "admin_token: \"${admin_token}\"" >>.env.yml
+vaultwarden_token=$(openssl rand -base64 48)
+echo "vaultwarden_token: \"${vaultwarden_token}\"" >>.env.yml
+echo "Your admin token $vaultwarden_token has been saved in .env.yml"
 
 echo
 cat <<"EOF"
@@ -190,8 +159,7 @@ until [[ "$launch_playbook" =~ ^[yYnN]*$ ]]; do
 	read -p "[y/N]: " launch_playbook
 done
 if [[ "$launch_playbook" =~ ^[yY]$ ]]; then
-	ansible-playbook init_remote_user.yml &
-	ansible-playbook run.yml
+	ansible-playbook init_remote_user.yml --ask-pass && ansible-playbook run.yml
 else
 	echo
 	echo "You can run the playbook by executing the following commands"
