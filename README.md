@@ -101,7 +101,7 @@ Have a look around and make yourself at home!
 
 Public signups are disabled by default for Vaultwarden to improve security.
 
-This means that you'll have to visit `vault.your.domain/admin` first, enter the `admin_token` defined in the`.env.yml` file, and manually allow your desired email address to sign up.
+This means that you'll have to visit `vault.your.domain/admin` first, enter the `vaultwarden_password` defined in the`.env.yml` file, and manually allow your desired email address to sign up.
 
 Much more info can be found [here](https://github.com/dani-garcia/vaultwarden/wiki/Configuration-overview).
 

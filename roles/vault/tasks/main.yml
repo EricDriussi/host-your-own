@@ -1,59 +1,8 @@
 ---
-- name: VaultWarden - Docker
   # TODO.test
-  vars: 
-    container: "vaultwarden"
-    image: "vaultwarden/server:latest"
-    data_dir: "/{{ service.vault.subdomain }}-data/"
-    backup_dir: "{{ common_backup_dir }}/{{ service.vault.subdomain }}"
-  block:
-    - name: Setup docker
-      import_role:
-        name: common_roles/docker
+- name: Setup admin token
+  import_tasks: admin_token.yml
 
-    - name: Run container
-      become_user: "{{ username }}"
-      docker_container:
-        name: "{{ container }}"
-        image: "{{ image }}"
-        pull: true
-        detach: true
-        state: "started"
-        restart_policy: unless-stopped
-        env:
-          ADMIN_TOKEN: "{{ vaultwarden_token }}"
-          SIGNUPS_ALLOWED: "false"
-        volumes:
-          - "{{ data_dir }}:/data/"
-        ports:
-          - "{{ service.vault.port }}:80"
-
-    - name: Monthly updates
-      become_user: "{{ username }}"
-      cron:
-        name: update vaultwarden
-        state: present
-        special_time: monthly
-        job: >
-          /usr/bin/docker stop {{ container }} &
-          /usr/bin/docker rm {{ container }} &
-          /usr/bin/docker pull {{ image }} &
-          /usr/bin/docker run -d
-          --restart unless-stopped
-          --name {{ container }}
-          -e ADMIN_TOKEN={{ vaultwarden_token }}
-          -e SIGNUPS_ALLOWED=false
-          -v {{ data_dir }}:/data/
-          -p {{ service.vault.port }}:80
-          {{ image }}
-
-    - name: Weekly backups
-      cron:
-        name: "backup vault"
-        state: "present"
-        special_time: "weekly"
-        job: >
-          /bin/mkdir -p {{ backup_dir }} &
-          /bin/rm -rf {{ backup_dir }}/* &
-          /bin/cp {{ data_dir }}db.sqlite* {{ backup_dir }} &
-          chown -R {{ username }}:{{ username }} {{ backup_dir }}
+  # TODO.test
+- name: Setup vaultwarden
+  import_tasks: docker.yml

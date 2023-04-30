@@ -118,9 +118,9 @@ echo
 echo "Public sign ups to your vault are turned off."
 echo "Use the token to access the admin portal."
 echo
-vaultwarden_token=$(openssl rand -base64 48)
-echo "vaultwarden_token: \"${vaultwarden_token}\"" >>.env.yml
-echo "Your admin token $vaultwarden_token has been saved in .env.yml"
+vaultwarden_password=$(openssl rand -base64 48)
+echo "vaultwarden_password: \"${vaultwarden_password}\"" >>.env.yml
+echo "Your admin token $vaultwarden_password has been saved in .env.yml"
 
 echo
 cat <<"EOF"

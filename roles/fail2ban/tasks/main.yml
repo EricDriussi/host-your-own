@@ -1,4 +1,6 @@
 ---
+# TODO.CloudFlare setup https://niksec.com/using-fail2ban-with-cloudflare/
+# TODO.Vault web and admin setup https://github.com/dani-garcia/vaultwarden/wiki/Fail2Ban-Setup#setup-for-web-vault
 - name: Install fail2ban
   package:
     name: fail2ban
