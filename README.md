@@ -12,25 +12,25 @@ Simple Ansible playbook that provides you with:
 - A [Nextcloud](https://nextcloud.com/) instance @ `cloud.domain`.
 - A [Vaultwarden](https://github.com/dani-garcia/vaultwarden) instance @ `vault.domain`.
 - A [SearxNG](https://github.com/searxng/searxng) instance @ `searx.domain`.
+- A [Gitea](https://github.com/go-gitea/gitea) instance @ `git.domain`.
 - Regular backups and updates for these services.
 - Your dotfiles set up and ready to go (using GNU-Stow).
-- Up to date [neovim](https://github.com/neovim/neovim) install (if dotfiles are provided).
+- Up to date [neovim](https://github.com/neovim/neovim) install (if nvim config is found in dotfiles).
 - [Fail2ban](https://github.com/fail2ban/fail2ban) protection.
 - [Bunkerweb](https://github.com/bunkerity/bunkerweb) protection.
 - HTTPS all the things.
-- Possibly more stuff in the future.
 
 ## 🔧 Pre-requisites
 
 ### A Debian based VPS
 
-This should work with the cheapest most basic VPS you can find with Debian Bullseye.
+This should work with the cheapest most basic VPS you can find.
 
 ### DNS
 
 You **need** a valid domain name and your DNS records should be properly set up.
 
-This should include A and AAAA records for your root domain, as well as your subdomains (at least `cloud`, `vault` and `searx`).
+This should include A and AAAA records for your root domain, as well as CNAME records for your subdomains (at least `cloud`, `vault`, `searx` and `git`).
 
 ## ⚙️ Config
 
@@ -51,37 +51,34 @@ The script assumes your dotfiles are set up using GNU Stow, don't provide a URL 
 
 ## 🏃 Run
 
-### First time run / User setup
+### Remote User setup
 
 <details>
   <summary>Click to expand</summary>
   The main playbook (<code>run.yml</code>) expects a fully setup, password-less sudo and docker user named <code>ansible</code> to be present in the remote machine.
   <br>
-  This user should also have the required <code>ssh_public_key</code> in its <code>~/.ssh/authorized_keys</code> file.
+  This remote user should also have your machine's <code>~/.ssh/id_rsa.pub</code> in its <code>~/.ssh/authorized_keys</code> file.
   <br>
   <br>
   You can configure this on your own or run <code>ansible-playbook init_remote_user.yml --ask-pass</code>.
   <br>
+  Make sure there is a valid shh key-pair on your local machine.
+  <br>
   Once this is done you should be able to run <code>ansible-playbook run.yml</code> and watch the magic happen!
-  <br>
-  <br>
-  Please keep in mind that, after the main playbook is done, root connections to the server will be disabled to improve security.
-  <br>
-  Thus, the <code>init_remote_user.yml</code> script can really only be run once (and shouldn't be needed afterwards).
   <br>
 </details>
 
 ---
 
-### Subsequent runs
+### Main playbook
 
-To run the playbook (assuming your `.env.yml` file is properly set up) use:
+To execute the playbook run:
 
 ```sh
 ansible-playbook run.yml
 ```
 
-Optionally and for debugging purposes, you can use the `--tags` flag, to run only the selected roles (as described in the `run.yml` file):
+Optionally and for debugging purposes, you can use the `--tags` flag, to run only the selected roles (tags):
 
 ```sh
 ansible-playbook run.yml --tags="harden,nextcloud,searx"
