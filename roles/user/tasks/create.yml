@@ -1,0 +1,16 @@
+---
+- name: Create docker group
+  group:
+    name: docker
+    state: present
+
+- name: Create user {{ username }}
+  user:
+    name: "{{ username }}"
+    groups:
+      - sudo
+      - docker
+    system: false
+    createhome: true
+    home: "/home/{{ username }}"
+

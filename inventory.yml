@@ -1,15 +1,12 @@
 ---
 all:
   hosts:
-    ansible:
-      ansible_host: "{{ ip | default(domain) }}"
-      ansible_user: "{{ username }}"
-    root:
-      ansible_host: "{{ ip | default(domain) }}"
-      ansible_user: "root"
+    vps:
+      ansible_host: "{{ ip | default(domain) }}" 
 
   vars:
-    username: ansible
+    username: "ansible"
+    create_remote_user: true
     common_backup_dir: "/home/{{ username }}/backups"
     service:
       cloud:

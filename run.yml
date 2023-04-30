@@ -1,8 +1,20 @@
 ---
-- hosts: ansible
-  name: Server setup
-  become: true
+- name: Create user
+  hosts: vps
+  remote_user: root
+  gather_facts: no
+  vars_files:
+    - .env.yml
+  roles:
+    - role: user
+      tags:
+        - user
 
+- name: Server setup
+  hosts: vps
+  remote_user: "{{ username }}" 
+  # TODO.limit sudo
+  become: true
   vars_files:
     - .env.yml
 
