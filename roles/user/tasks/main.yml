@@ -24,4 +24,4 @@
 - name: Setup ssh for {{ username }}
   authorized_key:
     user: "{{ username }}"
-    key: "{{ ssh_public_key }}"
+    key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
