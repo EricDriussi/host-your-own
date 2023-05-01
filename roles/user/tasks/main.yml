@@ -9,6 +9,7 @@
           raw: ssh -o BatchMode=yes -o ConnectTimeout=5 "root@{{ ip | default(domain) }}" exit
           register: root_ssh
           ignore_errors: true
+          failed_when: false
           delegate_to: localhost
 
         - set_fact:

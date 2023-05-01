@@ -14,7 +14,7 @@
 - name: Check if nvim config is present
   stat:
     path: "/home/{{ username }}/dotfiles/nvim"
-  register: nvim
+  register: nvim_config
 
 - name: Build nvim from source
   block:
@@ -34,16 +34,21 @@
         version: stable
         force: true
 
+    - name: Make Clean
+      make:
+        chdir: "/home/{{ username }}/neovim"
+        target: distclean
+
     - name: Make Build
       make:
         chdir: "/home/{{ username }}/neovim"
         target: all
         params:
-          CMAKE_BUILD_TYPE: RelWithDebInfo
+          CMAKE_BUILD_TYPE: Release
 
     - name: Make Install
       make:
         chdir: "/home/{{ username }}/neovim"
         target: install
 
-  when: nvim.stat.isdir is defined and p.stat.isdir
+  when: nvim_config.stat.isdir is defined and nvim_config.stat.isdir
