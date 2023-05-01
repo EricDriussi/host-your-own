@@ -7,7 +7,7 @@
 Simple Ansible playbook that provides you with:
 
 - A static website server.
-- The same website mirrored to Tor (WIP).
+- The same website mirrored to Tor.
 - Basic ssh and firewall hardening.
 - A [Nextcloud](https://nextcloud.com/) instance @ `cloud.domain`.
 - A [Vaultwarden](https://github.com/dani-garcia/vaultwarden) instance @ `vault.domain`.
@@ -17,10 +17,9 @@ Simple Ansible playbook that provides you with:
 - Your dotfiles set up and ready to go (using GNU-Stow).
 - Up to date [neovim](https://github.com/neovim/neovim) install (if nvim config is found in dotfiles).
 - [Fail2ban](https://github.com/fail2ban/fail2ban) protection.
-- [Bunkerweb](https://github.com/bunkerity/bunkerweb) protection.
 - HTTPS all the things.
 
-## 🔧 Pre-requisites
+## Pre-requisites
 
 ### A Debian based VPS
 
@@ -32,9 +31,9 @@ You **need** a valid domain name and your DNS records should be properly set up.
 
 This should include A and AAAA records for your root domain, as well as CNAME records for your subdomains (at least `cloud`, `vault`, `searx` and `git`).
 
-## ⚙️ Config
+## Config
 
-User config is done through the `.env.yml` file.
+Needed user data is gathered through the `.env.yml` file.
 
 There are two ways to set up this file:
 
@@ -45,32 +44,13 @@ There are two ways to set up this file:
 wget https://raw.githubusercontent.com/EricDriussi/host-your-own/master/bootstrap.sh -O bootstrap.sh && bash bootstrap.sh
 ```
 
+You can also change the default behavior (subdomains, remote username and more) in `inventory.yml`.
+
 ### A note on dotfiles
 
 The script assumes your dotfiles are set up using GNU Stow, don't provide a URL if that's not your case.
 
-## 🏃 Run
-
-### Remote User setup
-
-<details>
-  <summary>Click to expand</summary>
-  The main playbook (<code>run.yml</code>) expects a fully setup, password-less sudo and docker user named <code>ansible</code> to be present in the remote machine.
-  <br>
-  This remote user should also have your machine's <code>~/.ssh/id_rsa.pub</code> in its <code>~/.ssh/authorized_keys</code> file.
-  <br>
-  <br>
-  You can configure this on your own or run <code>ansible-playbook init_remote_user.yml --ask-pass</code>.
-  <br>
-  Make sure there is a valid shh key-pair on your local machine.
-  <br>
-  Once this is done you should be able to run <code>ansible-playbook run.yml</code> and watch the magic happen!
-  <br>
-</details>
-
----
-
-### Main playbook
+## Run
 
 To execute the playbook run:
 
@@ -78,19 +58,27 @@ To execute the playbook run:
 ansible-playbook run.yml
 ```
 
-Optionally and for debugging purposes, you can use the `--tags` flag, to run only the selected roles (tags):
+You can use the `--tags` flag, to run only the selected roles (tags):
 
 ```sh
 ansible-playbook run.yml --tags="harden,nextcloud,searx"
 ```
 
-## 🤔 Post-install
+---
+
+By default, this script attempts to establish an ssh connection with the `root` user of the provided VPS, creates a remote user called `ansible` and **blocks** further `root` connections.
+
+This is done to install all services as a non-root user for obvious reasons.
+
+If you already have a fully-setup, password-less sudo and docker user that you would rather use, change the `username` and `create_remote_user` vars in `inventory.yml` accordingly.
+
+## Post-install
 
 ### General
 
-After the main playbook is done, you should find a Nextcloud and SearxNG instances under their respective subdomains.
+After the main playbook is done, you should find a Nextcloud, Gitea and SearxNG instances under their respective subdomains.
 
-These should work as expected out of the box.
+These should work as expected out of the box, there should be an **admin** account already setup for Nextcloud and Gitea.
 
 Have a look around and make yourself at home!
 
@@ -111,6 +99,8 @@ It is stored in `/home/ansible/website/` and you can modify it at any time using
 ```sh
 rsync -rtvzP --rsh=ssh [LOCAL-WEBSITE-DIR]/* ansible@[your.domain.com]:/home/ansible/website
 ```
+
+Swap `your.domain.com` for your VPS's IP address if you are using Cloudflare.
 
 ## ❓ Why?
 
