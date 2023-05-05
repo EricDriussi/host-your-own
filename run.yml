@@ -13,17 +13,17 @@
 - name: Server setup
   hosts: vps
   remote_user: "{{ username }}" 
-  # TODO.limit sudo
-  become: true
   vars_files:
     - .env.yml
 
   roles:
     - role: harden
+      become: true
       tags:
         - harden
 
     - role: update
+      become: true
       tags:
         - update
 
@@ -44,7 +44,6 @@
         - searx
 
     - role: website
-      become_user: "{{ username }}"
       tags:
         - website
 

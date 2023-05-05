@@ -1,5 +1,6 @@
 ---
 - name: Update system
+  become: true
   package:
     update_cache: true
     upgrade: true
@@ -47,6 +48,7 @@
           CMAKE_BUILD_TYPE: Release
 
     - name: Make Install
+      become: true
       make:
         chdir: "/home/{{ username }}/neovim"
         target: install

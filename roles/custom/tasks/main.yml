@@ -9,4 +9,5 @@
       import_tasks: install.yml
 
     - name: Copy configs for root
+      become: true
       import_tasks: root.yml

@@ -1,5 +1,6 @@
 ---
 - name: Update system
+  become: true
   package:
     update_cache: true
     upgrade: true
