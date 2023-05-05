@@ -6,63 +6,6 @@
     data_dir: "/{{ service.cloud.subdomain }}-data/"
     backup_dir: "{{ common_backup_dir }}/{{ service.cloud.subdomain }}"
   block:
-    - name: Setup docker
-      import_role:
-        name: common_roles/docker
-
-    - name: Ensure port is available
-      import_role:
-        name: common_roles/free_port
-      vars:
-        port_to_free: "{{ service.cloud.port }}"
-
-    - name: Run container
-      become_user: "{{ username }}"
-      docker_container:
-        name: "{{ container }}"
-        image: "{{ image }}"
-        pull: true
-        detach: true
-        state: "started"
-        restart_policy: unless-stopped
-        env:
-          NEXTCLOUD_ADMIN_USER: "{{ nextcloud_username }}"
-          NEXTCLOUD_ADMIN_PASSWORD: "{{ nextcloud_password }}"
-          NEXTCLOUD_TRUSTED_DOMAINS: "localhost {{ service.cloud.subdomain }}.{{ domain }}"
-          SQLITE_DATABASE: "nextcloud_db"
-        volumes:
-          - "{{ data_dir }}:/data/"
-        ports:
-          - "{{ service.cloud.port }}:80"
-
-    - name: Monthly updates
-      become_user: "{{ username }}"
-      cron:
-        name: update nextcloud
-        state: present
-        special_time: monthly
-        job: >
-          /usr/bin/docker stop {{ container }} &
-          /usr/bin/docker rm {{ container }} &
-          /usr/bin/docker pull {{ image }} &
-          /usr/bin/docker run -d
-          --restart unless-stopped
-          --name {{ container }}
-          -e NEXTCLOUD_ADMIN_USER={{ nextcloud_username }}
-          -e NEXTCLOUD_ADMIN_PASSWORD={{ nextcloud_password }}
-          -e NEXTCLOUD_TRUSTED_DOMAINS=localhost {{ service.cloud.subdomain }}.{{ domain }}
-          -e SQLITE_DATABASE=nextcloud_db
-          -v {{ data_dir }}:/data/
-          -p {{ service.cloud.port }}:80
-          {{ image }}
-
-    - name: Weekly backups
-      cron:
-        name: "backup cloud"
-        state: "present"
-        special_time: "weekly"
-        job: >
-          /bin/mkdir -p {{ backup_dir }} &
-          /bin/rm -rf {{ backup_dir }}/* &
-          /bin/cp {{ data_dir }}* {{ backup_dir }} &
-          chown -R {{ username }}:{{ username }} {{ backup_dir }}
+    - import_tasks: setup.yml
+    - import_tasks: run.yml
+    - import_tasks: maintenance.yml

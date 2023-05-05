@@ -1,0 +1,16 @@
+---
+- name: Run container
+  become_user: "{{ username }}"
+  docker_container:
+    name: "{{ container }}"
+    image: "{{ image }}"
+    pull: true
+    detach: true
+    state: "started"
+    restart_policy: unless-stopped
+    env:
+      INSTANCE_NAME: "SearX!"
+    volumes:
+      - "/home/{{ username }}/searxng:/etc/searxng"
+    ports:
+      - "{{ service.searx.port }}:8080"

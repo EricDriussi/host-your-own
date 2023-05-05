@@ -1,8 +1,11 @@
 ---
-  # TODO.test
-- name: Setup admin token
-  import_tasks: admin_token.yml
-
-  # TODO.test
-- name: Setup vaultwarden
-  import_tasks: docker.yml
+- name: VaultWarden - Docker
+  vars: 
+    container: "vaultwarden"
+    image: "vaultwarden/server:latest"
+    data_dir: "/{{ service.vault.subdomain }}-data/"
+    backup_dir: "{{ common_backup_dir }}/{{ service.vault.subdomain }}"
+  block:
+  - import_tasks: setup.yml
+  - import_tasks: run.yml
+  - import_tasks: maintenance.yml
