@@ -1,6 +1,5 @@
 ---
 - name: Gitea - Docker
-  # TODO.test
   vars: 
     container: "gitea"
     image: "gitea/gitea:latest"
@@ -10,6 +9,10 @@
     - name: Setup docker
       import_role:
         name: common_roles/docker
+
+    - name: Ensure port is available
+      shell:
+        cmd: "sudo lsof -ti:{{ service.gitea.port }} | xargs -r sudo kill"
 
     - name: Run container
       become_user: "{{ username }}"

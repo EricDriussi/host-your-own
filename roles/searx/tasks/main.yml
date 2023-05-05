@@ -1,6 +1,5 @@
 ---
 - name: SearxNG - Docker
-  # TODO.test
   vars: 
     container: "searxng"
     image: "searxng/searxng:latest"
@@ -8,6 +7,10 @@
     - name: Setup docker
       import_role:
         name: common_roles/docker
+
+    - name: Ensure port is available
+      shell:
+        cmd: "sudo lsof -ti:{{ service.searx.port }} | xargs -r sudo kill"
 
     - name: Run container
       become_user: "{{ username }}"
