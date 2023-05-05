@@ -17,7 +17,15 @@
     path: "/home/{{ username }}/dotfiles/nvim"
   register: nvim_config
 
+- name: Check if nvim is already installed
+  stat:
+    path: "/usr/local/bin/nvim"
+  register: nvim_install
+
 - name: Build nvim from source
+  vars:
+    config_is_present: nvim_config.stat.isdir is defined and nvim_config.stat.isdir
+    nvim_is_installed: nvim_install.stat.isfile is defined and nvim_install.stat.isfile
   block:
 
     - name: Install nvim dependencies
@@ -53,4 +61,4 @@
         chdir: "/home/{{ username }}/neovim"
         target: install
 
-  when: nvim_config.stat.isdir is defined and nvim_config.stat.isdir
+  when: config_is_present and not nvim_is_installed
