@@ -1,7 +1,8 @@
 ---
-- name: Install nginx
-  package:
-    name:
-      - nginx
-      - python3-certbot-nginx
-    state: present
+- name: Install packages
+  import_role:
+    name: common_roles/install_latest
+  vars:
+    packages:
+      - "nginx"
+      - "python3-certbot-nginx"

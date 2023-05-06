@@ -1,40 +1,37 @@
 ---
-- name: Delete default site
-  file:
-    state: absent
-    path: /etc/nginx/sites-enabled/default
+- name: Clear existing servers
+  block:
+  - name: Rm sites-enabled
+    file:
+      state: absent
+      path: "/etc/nginx/sites-enabled"
+
+  - name: Mkdir sites-enabled
+    file:
+      state: directory
+      path: "/etc/nginx/sites-enabled"
 
 - name: Get onion address
-  block:
-    - name: Read from file
-      command: 'cat /var/lib/tor/hidden_service/hostname'
-      register: onion_address
-      changed_when: onion_address.rc != 0
+  slurp:
+      src: "/var/lib/tor/hidden_service/hostname"
+  register: onion_address
 
-    - name: Set variable
-      set_fact:
-        onion: "{{ onion_address.stdout }}"
-
-- name: Copy website server templates
+- name: Config website server
   template:
-    src: "{{ item }}"
-    dest: /etc/nginx/sites-enabled/
-  with_items:
-    - nginx-website
-    - nginx-onion
+    src: "nginx-website"
+    dest: "/etc/nginx/sites-enabled/website"
 
-- name: Copy nextcloud proxy server template
+- name: Config proxy server for services
   vars:
-    subdom: "{{ service.cloud.subdomain }}"
-    port: "{{ service.cloud.port }}"
+    subdom: "{{ item.subdomain }}"
+    port: "{{ item.port }}"
   template:
-    src: nginx-proxy
-    dest: /etc/nginx/sites-enabled/nginx-nextcloud
-
-- name: Copy vaultwarden proxy server template
-  vars:
-    subdom: "{{ service.vault.subdomain }}"
-    port: "{{ service.vault.port }}"
-  template:
-    src: nginx-proxy
-    dest: /etc/nginx/sites-enabled/nginx-vaultwarden
+    src: nginx-service
+    dest: "/etc/nginx/sites-enabled/{{ item.subdomain }}"
+  loop:
+    - "{{ service.cloud }}"
+    - "{{ service.vault }}"
+    - "{{ service.searx }}"
+    - "{{ service.gitea }}"
+  loop_control:
+    label: "{{ item.subdomain }}"

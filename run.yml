@@ -63,6 +63,7 @@
         - fail2ban
         - sec
 
-    - role: bunker
+    - role: nginx
+      become: true
       tags:
-        - bunker
+        - nginx

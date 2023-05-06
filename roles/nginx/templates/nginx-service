@@ -1,7 +1,7 @@
 server {
     listen {{ ports.http }} ;
     listen [::]:{{ ports.http }} ;
-    server_name {{ subdom }}.{{ domain }} www.{{ subdom }}.{{ domain }};
+    server_name {{ subdom }}.{{ domain }} ;
 
     location / {
         proxy_pass_header   Server;
