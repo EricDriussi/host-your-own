@@ -21,7 +21,6 @@
       conf_file: "jail.local"
 
 - name: Enable and restart fail2ban
-  become: true
   service:
     name: fail2ban
     enabled: true
