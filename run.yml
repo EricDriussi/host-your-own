@@ -47,6 +47,11 @@
         - searx
         - services
 
+    - role: gitea
+      tags:
+        - gitea
+        - services
+
     - role: website
       tags:
         - website

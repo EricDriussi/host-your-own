@@ -6,12 +6,12 @@
     state: present
     special_time: monthly
     job: >
-      /usr/bin/docker stop {{ name }} &
-      /usr/bin/docker rm {{ name }} &
+      /usr/bin/docker stop {{ container }} &
+      /usr/bin/docker rm {{ container }} &
       /usr/bin/docker pull {{ image }} &
       /usr/bin/docker run -d
       --restart unless-stopped
-      --name {{ name }}
+      --name {{ container }}
       -v {{ data_dir }}:/data
       -v /etc/timezone:/etc/timezone:ro
       -v /etc/localtime:/etc/localtime:ro
