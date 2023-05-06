@@ -19,9 +19,8 @@
       line: "HiddenServicePort {{ ports.http }} 127.0.0.1:{{ ports.http }}"
 
 - name: Enable and restart tor
+  become: true
   service:
     name: tor
     enabled: true
     state: restarted
-
-# FIXME. currently not served due to conflicts with "AUTO_LETS_ENCRYPT=yes" in bunker.conf
