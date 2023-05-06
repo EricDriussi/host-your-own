@@ -1,0 +1,40 @@
+---
+- name: Delete default site
+  file:
+    state: absent
+    path: /etc/nginx/sites-enabled/default
+
+- name: Get onion address
+  block:
+    - name: Read from file
+      command: 'cat /var/lib/tor/hidden_service/hostname'
+      register: onion_address
+      changed_when: onion_address.rc != 0
+
+    - name: Set variable
+      set_fact:
+        onion: "{{ onion_address.stdout }}"
+
+- name: Copy website server templates
+  template:
+    src: "{{ item }}"
+    dest: /etc/nginx/sites-enabled/
+  with_items:
+    - nginx-website
+    - nginx-onion
+
+- name: Copy nextcloud proxy server template
+  vars:
+    subdom: "{{ service.cloud.subdomain }}"
+    port: "{{ service.cloud.port }}"
+  template:
+    src: nginx-proxy
+    dest: /etc/nginx/sites-enabled/nginx-nextcloud
+
+- name: Copy vaultwarden proxy server template
+  vars:
+    subdom: "{{ service.vault.subdomain }}"
+    port: "{{ service.vault.port }}"
+  template:
+    src: nginx-proxy
+    dest: /etc/nginx/sites-enabled/nginx-vaultwarden

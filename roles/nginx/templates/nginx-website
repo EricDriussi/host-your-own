@@ -1,0 +1,26 @@
+server {
+    listen {{ ports.http }} ;
+    listen [::]:{{ ports.http }} ;
+    server_name {{ domain }} www.{{ domain }} ;
+    root /var/www/website ;
+    index index.html index.htm index.nginx-debian.html ;
+    add_header Onion-Location http://{{ onion }}$request_uri;
+
+    location / {
+        try_files $uri $uri/ =404 ;
+    }
+
+    location ~* \.(?:jpg|jpeg|gif|png|ico|svg|webp)$ {
+        expires 1M;
+        access_log off;
+        # max-age must be in seconds
+        add_header Cache-Control "max-age=2629746, public";
+    }
+
+    # CSS and Javascript
+    location ~* \.(?:css|js)$ {
+        expires 1y;
+        access_log off;
+        add_header Cache-Control "max-age=31556952, public";
+    }
+}

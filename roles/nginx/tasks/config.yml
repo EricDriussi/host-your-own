@@ -1,0 +1,17 @@
+---
+- name: Copy config file
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+
+- name: Clear HTTP port
+  shell: "sudo lsof -i tcp:{{ ports.http }} | awk 'NR!=1 {print $2}' | xargs sudo kill &> /dev/null"
+  ignore_errors: true
+  register: err_reg
+  changed_when: true
+
+- name: Enable and restart nginx
+  service:
+    name: nginx
+    enabled: true
+    state: restarted
