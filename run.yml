@@ -21,6 +21,7 @@
       become: true
       tags:
         - harden
+        - sec
 
     - role: update
       become: true
@@ -34,27 +35,33 @@
     - role: nextcloud
       tags:
         - nextcloud
+        - services
 
     - role: vault
       tags:
         - vault
+        - services
 
     - role: searx
       tags:
         - searx
+        - services
 
     - role: website
       tags:
         - website
+        - services
 
     - role: onion
       tags:
         - onion
+        - services
 
     - role: fail2ban
       become: true
       tags:
         - fail2ban
+        - sec
 
     - role: bunker
       tags:
