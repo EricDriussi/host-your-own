@@ -53,7 +53,7 @@
 
     - role: fail2ban
       tags:
-        - ban
+        - fail2ban
 
     - role: bunker
       tags:

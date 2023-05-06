@@ -1,10 +1,10 @@
 [DEFAULT]
 banaction = iptables-allports
-bantime  = -1
-findtime  = 600
-maxretry = 5
+maxretry = 3
+bantime = 600
+findtime  = 300
 ignoreip = 127.0.0.1/8 ::1
-action = %(action_mwl)s
+action = cloudflare
 destemail =
 sender =
 
@@ -12,3 +12,8 @@ sender =
 enabled = true
 port = {{ ports.ssh }}
 filter = sshd
+
+[common]
+enabled = true
+port = {{ ports.http }}, {{ ports.https }}
+filter = common
