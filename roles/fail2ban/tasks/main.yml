@@ -1,14 +1,9 @@
 ---
-- name: Update system
-  become: true
-  package:
-    update_cache: true
-    upgrade: true
-
-- name: Install fail2ban
-  package:
-    name: fail2ban
-    state: present
+- name: Install packages
+  import_role:
+    name: common_roles/install_latest
+  vars:
+    packages: fail2ban
 
 - name: Copy config files
   template:

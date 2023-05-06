@@ -1,16 +1,9 @@
 ---
-- name: Update system
-  become: true
-  package:
-    update_cache: true
-    upgrade: true
-
 - name: Install packages
-  package:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - "{{ basic_packages }}"
+  import_role:
+    name: common_roles/install_latest
+  vars:
+    packages: "{{ basic_packages }}"
 
 - name: Check if nvim config is present
   stat:
@@ -28,12 +21,11 @@
     nvim_is_installed: nvim_install.stat.isfile is defined and nvim_install.stat.isfile
   block:
 
-    - name: Install nvim dependencies
-      package:
-        name: "{{ item }}"
-        state: present
-      with_items:
-        - "{{ nvim_deps }}"
+    - name: Install packages
+      import_role:
+        name: common_roles/install_latest
+      vars:
+        packages: "{{ nvim_deps }}"
 
     - name: Clone
       become_user: "{{ username }}"

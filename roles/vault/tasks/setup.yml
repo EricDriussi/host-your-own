@@ -1,16 +1,11 @@
 ---
 - name: Admin Token
   block:
-  - name: Update system
-    become: true
-    package:
-      update_cache: true
-      upgrade: true
-
   - name: Install packages
-    package:
-      name: argon2
-      state: present
+    import_role:
+      name: common_roles/install_latest
+    vars:
+      packages: "argon2"
 
   - name: Create admin admin_token
     shell: echo -n "{{ vaultwarden_password }}" | argon2 "$(openssl rand -base64 32)" -e -id -k 19456 -t 2 -p 1

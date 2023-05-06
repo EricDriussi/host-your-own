@@ -1,10 +1,11 @@
 ---
-- name: Install Tor
-  package:
-    name:
-      - tor
-      - deb.torproject.org-keyring
-    state: present
+- name: Install packages
+  import_role:
+    name: common_roles/install_latest
+  vars:
+    packages:
+      - "tor"
+      - "deb.torproject.org-keyring"
 
 - name: Config tor port and directory
   lineinfile:
