@@ -19,4 +19,4 @@
   import_role:
     name: common_roles/free_port
   vars:
-    port_to_free: "{{ service.cloud.port }}"
+    port_to_free: "{{ service.vault.port }}"

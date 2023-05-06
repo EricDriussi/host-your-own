@@ -8,5 +8,5 @@
 - name: Configure nginx
   import_tasks: config.yml
 
-#- name: Create certs and keep them updated
-  #import_tasks: certs.yml
+- name: Create certs and keep them updated
+  import_tasks: certs.yml
