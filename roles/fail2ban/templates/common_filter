@@ -7,3 +7,4 @@ failregex = ^.*Username or password is incorrect\. Try again\. IP: <ADDR>\. User
             ^.*Invalid admin token\. IP: <ADDR>.*$
             ^<HOST> -.*"(GET|POST|HEAD).* HTTP.*" (4[0-9]{2}|5[0-9]{2})
             .*user .* was not found in .*access log.*
+            .*(Failed authentication attempt|invalid credentials|Attempted access of unknown user).* from <HOST>
