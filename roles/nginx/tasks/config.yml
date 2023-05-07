@@ -4,6 +4,11 @@
     src: "nginx.conf"
     dest: "/etc/nginx/nginx.conf"
 
+- name: Copy hardened defaults
+  copy:
+    src: "harden.conf"
+    dest: "/etc/nginx/harden.conf"
+
 - name: Ensure HTTP port is available
   import_role:
     name: common_roles/free_port

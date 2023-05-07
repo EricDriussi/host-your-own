@@ -35,3 +35,9 @@
     - "{{ service.gitea }}"
   loop_control:
     label: "{{ item.subdomain }}"
+
+- name: Enable and restart nginx
+  service:
+    name: nginx
+    enabled: true
+    state: restarted
