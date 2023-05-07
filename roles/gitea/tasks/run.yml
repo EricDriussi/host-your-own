@@ -20,7 +20,6 @@
       - /etc/localtime:/etc/localtime:ro
     ports:
       - "{{ service.gitea.port }}:3000"
-      - "{{ ports.ssh }}:22"
 
 - name: Create admin user
   block:
