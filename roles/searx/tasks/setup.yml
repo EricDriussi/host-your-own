@@ -3,12 +3,6 @@
   import_role:
     name: common_roles/docker
 
-- name: Ensure port is available
-  import_role:
-    name: common_roles/free_port
-  vars:
-    port_to_free: "{{ service.searx.port }}"
-
 - name: Copy Searx conf
   block:
   - name: Mkdir searxng
