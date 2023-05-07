@@ -1,10 +1,15 @@
 ---
-  - name: Setup docker
-    import_role:
-      name: common_roles/docker
+- name: Setup docker
+  import_role:
+    name: common_roles/docker
 
-  - name: Ensure port is available
-    import_role:
-      name: common_roles/free_port
-    vars:
-      port_to_free: "{{ service.searx.port }}"
+- name: Ensure port is available
+  import_role:
+    name: common_roles/free_port
+  vars:
+    port_to_free: "{{ service.searx.port }}"
+
+- name: Copy Searx conf
+  copy:
+    src: "searx.yml"
+    dest: "/home/{{ username }}/searxng/settings.yml"
