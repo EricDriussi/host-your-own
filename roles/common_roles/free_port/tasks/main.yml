@@ -1,4 +1,0 @@
----
-- name: Ensure port is available
-  shell:
-    cmd: "sudo lsof -ti:{{ port_to_free }} | xargs -r sudo kill"
