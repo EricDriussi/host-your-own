@@ -10,6 +10,12 @@
     port_to_free: "{{ service.searx.port }}"
 
 - name: Copy Searx conf
-  copy:
-    src: "searx.yml"
-    dest: "/home/{{ username }}/searxng/settings.yml"
+  block:
+  - name: Mkdir searxng
+    file:
+      state: directory
+      path: "/home/{{ username }}/searxng"
+  - name: Copy Searx conf
+    copy:
+      src: "searx.yml"
+      dest: "/home/{{ username }}/searxng/settings.yml"
