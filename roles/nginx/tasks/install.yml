@@ -4,5 +4,6 @@
     name: common_roles/install_latest
   vars:
     packages:
+      # TODO.add nginx repos to install latest
       - "nginx"
       - "python3-certbot-nginx"

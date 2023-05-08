@@ -9,6 +9,7 @@
     src: "harden.conf"
     dest: "/etc/nginx/harden.conf"
 
+# FIXME.not really idempotent
 - name: Ensure HTTP port is available
   shell:
     cmd: "sudo lsof -ti:{{ item }} | xargs -r sudo kill"
