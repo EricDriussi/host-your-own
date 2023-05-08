@@ -55,13 +55,12 @@
     - role: website
       tags:
         - website
-        - services
 
     - role: onion
       become: true
       tags:
         - onion
-        - services
+        - website
 
     - role: fail2ban
       become: true
