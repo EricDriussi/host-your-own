@@ -58,6 +58,7 @@
         - services
 
     - role: onion
+      become: true
       tags:
         - onion
         - services
