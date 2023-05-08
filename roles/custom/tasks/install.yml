@@ -16,9 +16,6 @@
   register: nvim_install
 
 - name: Build nvim from source
-  vars:
-    config_is_present: nvim_config.stat.isdir is defined and nvim_config.stat.isdir
-    nvim_is_installed: nvim_install.stat.isfile is defined and nvim_install.stat.isfile
   block:
 
     - name: Install packages
@@ -53,4 +50,5 @@
         chdir: "/home/{{ username }}/neovim"
         target: install
 
-  when: config_is_present and not nvim_is_installed
+  # Only when nvim conf is present AND nvim is not installed
+  when:  (nvim_config.stat.isdir is defined and nvim_config.stat.isdir) and not (nvim_install.stat.isfile is defined and nvim_install.stat.isfile)
