@@ -1,0 +1,26 @@
+---
+- name: Run container
+  become_user: "{{ username }}"
+  docker_container:
+    name: "{{ container }}"
+    image: "{{ image }}"
+    pull: true
+    detach: true
+    state: "started"
+    restart_policy: unless-stopped
+    env:
+      NEXTCLOUD_ADMIN_USER: "{{ nextcloud_username }}"
+      NEXTCLOUD_ADMIN_PASSWORD: "{{ nextcloud_password }}"
+      NEXTCLOUD_TRUSTED_DOMAINS: "localhost {{ service.cloud.subdomain }}.{{ domain }}"
+      NEXTCLOUD_TRUSTED_PROXIES: "{{ ip | default('') }}"
+      NEXTCLOUD_OVERWRITEHOST: "{{ service.cloud.subdomain }}.{{ domain }}"
+      NEXTCLOUD_OVERWRITEPROTOCOL: "{{ ports.https }}"
+      NEXTCLOUD_OVERWRITECLIURL: "{{ ports.https }}://{{ service.cloud.subdomain }}.{{ domain }}"
+      SQLITE_DATABASE: "nextcloud_db"
+    volumes:
+      - "{{ data_dir }}/data/:/data/"
+      - "{{ data_dir }}/apps/:/apps/"
+      - "{{ data_dir }}/config/:/config/"
+    ports:
+      - "{{ service.cloud.port }}:80"
+

@@ -1,0 +1,5 @@
+---
+- name: Setup docker
+  import_role:
+    name: common_roles/docker
+

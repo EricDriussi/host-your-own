@@ -1,14 +1,14 @@
 ---
 - name: Copy for root user
   copy:
-    src: "/home/{{ username }}/dotfiles/"
+    src: "/home/{{ username }}/dotfiles"
     dest: "/root/"
     owner: root
     group: root
     remote_src: true
 
 - name: Unstow dotfiles
-  ansible.builtin.command:
+  shell:
     cmd: "stow -R *"
     chdir: "/root/dotfiles"
   changed_when: true

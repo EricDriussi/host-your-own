@@ -1,0 +1,31 @@
+---
+- name: Monthly updates
+  become_user: "{{ username }}"
+  cron:
+    name: update gitea
+    state: present
+    special_time: monthly
+    job: >
+      /usr/bin/docker stop {{ container }} &
+      /usr/bin/docker rm {{ container }} &
+      /usr/bin/docker pull {{ image }} &
+      /usr/bin/docker run -d
+      --restart unless-stopped
+      --name {{ container }}
+      -v {{ data_dir }}:/data
+      -v /etc/timezone:/etc/timezone:ro
+      -v /etc/localtime:/etc/localtime:ro
+      -p {{ service.vault.port }}:3000
+      -p {{ ports.ssh }}:22
+      {{ image }}
+
+- name: Weekly backups
+  cron:
+    name: "backup gitea"
+    state: "present"
+    special_time: "weekly"
+    job: >
+      /bin/mkdir -p {{ backup_dir }} &
+      /bin/rm -rf {{ backup_dir }}/* &
+      /bin/cp {{ data_dir }}* {{ backup_dir }} &
+      chown -R {{ username }}:{{ username }} {{ backup_dir }}

@@ -1,0 +1,38 @@
+---
+- name: Monthly updates
+  become_user: "{{ username }}"
+  cron:
+    name: update nextcloud
+    state: present
+    special_time: monthly
+    job: >
+      /usr/bin/docker stop {{ container }} &
+      /usr/bin/docker rm {{ container }} &
+      /usr/bin/docker pull {{ image }} &
+      /usr/bin/docker run -d
+      --restart unless-stopped
+      --name {{ container }}
+      -e NEXTCLOUD_ADMIN_USER={{ nextcloud_username }}
+      -e NEXTCLOUD_ADMIN_PASSWORD={{ nextcloud_password }}
+      -e NEXTCLOUD_TRUSTED_DOMAINS=localhost {{ service.cloud.subdomain }}.{{ domain }}
+      -e NEXTCLOUD_TRUSTED_PROXIES={{ ip | default('') }}
+      -e NEXTCLOUD_OVERWRITEHOST={{ service.cloud.subdomain }}.{{ domain }}
+      -e NEXTCLOUD_OVERWRITEPROTOCOL={{ ports.https }}
+      -e NEXTCLOUD_OVERWRITECLIURL={{ ports.https }}://{{ service.cloud.subdomain }}.{{ domain }}
+      -e SQLITE_DATABASE=nextcloud_db
+      -v {{ data_dir }}/data/:/data/
+      -v {{ data_dir }}/apps/:/apps/
+      -v {{ data_dir }}/config/:/config/
+      -p {{ service.cloud.port }}:80
+      {{ image }}
+
+- name: Weekly backups
+  cron:
+    name: "backup cloud"
+    state: "present"
+    special_time: "weekly"
+    job: >
+      /bin/mkdir -p {{ backup_dir }} &
+      /bin/rm -rf {{ backup_dir }}/* &
+      /bin/cp {{ data_dir }}* {{ backup_dir }} &
+      chown -R {{ username }}:{{ username }} {{ backup_dir }}

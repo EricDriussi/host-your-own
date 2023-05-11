@@ -1,0 +1,24 @@
+---
+- name: Copy config file
+  copy:
+    src: "nginx.conf"
+    dest: "/etc/nginx/nginx.conf"
+
+- name: Copy hardened defaults
+  copy:
+    src: "harden.conf"
+    dest: "/etc/nginx/harden.conf"
+
+# FIXME.not really idempotent
+- name: Ensure HTTP port is available
+  shell:
+    cmd: "sudo lsof -ti:{{ item }} | xargs -r sudo kill"
+  with_items: 
+    - "{{ ports.http }}"
+    - "{{ ports.https }}"
+
+- name: Enable and restart nginx
+  service:
+    name: nginx
+    enabled: true
+    state: restarted

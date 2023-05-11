@@ -1,39 +1,9 @@
 ---
-- name: Setup docker
-  import_role:
-    name: common_roles/docker
-
-- name: Run container
-  become_user: "{{ username }}"
-  docker_container:
-    name: "searx"
+- name: SearxNG - Docker
+  vars: 
+    container: "searxng"
     image: "searxng/searxng:latest"
-    pull: true
-    detach: true
-    state: "started"
-    restart_policy: unless-stopped
-    env:
-      INSTANCE_NAME: "SearX!"
-    volumes:
-      - "/home/{{ username }}/searxng:/etc/searxng"
-    ports:
-      - "{{ service.searx.port }}:8080"
-
-- name: Monthly updates
-  become_user: "{{ username }}"
-  cron:
-    name: update searx
-    state: present
-    special_time: monthly
-    job: >
-      /usr/bin/docker stop searxng &
-      /usr/bin/docker rm searxng &
-      /usr/bin/docker pull searxng/searxng:latest &
-      /usr/bin/docker run -d
-      --restart unless-stopped
-      --name searx
-      -e BASE_URL=false
-      -e INSTANCE_NAME=SearX!
-      -v /home/{{ username }}/searxng:/etc/searxng
-      -p {{ service.searx.port }}:8080
-      searxng/searxng"
+  block:
+  - import_tasks: setup.yml
+  - import_tasks: run.yml
+  - import_tasks: maintenance.yml

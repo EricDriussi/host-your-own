@@ -1,52 +1,11 @@
 ---
-- name: Setup docker
-  import_role:
-    name: common_roles/docker
-
-- name: Run container
-  become_user: "{{ username }}"
-  docker_container:
-    name: "vaultwarden"
+- name: VaultWarden - Docker
+  vars: 
+    container: "vaultwarden"
     image: "vaultwarden/server:latest"
-    pull: true
-    detach: true
-    state: "started"
-    restart_policy: unless-stopped
-    env:
-      ADMIN_TOKEN: "{{ admin_token }}"
-      SIGNUPS_ALLOWED: "{{ allow_signups | default('false') }}"
-    volumes:
-      - "/vw-data/:/data/"
-    ports:
-      - "{{ service.vault.port }}:80"
-
-- name: Monthly updates
-  become_user: "{{ username }}"
-  cron:
-    name: update vaultwarden
-    state: present
-    special_time: monthly
-    job: >
-      /usr/bin/docker stop vaultwarden &
-      /usr/bin/docker rm vaultwarden &
-      /usr/bin/docker pull vaultwarden/server:latest &
-      /usr/bin/docker run -d
-      --restart unless-stopped
-      --name vaultwarden
-      -e ADMIN_TOKEN={{ admin_token }}
-      -e SIGNUPS_ALLOWED={{ allow_signups | default('false') }}
-      -v /vw-data/:/data/
-      -p {{ service.vault.port }}:80
-      vaultwarden/server:latest"
-
-# FIXME. montly or weekly?
-- name: Monthly backups
-  cron:
-    name: "backup vault"
-    state: "present"
-    special_time: "weekly"
-    job: >
-      /bin/mkdir -p {{ backup_dir }}/vault &
-      /bin/rm -rf {{ backup_dir }}/vault/* &
-      /bin/cp /vw-data/db.sqlite* {{ backup_dir }}/vault &
-      chown -R {{ username }}:{{ username }} {{ backup_dir }}
+    data_dir: "/{{ service.vault.subdomain }}-data/"
+    backup_dir: "{{ common_backup_dir }}/{{ service.vault.subdomain }}"
+  block:
+  - import_tasks: setup.yml
+  - import_tasks: run.yml
+  - import_tasks: maintenance.yml

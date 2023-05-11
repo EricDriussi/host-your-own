@@ -1,101 +1,78 @@
 # Host your stuff
 
 > '*Easy to use*' Ansible script to set up a VPS in one go.
->
-> Some manual assembly may be required.
 
 Simple Ansible playbook that provides you with:
 
-- A static website server.
-- The same website mirrored to Tor (WIP).
-- Basic ssh and firewall hardening.
+- A static website server (served through HTTP and TOR).
 - A [Nextcloud](https://nextcloud.com/) instance @ `cloud.domain`.
 - A [Vaultwarden](https://github.com/dani-garcia/vaultwarden) instance @ `vault.domain`.
 - A [SearxNG](https://github.com/searxng/searxng) instance @ `searx.domain`.
-- Regular backups and updates for these services.
-- Your dotfiles set up and ready to go (using GNU-Stow).
-- Up to date [neovim](https://github.com/neovim/neovim) install (if dotfiles are provided).
-- [Fail2ban](https://github.com/fail2ban/fail2ban) protection.
-- [Bunkerweb](https://github.com/bunkerity/bunkerweb) protection.
+- A [Gitea](https://github.com/go-gitea/gitea) instance @ `git.domain`.
+- Regular unattended backups and updates for these services.
 - HTTPS all the things.
-- Possibly more stuff in the future.
+- Regular unattended SSL certs renewal.
+- Hardened NGINX reverse proxy.
+- Hardened SSH setup.
+- Firewall and [Fail2ban](https://github.com/fail2ban/fail2ban).
+- Regular unattended system updates.
+- [A bunch](./roles/custom/vars/main.yml) of useful CLI tools.
+- Your dotfiles set up and ready to go (using GNU-Stow).
+- Up to date [neovim](https://github.com/neovim/neovim) install (if nvim config is found in dotfiles).
 
-## 🔧 Pre-requisites
+## Requirements
 
 ### A Debian based VPS
 
-This should work with the cheapest most basic VPS you can find with Debian Bullseye.
+You need a Debian based VPS, and root SSH access to it.
 
-### DNS
+This should work with the cheapest most basic VPS you can find.
+
+Tested with Debian Buster.
+
+### Domain Name - DNS setup
 
 You **need** a valid domain name and your DNS records should be properly set up.
 
-This should include A and AAAA records for your root domain, as well as your subdomains (at least `cloud`, `vault` and `searx`).
+This should include A and AAAA records for your root domain, as well as CNAME records for your subdomains (at least `cloud`, `vault`, `searx` and `git`).
 
-## ⚙️ Config
+## Config
 
-User config is done through the `.env.yml` file.
+### Required
 
-There are two ways to set up this file:
+Rename `.env-sample.yml` to `.env.yml` and fill in your data.
 
-- Manually create it by renaming / copying `.env-sample.yml` and filling in the required information.
-- Just run the following command. It will clone this repo, guide you through the setup process and give you an option to run the playbook directly.
+### Optional
 
-```sh
-wget https://raw.githubusercontent.com/EricDriussi/host-your-own/master/bootstrap.sh -O bootstrap.sh && bash bootstrap.sh
-```
+More low level customization (specific internal ports to use, whether to create a sudo user or not, that user's expected name, where to store your backups, etc.) can be achieved by modifying the variables in `inventory.yml`.
 
-### A note on dotfiles
+## Run
 
-The script assumes your dotfiles are set up using GNU Stow, don't provide a URL if that's not your case.
-It also installs the latest' version of Neovim if a dotfiles URL is provided.
-This is simply due to my personal use case.
-
-## 🏃 Run
-
-### First time run / User setup
-
-<details>
-  <summary>Click to expand</summary>
-  The main playbook (<code>run.yml</code>) expects a fully setup, password-less sudo and docker user named <code>ansible</code> to be present in the remote machine.
-  <br>
-  This user should also have the required <code>ssh_public_key</code> in its <code>~/.ssh/authorized_keys</code> file.
-  <br>
-  <br>
-  You can configure this on your own or run <code>ansible-playbook init_remote_user.yml --ask-pass</code>.
-  <br>
-  Once this is done you should be able to run <code>ansible-playbook run.yml</code> and watch the magic happen!
-  <br>
-  <br>
-  Please keep in mind that, after the main playbook is done, root connections to the server will be disabled to improve security.
-  <br>
-  Thus, the <code>init_remote_user.yml</code> script can really only be run once (and shouldn't be needed afterwards).
-  <br>
-</details>
-
----
-
-### Subsequent runs
-
-To run the playbook (assuming your `.env.yml` file is properly set up) use:
+To execute the playbook run:
 
 ```sh
 ansible-playbook run.yml
 ```
 
-Optionally and for debugging purposes, you can use the `--tags` flag, to run only the selected roles (as described in the `run.yml` file):
+You can use the `--tags` flag, to run only the selected roles (tags):
 
 ```sh
 ansible-playbook run.yml --tags="harden,nextcloud,searx"
 ```
 
-## 🤔 Post-install
+---
+
+By default, this script attempts to establish an ssh connection with the `root` user of your VPS, creates a sudo user called `ansible`, **blocks** further `root` connections and performs the setup using this newly created user.
+
+If root ssh connections are already disabled and/or you already have a fully-setup, password-less sudo and docker user that you would rather use, change the `username` and `create_remote_user` vars in `inventory.yml` accordingly.
+
+## Post-install
 
 ### General
 
-After the main playbook is done, you should find a Nextcloud and SearxNG instances under their respective subdomains.
+After the main playbook is done, you should find a Nextcloud, Gitea and SearxNG instances under their respective subdomains.
 
-These should work as expected out of the box.
+These should work as expected out of the box, there should be an **admin** account already setup for Nextcloud and Gitea.
 
 Have a look around and make yourself at home!
 
@@ -103,9 +80,9 @@ Have a look around and make yourself at home!
 
 Public signups are disabled by default for Vaultwarden to improve security.
 
-This means that you'll have to visit `vault.your.domain/admin` first, enter the `admin_token` defined in the`.env.yml` file, and manually allow your desired email address to sign up.
+This means that you'll have to visit `vault.[your.domain.com]/admin` first, enter the `vaultwarden_password` defined in the`.env.yml` file, and manually allow your desired email address to sign up.
 
-Much more info can be found [here](https://github.com/dani-garcia/vaultwarden/wiki/Configuration-overview).
+This behavior can be changed, much more info can be found [here](https://github.com/dani-garcia/vaultwarden/wiki/Configuration-overview).
 
 ### Website
 
@@ -115,6 +92,16 @@ It is stored in `/home/ansible/website/` and you can modify it at any time using
 
 ```sh
 rsync -rtvzP --rsh=ssh [LOCAL-WEBSITE-DIR]/* ansible@[your.domain.com]:/home/ansible/website
+```
+
+### Updates and Backups
+
+System wise and individual service updates are done on a monthly basis.
+
+Backups are done weekly and are stored by default under `/home/ansible/backups`. You can download them to you local machine with something like:
+
+```sh
+scp -r ansible@[your.domain.com]:/home/ansible/backups ~/Downloads/
 ```
 
 ## ❓ Why?

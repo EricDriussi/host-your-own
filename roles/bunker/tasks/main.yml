@@ -1,9 +1,0 @@
----
-- name: Setup repos and apt
-  import_tasks: setup.yml
-
-- name: Install nginx and bunkerweb
-  import_tasks: install.yml
-
-- name: Config bunkerweb
-  import_tasks: config.yml

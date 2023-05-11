@@ -1,18 +1,14 @@
 ---
 all:
   hosts:
-    ansible:
-      ansible_host: "{{ ip | default(domain) }}"
-      ansible_user: "{{ username }}"
-    root:
-      ansible_host: "{{ ip | default(domain) }}"
-      ansible_user: "root"
+    vps:
+      ansible_host: "{{ ip | default(domain) }}" 
 
   vars:
-    username: ansible
-    backup_dir: "/home/{{ username }}/backups"
+    username: "ansible"
+    create_remote_user: true
+    common_backup_dir: "/home/{{ username }}/backups"
     service:
-      # TODO. unify data dir structure for backups
       cloud:
         subdomain: "cloud"
         port: 81
@@ -22,6 +18,9 @@ all:
       searx:
         subdomain: "searx"
         port: 83
+      gitea:
+        subdomain: "git"
+        port: 84
     ports:
       ssh: 22
       http: 80

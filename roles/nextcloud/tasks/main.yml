@@ -1,9 +1,11 @@
 ---
-- name: Install nextcloud and dependencies
-  import_tasks: install.yml
-
-- name: Config nextcloud
-  import_tasks: config.yml
-
-- name: Keep nextcloud backed up
-  import_tasks: backup.yml
+- name: Nextcloud - Docker
+  vars: 
+    container: "nextcloud"
+    image: "nextcloud"
+    data_dir: "/{{ service.cloud.subdomain }}-data/"
+    backup_dir: "{{ common_backup_dir }}/{{ service.cloud.subdomain }}"
+  block:
+    - import_tasks: setup.yml
+    - import_tasks: run.yml
+    - import_tasks: maintenance.yml

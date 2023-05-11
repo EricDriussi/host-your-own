@@ -1,12 +1,28 @@
 ---
-- name: Install Tor
-  package:
-    name:
-      - tor
-      - deb.torproject.org-keyring
+- name: Download Tor GPG key
+  get_url:
+    url: "https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc"
+    dest: "/usr/share/keyrings/tor-archive-keyring.gpg"
+
+- name: Add Tor repository to sources.list.d
+  apt_repository:
+    repo: "{{ item }}"
     state: present
+    filename: tor
+  loop:
+    - "deb [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org {{ ansible_distribution_release }} main"
+    - "deb-src [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org {{ ansible_distribution_release }} main"
+
+- name: Install packages
+  import_role:
+    name: common_roles/install_latest
+  vars:
+    packages:
+      - "tor"
+      - "deb.torproject.org-keyring"
 
 - name: Config tor port and directory
+  become: true
   lineinfile:
     dest: /etc/tor/torrc
     regexp: "{{ item.regexp }}"
@@ -19,9 +35,8 @@
       line: "HiddenServicePort {{ ports.http }} 127.0.0.1:{{ ports.http }}"
 
 - name: Enable and restart tor
+  become: true
   service:
     name: tor
     enabled: true
     state: restarted
-
-# FIXME. currently not served due to conflicts with "AUTO_LETS_ENCRYPT=yes" in bunker.conf

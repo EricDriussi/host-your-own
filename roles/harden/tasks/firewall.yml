@@ -1,8 +1,9 @@
 ---
-- name: Install firewall
-  package:
-    name: ufw
-    state: present
+- name: Install packages
+  import_role:
+    name: common_roles/install_latest
+  vars:
+    packages: "ufw"
 
 - name: UFW deny all except HTTP and HTTPS
   ufw:

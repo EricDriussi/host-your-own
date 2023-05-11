@@ -1,19 +1,29 @@
 ---
-- name: Update system
-  package:
-    update_cache: true
-    upgrade: true
-
 - name: Install packages
-  package:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - "{{ basic_packages }}"
-    - "{{ nvim_deps }}"
+  import_role:
+    name: common_roles/install_latest
+  vars:
+    packages: "{{ basic_packages }}"
+
+- name: Check if nvim config is present
+  stat:
+    path: "/home/{{ username }}/dotfiles/nvim"
+  register: nvim_config
+
+- name: Check if nvim is already installed
+  stat:
+    path: "/usr/local/bin/nvim"
+  register: nvim_install
 
 - name: Build nvim from source
   block:
+
+    - name: Install packages
+      import_role:
+        name: common_roles/install_latest
+      vars:
+        packages: "{{ nvim_deps }}"
+
     - name: Clone
       become_user: "{{ username }}"
       git:
@@ -22,14 +32,23 @@
         version: stable
         force: true
 
+    - name: Make Clean
+      make:
+        chdir: "/home/{{ username }}/neovim"
+        target: distclean
+
     - name: Make Build
       make:
         chdir: "/home/{{ username }}/neovim"
         target: all
         params:
-          CMAKE_BUILD_TYPE: RelWithDebInfo
+          CMAKE_BUILD_TYPE: Release
 
     - name: Make Install
+      become: true
       make:
         chdir: "/home/{{ username }}/neovim"
         target: install
+
+  # Only when nvim conf is present AND nvim is not installed
+  when:  (nvim_config.stat.isdir is defined and nvim_config.stat.isdir) and not (nvim_install.stat.isfile is defined and nvim_install.stat.isfile)

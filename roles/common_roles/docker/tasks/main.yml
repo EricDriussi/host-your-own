@@ -1,12 +1,14 @@
 ---
-- name: Install docker and compose
-  package:
-    name:
-      - docker
-      - docker-compose
-    state: present
+- name: Install packages
+  import_role:
+    name: common_roles/install_latest
+  vars:
+    packages:
+    - "docker"
+    - "docker-compose"
 
 - name: Start and enable docker
+  become: true
   systemd:
     name: docker
     daemon_reload: true

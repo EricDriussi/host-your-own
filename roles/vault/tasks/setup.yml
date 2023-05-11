@@ -1,0 +1,16 @@
+---
+- name: Admin Token
+  block:
+  - name: Install packages
+    import_role:
+      name: common_roles/install_latest
+    vars:
+      packages: "argon2"
+
+  - name: Create admin admin_token
+    shell: echo -n "{{ vaultwarden_password }}" | argon2 "$(openssl rand -base64 32)" -e -id -k 19456 -t 2 -p 1
+    register: admin_token
+
+- name: Setup docker
+  import_role:
+    name: common_roles/docker

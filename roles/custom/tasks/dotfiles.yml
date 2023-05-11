@@ -1,4 +1,13 @@
 ---
+- name: Install packages
+  import_role:
+    name: common_roles/install_latest
+  vars:
+    packages:
+    - "git"
+    - "zsh"
+    - "stow"
+
 - name: Clone dotfiles
   become_user: "{{ username }}"
   git:
@@ -8,6 +17,7 @@
     force: true
 
 - name: Set zsh as default shell
+  become: true
   user:
     name: "{{ item }}"
     shell: /usr/bin/zsh
@@ -17,7 +27,7 @@
 
 - name: Unstow dotfiles
   become_user: "{{ username }}"
-  ansible.builtin.command:
+  shell:
     cmd: "stow -R *"
     chdir: "/home/{{ username }}/dotfiles"
   changed_when: true

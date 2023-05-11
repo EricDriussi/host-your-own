@@ -1,17 +1,30 @@
 ---
-- hosts: ansible
-  name: Server setup
-  become: true
+- name: Create user
+  hosts: vps
+  remote_user: root
+  gather_facts: no
+  vars_files:
+    - .env.yml
+  roles:
+    - role: user
+      tags:
+        - user
 
+- name: Server setup
+  hosts: vps
+  remote_user: "{{ username }}" 
   vars_files:
     - .env.yml
 
   roles:
     - role: harden
+      become: true
       tags:
         - harden
+        - sec
 
     - role: update
+      become: true
       tags:
         - update
 
@@ -22,28 +35,39 @@
     - role: nextcloud
       tags:
         - nextcloud
+        - services
 
     - role: vault
       tags:
         - vault
+        - services
 
     - role: searx
       tags:
         - searx
+        - services
+
+    - role: gitea
+      tags:
+        - gitea
+        - services
 
     - role: website
-      become_user: "{{ username }}"
       tags:
         - website
 
     - role: onion
       tags:
         - onion
+        - website
 
     - role: fail2ban
+      become: true
       tags:
-        - ban
+        - fail2ban
+        - sec
 
-    - role: bunker
+    - role: nginx
+      become: true
       tags:
-        - bunker
+        - nginx

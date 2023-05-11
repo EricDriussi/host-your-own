@@ -1,20 +1,24 @@
 ---
-- name: Install fail2ban
-  package:
-    name: fail2ban
-    state: present
+- name: Install packages
+  import_role:
+    name: common_roles/install_latest
+  vars:
+    packages: fail2ban
 
-- name: Disable e-mail notifications on jail stop and start
+- name: Copy config files
   template:
-    src: "fail2ban"
-    dest: "/etc/fail2ban/action.d/sendmail-common.local"
+    src: "{{ item.template }}"
+    dest: "/etc/fail2ban/{{ item.conf_file }}"
     mode: 0644
-
-- name: Install the jail file
-  template:
-    src: "jail"
-    dest: "/etc/fail2ban/jail.local"
-    mode: 0644
+  with_items:
+    - template: "cloudflare_action"
+      conf_file: "action.d/cloudflare.local"
+    - template: "mail_action"
+      conf_file: "action.d/sendmail-common.local"
+    - template: "common_filter"
+      conf_file: "filter.d/common"
+    - template: "jail"
+      conf_file: "jail.local"
 
 - name: Enable and restart fail2ban
   service:

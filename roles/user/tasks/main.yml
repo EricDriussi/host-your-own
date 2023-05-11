@@ -1,27 +1,27 @@
 ---
-- name: Create docker group
-  group:
-    name: docker
-    state: present
+- name: Create User
+  vars:
+    has_root_access: false
+  block:
+    - name: Check root access
+      block:
+        - name: Check SSH access
+          raw: ssh -o BatchMode=yes -o ConnectTimeout=5 "root@{{ ip | default(domain) }}" 'echo ok'
+          register: root_ssh
+          ignore_errors: true
+          failed_when: false
+          delegate_to: localhost
 
-- name: Create user {{ username }}
-  user:
-    name: "{{ username }}"
-    groups:
-      - sudo
-      - docker
-    system: false
-    createhome: true
-    home: "/home/{{ username }}"
+        - set_fact:
+            has_root_access: true
+          when: "root_ssh.rc == 0"
 
-- name: Password-less sudo for {{ username }}
-  lineinfile:
-    dest: /etc/sudoers
-    regexp: "^%wheel"
-    line: "{{ username }} ALL=(ALL) NOPASSWD: ALL"
-    validate: "/usr/sbin/visudo -cf %s"
+    - name: Run tasks
+      block:
+      - name: Create user
+        import_tasks: create.yml
 
-- name: Setup ssh for {{ username }}
-  authorized_key:
-    user: "{{ username }}"
-    key: "{{ ssh_public_key }}"
+      - name: Sudo and SSH
+        import_tasks: priviledges.yml
+
+      when: has_root_access and create_remote_user

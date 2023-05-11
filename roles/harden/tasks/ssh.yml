@@ -8,17 +8,17 @@
     validate: "sshd -T -f %s"
     mode: 0644
   with_items:
-    - regexp: "^#?PasswordAuthentication"
+    - regexp: "^#?PasswordAuthentication.*"
       line: "PasswordAuthentication no"
-    - regexp: "^#?PermitRootLogin"
+    - regexp: "^#?PermitRootLogin.*"
       line: "PermitRootLogin no"
-    - regexp: "^#?Port"
+    - regexp: "^#?Port.*"
       line: "Port {{ ports.ssh }}"
-    - regexp: "^#?PermitEmptyPasswords"
+    - regexp: "^#?PermitEmptyPasswords.*"
       line: "PermitEmptyPasswords no"
-    - regexp: "^#?X11Forwarding"
+    - regexp: "^#?X11Forwarding.*"
       line: "X11Forwarding no"
-    - regexp: "^#?MaxAuthTries"
+    - regexp: "^#?MaxAuthTries.*"
       line: "MaxAuthTries 3"
 
 - name: Enable and restart ssh

@@ -15,4 +15,4 @@
     weekday: "0"
     minute: "30"
     hour: "2"
-    job: "apt -y update && apt -y upgrade"
+    job: "apt -y update && apt -y upgrade && systemctl reboot"

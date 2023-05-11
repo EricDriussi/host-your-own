@@ -1,0 +1,9 @@
+server {
+    listen {{ ports.http }} ;
+    listen [::]:{{ ports.http }} ;
+    server_name {{ subdom }}.{{ domain }} ;
+
+    location / {
+        proxy_pass          http://127.0.0.1:{{ port }};
+    }
+}

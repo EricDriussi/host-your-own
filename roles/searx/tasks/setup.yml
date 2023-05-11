@@ -1,0 +1,15 @@
+---
+- name: Setup docker
+  import_role:
+    name: common_roles/docker
+
+- name: Copy Searx conf
+  block:
+  - name: Mkdir searxng
+    file:
+      state: directory
+      path: "/home/{{ username }}/searxng"
+  - name: Copy Searx conf
+    copy:
+      src: "searx.yml"
+      dest: "/home/{{ username }}/searxng/settings.yml"
