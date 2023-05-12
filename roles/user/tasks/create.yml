@@ -13,4 +13,3 @@
     system: false
     createhome: true
     home: "/home/{{ username }}"
-

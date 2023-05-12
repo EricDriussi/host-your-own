@@ -17,11 +17,10 @@
           when: "root_ssh.rc == 0"
 
     - name: Run tasks
-      block:
-      - name: Create user
-        import_tasks: create.yml
-
-      - name: Sudo and SSH
-        import_tasks: priviledges.yml
-
       when: has_root_access and create_remote_user
+      block:
+        - name: Create user
+          import_tasks: create.yml
+
+        - name: Sudo and SSH
+          import_tasks: priviledges.yml

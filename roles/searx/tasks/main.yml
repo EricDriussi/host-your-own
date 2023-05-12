@@ -1,9 +1,9 @@
 ---
 - name: SearxNG - Docker
-  vars: 
+  vars:
     container: "searxng"
     image: "searxng/searxng:latest"
   block:
-  - import_tasks: setup.yml
-  - import_tasks: run.yml
-  - import_tasks: maintenance.yml
+    - import_tasks: setup.yml
+    - import_tasks: run.yml
+    - import_tasks: maintenance.yml

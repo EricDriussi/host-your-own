@@ -22,16 +22,16 @@
 
 - name: Create admin user
   block:
-  - name: List existing users
-    community.docker.docker_container_exec:
-      container: "{{ container }}"
-      user: "git"
-      command: "gitea admin user list"
-    register: user_list
+    - name: List existing users
+      community.docker.docker_container_exec:
+        container: "{{ container }}"
+        user: "git"
+        command: "gitea admin user list"
+      register: user_list
 
-  - name: Create admin user if not present
-    community.docker.docker_container_exec:
-      container: "{{ container }}"
-      user: "git"
-      command: "gitea admin user create --admin --username {{ gitea_username }} --password {{ gitea_password }} --email {{ email }}"
-    when: "gitea_username not in user_list.stdout"
+    - name: Create admin user if not present
+      when: "gitea_username not in user_list.stdout"
+      community.docker.docker_container_exec:
+        container: "{{ container }}"
+        user: "git"
+        command: "gitea admin user create --admin --username {{ gitea_username }} --password {{ gitea_password }} --email {{ email }}"

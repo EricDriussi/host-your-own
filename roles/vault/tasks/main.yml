@@ -1,11 +1,11 @@
 ---
 - name: VaultWarden - Docker
-  vars: 
+  vars:
     container: "vaultwarden"
     image: "vaultwarden/server:latest"
     data_dir: "/{{ service.vault.subdomain }}-data"
     backup_dir: "{{ common_backup_dir }}/{{ service.vault.subdomain }}"
   block:
-  - import_tasks: setup.yml
-  - import_tasks: run.yml
-  - import_tasks: maintenance.yml
+    - import_tasks: setup.yml
+    - import_tasks: run.yml
+    - import_tasks: maintenance.yml

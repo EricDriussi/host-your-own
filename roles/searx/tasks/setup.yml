@@ -5,11 +5,11 @@
 
 - name: Copy Searx conf
   block:
-  - name: Mkdir searxng
-    file:
-      state: directory
-      path: "/home/{{ username }}/searxng"
-  - name: Copy Searx conf
-    copy:
-      src: "searx.yml"
-      dest: "/home/{{ username }}/searxng/settings.yml"
+    - name: Mkdir searxng
+      file:
+        state: directory
+        path: "/home/{{ username }}/searxng"
+    - name: Copy Searx conf
+      copy:
+        src: "searx.yml"
+        dest: "/home/{{ username }}/searxng/settings.yml"

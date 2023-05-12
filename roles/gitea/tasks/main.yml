@@ -1,12 +1,12 @@
 ---
 # FIXME.Add SSH passthrough
 - name: Gitea - Docker
-  vars: 
+  vars:
     container: "gitea"
     image: "gitea/gitea:latest"
     data_dir: "/{{ service.gitea.subdomain }}-data"
     backup_dir: "{{ common_backup_dir }}/{{ service.gitea.subdomain }}"
   block:
-  - import_tasks: setup.yml
-  - import_tasks: run.yml
-  - import_tasks: maintenance.yml
+    - import_tasks: setup.yml
+    - import_tasks: run.yml
+    - import_tasks: maintenance.yml

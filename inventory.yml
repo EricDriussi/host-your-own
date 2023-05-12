@@ -2,7 +2,7 @@
 all:
   hosts:
     vps:
-      ansible_host: "{{ ip | default(domain) }}" 
+      ansible_host: "{{ ip | default(domain) }}"
 
   vars:
     username: "ansible"

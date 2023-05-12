@@ -4,8 +4,8 @@
     name: common_roles/install_latest
   vars:
     packages:
-    - "docker"
-    - "docker-compose"
+      - "docker"
+      - "docker-compose"
 
 - name: Start and enable docker
   become: true

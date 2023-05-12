@@ -1,6 +1,6 @@
 ---
 - name: Nextcloud - Docker
-  vars: 
+  vars:
     container: "nextcloud"
     image: "nextcloud"
     data_dir: "/{{ service.cloud.subdomain }}-data"

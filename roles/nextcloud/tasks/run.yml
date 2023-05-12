@@ -22,4 +22,3 @@
       - "{{ data_dir }}/config/:/var/www/html/config"
     ports:
       - "{{ service.cloud.port }}:80"
-

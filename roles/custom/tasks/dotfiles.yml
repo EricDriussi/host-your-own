@@ -4,9 +4,9 @@
     name: common_roles/install_latest
   vars:
     packages:
-    - "git"
-    - "zsh"
-    - "stow"
+      - "git"
+      - "zsh"
+      - "stow"
 
 - name: Clone dotfiles
   become_user: "{{ username }}"

@@ -12,7 +12,7 @@
 
 - name: Server setup
   hosts: vps
-  remote_user: "{{ username }}" 
+  remote_user: "{{ username }}"
   vars_files:
     - .env.yml
 

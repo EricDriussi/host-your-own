@@ -1,19 +1,19 @@
 ---
 - name: Clear existing servers
   block:
-  - name: Rm sites-enabled
-    file:
-      state: absent
-      path: "/etc/nginx/sites-enabled"
+    - name: Rm sites-enabled
+      file:
+        state: absent
+        path: "/etc/nginx/sites-enabled"
 
-  - name: Mkdir sites-enabled
-    file:
-      state: directory
-      path: "/etc/nginx/sites-enabled"
+    - name: Mkdir sites-enabled
+      file:
+        state: directory
+        path: "/etc/nginx/sites-enabled"
 
 - name: Get onion address
   slurp:
-      src: "/var/lib/tor/hidden_service/hostname"
+    src: "/var/lib/tor/hidden_service/hostname"
   register: onion_address
 
 - name: Config website server
