@@ -3,6 +3,7 @@
   get_url:
     url: "https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc"
     dest: "/usr/share/keyrings/tor-archive-keyring.gpg"
+    mode: 0644
 
 - name: Add Tor repository to sources.list.d
   apt_repository:

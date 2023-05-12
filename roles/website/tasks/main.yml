@@ -3,6 +3,7 @@
   file:
     path: "/home/{{ username }}/website"
     state: directory
+    mode: 0755
 
 - name: Sample index
   copy:
@@ -13,3 +14,4 @@
           Hi mom!
         </h1>
       </body>
+    mode: 0644

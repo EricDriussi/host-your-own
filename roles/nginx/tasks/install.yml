@@ -1,8 +1,12 @@
 ---
 - name: Download NGINX GPG key
-  shell: |
+  shell:
+    cmd: |
+      set -o pipefail
       curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor \
         | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
+    executable: /bin/bash
+  changed_when: true
 
 - name: Add NGINX repository to sources.list.d
   apt_repository:

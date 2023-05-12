@@ -6,6 +6,7 @@
     owner: root
     group: root
     remote_src: true
+    mode: 0644
 
 - name: Unstow dotfiles
   shell:

@@ -9,7 +9,9 @@
       file:
         state: directory
         path: "/home/{{ username }}/searxng"
+        mode: 0755
     - name: Copy Searx conf
       copy:
         src: "searx.yml"
         dest: "/home/{{ username }}/searxng/settings.yml"
+        mode: 0644

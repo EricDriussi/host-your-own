@@ -3,19 +3,24 @@
   copy:
     src: "nginx.conf"
     dest: "/etc/nginx/nginx.conf"
+    mode: 0644
 
 - name: Copy hardened defaults
   copy:
     src: "harden.conf"
     dest: "/etc/nginx/harden.conf"
+    mode: 0644
 
-# FIXME.not really idempotent
 - name: Ensure HTTP port is available
   shell:
-    cmd: "sudo lsof -ti:{{ item }} | xargs -r sudo kill"
+    cmd: |
+      set +o pipefail
+      sudo lsof -ti:{{ item }} | xargs -r sudo kill
+    executable: /bin/bash
   with_items:
     - "{{ ports.http }}"
     - "{{ ports.https }}"
+  changed_when: true
 
 - name: Enable and restart nginx
   service:

@@ -8,8 +8,13 @@
         packages: "argon2"
 
     - name: Create admin admin_token
-      shell: echo -n "{{ vaultwarden_password }}" | argon2 "$(openssl rand -base64 32)" -e -id -k 19456 -t 2 -p 1
+      shell:
+        cmd: |
+          set -o pipefail
+          echo -n "{{ vaultwarden_password }}" | argon2 "$(openssl rand -base64 32)" -e -id -k 19456 -t 2 -p 1
+        executable: /bin/bash
       register: admin_token
+      changed_when: true
 
 - name: Setup docker
   import_role:

@@ -10,6 +10,7 @@
           register: root_ssh
           ignore_errors: true
           failed_when: false
+          changed_when: true
           delegate_to: localhost
 
         - set_fact:

@@ -10,6 +10,7 @@
       file:
         state: directory
         path: "/etc/nginx/sites-enabled"
+        mode: 0644
 
 - name: Get onion address
   slurp:
@@ -20,6 +21,7 @@
   template:
     src: "nginx-website"
     dest: "/etc/nginx/sites-enabled/website"
+    mode: 0644
 
 - name: Config proxy server for services
   vars:
@@ -28,6 +30,7 @@
   template:
     src: nginx-service
     dest: "/etc/nginx/sites-enabled/{{ item.subdomain }}"
+    mode: 0644
   loop:
     - "{{ service.cloud }}"
     - "{{ service.vault }}"

@@ -17,7 +17,7 @@
 
 - name: Build nvim from source
   # Only when nvim conf is present AND nvim is not installed
-  when: (nvim_config.stat.isdir is defined and nvim_config.stat.isdir) and not (nvim_install.stat.isfile is defined and nvim_install.stat.isfile)
+  when: nvim_config.stat.exists and not nvim_install.stat.exists
   block:
 
     - name: Install packages
