@@ -1,14 +1,13 @@
 ---
 - name: Monthly updates
-  become_user: "{{ username }}"
   cron:
     name: update nextcloud
     state: present
     special_time: monthly
     job: >
-      /usr/bin/docker stop {{ container }} &
-      /usr/bin/docker rm {{ container }} &
-      /usr/bin/docker pull {{ image }} &
+      /usr/bin/docker stop {{ container }};
+      /usr/bin/docker rm {{ container }};
+      /usr/bin/docker pull {{ image }};
       /usr/bin/docker run -d
       --restart unless-stopped
       --name {{ container }}
@@ -20,9 +19,9 @@
       -e NEXTCLOUD_OVERWRITEPROTOCOL={{ ports.https }}
       -e NEXTCLOUD_OVERWRITECLIURL={{ ports.https }}://{{ service.cloud.subdomain }}.{{ domain }}
       -e SQLITE_DATABASE=nextcloud_db
-      -v {{ data_dir }}/data/:/data/
-      -v {{ data_dir }}/apps/:/apps/
-      -v {{ data_dir }}/config/:/config/
+      -v {{ data_dir }}/data/:/var/www/html/data/
+      -v {{ data_dir }}/apps/:/var/www/html/apps/
+      -v {{ data_dir }}/config/:/var/www/html/config/
       -p {{ service.cloud.port }}:80
       {{ image }}
 
@@ -32,7 +31,4 @@
     state: "present"
     special_time: "weekly"
     job: >
-      /bin/mkdir -p {{ backup_dir }} &
-      /bin/rm -rf {{ backup_dir }}/* &
-      /bin/cp {{ data_dir }}* {{ backup_dir }} &
-      chown -R {{ username }}:{{ username }} {{ backup_dir }}
+      sudo /bin/cp -rp {{ data_dir }}/* {{ backup_dir }}

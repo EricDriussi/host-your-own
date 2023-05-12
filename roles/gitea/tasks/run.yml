@@ -1,6 +1,5 @@
 ---
 - name: Run container
-  become_user: "{{ username }}"
   docker_container:
     name: "{{ container }}"
     image: "{{ image }}"
@@ -15,7 +14,7 @@
       GITEA__repository__DEFAULT_BRANCH: "master"
       GITEA__lfs__PATH: "/data/gitea/git/lfs"
     volumes:
-      - "{{ data_dir }}:/data"
+      - "{{ data_dir }}/:/data/"
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     ports:

@@ -1,6 +1,5 @@
 ---
 - name: Run container
-  become_user: "{{ username }}"
   docker_container:
     name: "{{ container }}"
     image: "{{ image }}"
@@ -18,9 +17,9 @@
       NEXTCLOUD_OVERWRITECLIURL: "{{ ports.https }}://{{ service.cloud.subdomain }}.{{ domain }}"
       SQLITE_DATABASE: "nextcloud_db"
     volumes:
-      - "{{ data_dir }}/data/:/data/"
-      - "{{ data_dir }}/apps/:/apps/"
-      - "{{ data_dir }}/config/:/config/"
+      - "{{ data_dir }}/data/:/var/www/html/data"
+      - "{{ data_dir }}/apps/:/var/www/html/apps"
+      - "{{ data_dir }}/config/:/var/www/html/config"
     ports:
       - "{{ service.cloud.port }}:80"
 

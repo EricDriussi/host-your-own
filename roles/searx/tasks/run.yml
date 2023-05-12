@@ -1,6 +1,5 @@
 ---
 - name: Run container
-  become_user: "{{ username }}"
   docker_container:
     name: "{{ container }}"
     image: "{{ image }}"

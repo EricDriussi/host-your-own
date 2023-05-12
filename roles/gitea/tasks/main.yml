@@ -4,7 +4,7 @@
   vars: 
     container: "gitea"
     image: "gitea/gitea:latest"
-    data_dir: "/{{ service.gitea.subdomain }}-data/"
+    data_dir: "/{{ service.gitea.subdomain }}-data"
     backup_dir: "{{ common_backup_dir }}/{{ service.gitea.subdomain }}"
   block:
   - import_tasks: setup.yml

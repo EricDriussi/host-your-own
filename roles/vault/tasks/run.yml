@@ -1,6 +1,5 @@
 ---
 - name: Run container
-  become_user: "{{ username }}"
   docker_container:
     name: "{{ container }}"
     image: "{{ image }}"
@@ -12,6 +11,6 @@
       ADMIN_TOKEN: "{{ admin_token.stdout }}"
       SIGNUPS_ALLOWED: "false"
     volumes:
-      - "{{ data_dir }}:/data/"
+      - "{{ data_dir }}/:/data/"
     ports:
       - "{{ service.vault.port }}:80"
