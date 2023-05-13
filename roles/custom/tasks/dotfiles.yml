@@ -9,7 +9,6 @@
       - "stow"
 
 - name: Clone dotfiles
-  become_user: "{{ username }}"
   git:
     repo: "{{ dotfiles_repo }}"
     dest: "/home/{{ username }}/dotfiles"
@@ -26,7 +25,6 @@
     - root
 
 - name: Unstow dotfiles
-  become_user: "{{ username }}"
   shell:
     cmd: "stow -R *"
     chdir: "/home/{{ username }}/dotfiles"

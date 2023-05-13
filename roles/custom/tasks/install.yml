@@ -27,7 +27,6 @@
         packages: "{{ nvim_deps }}"
 
     - name: Clone
-      become_user: "{{ username }}"
       git:
         repo: "https://github.com/neovim/neovim"
         dest: "/home/{{ username }}/neovim"
