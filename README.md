@@ -91,7 +91,7 @@ You'll also find a lousy website under your root domain.
 It is stored in `/home/ansible/website/` and you can modify it at any time using `scp`, or `rsync` to upload your static website, blog or whatever!
 
 ```sh
-rsync -rtvzP --rsh=ssh [LOCAL-WEBSITE-DIR]/* ansible@[your.domain.com]:/home/ansible/website
+rsync --recursive --compress --partial --progress --times [LOCAL-WEBSITE-DIR]/* ansible@[your.domain.com]:/home/ansible/website
 ```
 
 ### Updates and Backups
@@ -101,7 +101,7 @@ System wise and individual service updates are done on a monthly basis.
 Backups are done weekly and are stored by default under `/home/ansible/backups`. You can download them to you local machine with something like:
 
 ```sh
-scp -r ansible@[your.domain.com]:/home/ansible/backups ~/Downloads/
+rsync --recursive --compress --partial --progress --times ansible@[your.domain.com]:/home/ansible/backups ~/Downloads/
 ```
 
 ## ❓ Why?
