@@ -31,4 +31,4 @@
     state: "present"
     special_time: "weekly"
     job: >
-      sudo /bin/cp -rp {{ data_dir }}/* {{ backup_dir }}
+      sudo /bin/cp -urp {{ data_dir }}/* {{ backup_dir }}
