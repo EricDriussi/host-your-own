@@ -1,5 +1,4 @@
 ---
-# TODO.ModSec: https://www.linode.com/docs/guides/securing-nginx-with-modsecurity/
 - name: Install nginx and certbot
   import_tasks: install.yml
 

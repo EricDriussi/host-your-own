@@ -6,7 +6,7 @@
     - name: Check root access
       block:
         - name: Check SSH access
-          raw: ssh -o BatchMode=yes -o ConnectTimeout=5 "root@{{ ip | default(domain) }}" 'echo ok'
+          raw: ssh -o BatchMode=yes -o ConnectTimeout=5 -i "{{ ssh_key }}" "root@{{ ip | default(domain) }}" 'echo ok'
           register: root_ssh
           ignore_errors: true
           failed_when: false
