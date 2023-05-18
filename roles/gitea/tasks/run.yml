@@ -13,15 +13,26 @@
       GITEA__repository__ROOT: "/data/gitea/git/repositories"
       GITEA__repository__DEFAULT_BRANCH: "master"
       GITEA__lfs__PATH: "/data/gitea/git/lfs"
+      GITEA__server__DOMAIN: "{{ git_domain }}"
+      GITEA__server__SSH_DOMAIN: "{{ git_domain }}"
+      GITEA__server__ROOT_URL: "http://{{ git_domain }}"
+      USER_UID: "{{ git_uid }}"
+      USER_GID: "{{ git_gid }}"
     volumes:
       - "{{ data_dir }}/:/data/"
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
+      - /home/git/.ssh/:/data/git/.ssh
     ports:
       - "{{ service.gitea.port }}:3000"
+      - "2222:22"
 
 - name: Create admin user
   block:
+    - name: Wait for gitea db
+      wait_for:
+        timeout: 4
+
     - name: List existing users
       community.docker.docker_container_exec:
         container: "{{ container }}"
