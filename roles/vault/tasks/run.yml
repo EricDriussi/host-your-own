@@ -7,9 +7,7 @@
     detach: true
     state: "started"
     restart_policy: unless-stopped
-    env:
-      ADMIN_TOKEN: "{{ admin_token.stdout }}"
-      SIGNUPS_ALLOWED: "false"
+    env_file: "/home/{{ username }}/docker_env_files/vaultwarden.env"
     volumes:
       - "{{ data_dir }}/:/data/"
     ports:

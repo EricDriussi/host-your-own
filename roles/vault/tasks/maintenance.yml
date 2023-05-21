@@ -11,8 +11,7 @@
       /usr/bin/docker run -d
       --restart unless-stopped
       --name {{ container }}
-      -e ADMIN_TOKEN={{ admin_token.stdout }}
-      -e SIGNUPS_ALLOWED=false
+      --env-file /home/{{ username }}/docker_env_files/vaultwarden.env
       -v {{ data_dir }}/:/data/
       -p {{ service.vault.port }}:80
       {{ image }}

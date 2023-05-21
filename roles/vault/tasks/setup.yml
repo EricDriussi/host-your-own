@@ -19,3 +19,17 @@
 - name: Setup docker
   import_role:
     name: common_roles/docker
+
+- name: Mkdir docker_env_files
+  file:
+    state: directory
+    path: "/home/{{ username }}/docker_env_files"
+    mode: 0755
+
+- name: Docker env file
+  copy:
+    dest: "/home/{{ username }}/docker_env_files/vaultwarden.env"
+    content: |
+      ADMIN_TOKEN={{ admin_token.stdout }}
+      SIGNUPS_ALLOWED=false
+    mode: 0644
