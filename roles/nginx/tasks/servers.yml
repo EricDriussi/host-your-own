@@ -10,7 +10,7 @@
       file:
         state: directory
         path: "/etc/nginx/sites-enabled"
-        mode: 0644
+        mode: 0755
 
 - name: Get onion address
   slurp:
