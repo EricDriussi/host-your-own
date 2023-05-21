@@ -2,3 +2,25 @@
 - name: Setup docker
   import_role:
     name: common_roles/docker
+
+- name: Mkdir docker_env_files
+  file:
+    state: directory
+    path: "/home/{{ username }}/docker_env_files"
+    mode: 0755
+
+- name: Docker env file
+  copy:
+    dest: "/home/{{ username }}/docker_env_files/gitea.env"
+    content: |
+      GITEA__security__INSTALL_LOCK=true
+      GITEA__service__DISABLE_REGISTRATION=true
+      GITEA__repository__ROOT=/data/gitea/git/repositories
+      GITEA__repository__DEFAULT_BRANCH=master
+      GITEA__lfs__PATH=/data/gitea/git/lfs
+      GITEA__server__DOMAIN={{ git_domain }}
+      GITEA__server__SSH_DOMAIN={{ git_domain }}
+      GITEA__server__ROOT_URL=http://{{ git_domain }}
+      USER_UID={{ git_uid }}
+      USER_GID={{ git_gid }}
+    mode: 0644

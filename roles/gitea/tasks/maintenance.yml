@@ -11,16 +11,7 @@
       /usr/bin/docker run -d
       --restart unless-stopped
       --name {{ container }}
-      -e GITEA__security__INSTALL_LOCK=true
-      -e GITEA__service__DISABLE_REGISTRATION=true
-      -e GITEA__repository__ROOT=/data/gitea/git/repositories
-      -e GITEA__repository__DEFAULT_BRANCH=master
-      -e GITEA__lfs__PATH=/data/gitea/git/lfs
-      -e GITEA__server__DOMAIN={{ git_domain }}
-      -e GITEA__server__SSH_DOMAIN={{ git_domain }}
-      -e GITEA__server__ROOT_URL=http://{{ git_domain }}
-      -e USER_UID={{ git_uid }}
-      -e USER_GID={{ git_gid }}
+      --env-file /home/{{ username }}/docker_env_files/gitea.env
       -v {{ data_dir }}/:/data/
       -v /etc/timezone:/etc/timezone:ro
       -v /etc/localtime:/etc/localtime:ro
