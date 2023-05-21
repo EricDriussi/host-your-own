@@ -9,6 +9,7 @@
     git_gid: "1005"
     git_domain: "{{ service.gitea.subdomain }}.{{ domain }}"
   block:
+    - import_tasks: ssh_passthrough.yml
     - import_tasks: setup.yml
     - import_tasks: run.yml
     - import_tasks: maintenance.yml
