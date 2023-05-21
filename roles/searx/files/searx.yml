@@ -20,4 +20,4 @@ server:
 
 engines:
   - name: google
-    use_mobile_ui: true
+    use_mobile_ui: false

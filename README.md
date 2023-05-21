@@ -1,6 +1,6 @@
 # Host your stuff
 
-> '*Easy to use*' Ansible script to set up a VPS in one go.
+> Ansible script to set up your self-hosting VPS in one go.
 
 Simple Ansible playbook that provides you with:
 
