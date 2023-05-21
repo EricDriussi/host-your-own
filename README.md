@@ -4,7 +4,7 @@
 
 Simple Ansible playbook that provides you with:
 
-- A static website server (served through HTTP and TOR).
+- A static website server (served through HTTP and Onion land).
 - A [Nextcloud](https://nextcloud.com/) instance @ `cloud.domain`.
 - A [Vaultwarden](https://github.com/dani-garcia/vaultwarden) instance @ `vault.domain`.
 - A [SearxNG](https://github.com/searxng/searxng) instance @ `searx.domain`.
@@ -104,6 +104,6 @@ Backups are done weekly and are stored by default under `/home/ansible/backups`.
 rsync --recursive --compress --partial --progress --times ansible@[your.domain.com]:/home/ansible/backups ~/Downloads/
 ```
 
-## ❓ Why?
+## Why?
 
 Having your own private spot on the internet shouldn't be a luxury.
