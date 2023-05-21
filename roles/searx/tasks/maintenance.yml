@@ -11,7 +11,6 @@
       /usr/bin/docker run -d
       --restart unless-stopped
       --name {{ container }}
-      -e BASE_URL=false
       -e INSTANCE_NAME=SearX!
       -v /home/{{ username }}/searxng:/etc/searxng
       -p {{ service.searx.port }}:8080
