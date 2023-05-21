@@ -11,14 +11,7 @@
       /usr/bin/docker run -d
       --restart unless-stopped
       --name {{ container }}
-      -e NEXTCLOUD_ADMIN_USER={{ nextcloud_username }}
-      -e NEXTCLOUD_ADMIN_PASSWORD={{ nextcloud_password }}
-      -e NEXTCLOUD_TRUSTED_DOMAINS=localhost {{ service.cloud.subdomain }}.{{ domain }}
-      -e NEXTCLOUD_TRUSTED_PROXIES={{ ip | default('') }}
-      -e NEXTCLOUD_OVERWRITEHOST={{ service.cloud.subdomain }}.{{ domain }}
-      -e NEXTCLOUD_OVERWRITEPROTOCOL={{ ports.https }}
-      -e NEXTCLOUD_OVERWRITECLIURL={{ ports.https }}://{{ service.cloud.subdomain }}.{{ domain }}
-      -e SQLITE_DATABASE=nextcloud_db
+      --env-file /home/{{ username }}/docker_env_files/nextcloud.env
       -v {{ data_dir }}/data/:/var/www/html/data/
       -v {{ data_dir }}/apps/:/var/www/html/apps/
       -v {{ data_dir }}/config/:/var/www/html/config/
