@@ -3,6 +3,13 @@
   import_role:
     name: common_roles/docker
 
+- name: Create admin admin_token
+  shell:
+    cmd: openssl rand -hex 16
+    executable: /bin/bash
+  register: secret_key
+  changed_when: true
+
 - name: Copy Searx conf
   block:
     - name: Mkdir searxng
@@ -11,7 +18,7 @@
         path: "/home/{{ username }}/searxng"
         mode: 0755
     - name: Copy Searx conf
-      copy:
-        src: "searx.yml"
+      template:
+        src: "settings.yml"
         dest: "/home/{{ username }}/searxng/settings.yml"
         mode: 0644

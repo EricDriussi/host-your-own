@@ -2,22 +2,24 @@
 use_default_settings: true
 
 general:
-  debug: false
   instance_name: "SearX!"
 
 search:
-  safe_search: 0
   autocomplete: 'duckduckgo'
   autocomplete_min: 3
-  default_lang: ''
-  formats:
-    - html
 
 server:
-  secret_key: "CHANGE_ME!!"
+  secret_key: "{{ secret_key.stdout }}"
   limiter: true
   image_proxy: true
+  base_url: "https://{{ service.searx.subdomain }}.{{ domain }}"
 
 engines:
   - name: google
     use_mobile_ui: false
+  - name: bing
+    disabled: false
+  - name: brave
+    disabled: false
+  - name: yahoo
+    disabled: false
