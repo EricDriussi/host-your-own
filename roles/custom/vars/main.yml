@@ -12,6 +12,7 @@ basic_packages:
   - libxtst-dev
   - lua5.3
   - lsof
+  - mmv
   - python3-pip
   - ripgrep
   - rsync

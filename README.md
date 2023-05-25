@@ -32,9 +32,7 @@ Tested with Debian Buster.
 
 ### Domain Name - DNS setup
 
-You **need** a valid domain name and your DNS records should be properly set up.
-
-This should include A and AAAA records for your root domain, as well as CNAME records for your subdomains (at least `cloud`, `vault`, `searx` and `git`).
+You **need** a valid domain name and your DNS records should be properly set up for your root domain as well as for (at least) the above-mentioned subdomains.
 
 ## Config
 
@@ -101,7 +99,7 @@ System wise and individual service updates are done on a monthly basis.
 Backups are done weekly and are stored by default under `/home/ansible/backups`. You can download them to you local machine with something like:
 
 ```sh
-rsync --recursive --compress --partial --progress --times ansible@[your.domain.com]:/home/ansible/backups ~/Downloads/
+rsync --recursive --compress --partial --progress --times --rsync-path="sudo rsync" ansible@[your.domain.com]:/home/ansible/backups ~/Downloads/
 ```
 
 ## Why?
