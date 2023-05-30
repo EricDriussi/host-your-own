@@ -16,7 +16,7 @@
       -v /etc/timezone:/etc/timezone:ro
       -v /etc/localtime:/etc/localtime:ro
       -v /home/git/.ssh/:/data/git/.ssh
-      -p {{ service.vault.port }}:3000
+      -p {{ service.gitea.port }}:3000
       -p 2222:22
       {{ image }}
 
