@@ -11,7 +11,7 @@
 
 - name: Docker env file
   copy:
-    dest: "/home/{{ username }}/docker_env_files/gitea.env"
+    dest: "/home/{{ username }}/docker_env_files/nextcloud.env"
     content: |
       NEXTCLOUD_ADMIN_USER={{ nextcloud_username }}
       NEXTCLOUD_ADMIN_PASSWORD={{ nextcloud_password }}
