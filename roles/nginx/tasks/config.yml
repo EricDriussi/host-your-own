@@ -8,7 +8,7 @@
 - name: Copy hardened defaults
   copy:
     src: "harden.conf"
-    dest: "/etc/nginx/harden.conf"
+    dest: "/etc/nginx/conf.d/harden.conf"
     mode: 0644
 
 - name: Ensure HTTP port is available
