@@ -25,3 +25,11 @@
     special_time: "weekly"
     job: >
       sudo /bin/cp -urp {{ data_dir }}/* {{ backup_dir }}
+
+- name: Enable auto-refresh with Cron
+  cron:
+    name: "cloud - cron"
+    state: "present"
+    minute: "*/5"
+    job: >
+      /usr/bin/docker exec -u www-data nextcloud /bin/sh -c 'php -f /var/www/html/cron.php'
