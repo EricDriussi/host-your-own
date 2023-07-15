@@ -25,7 +25,7 @@
     - root
 
 - name: Unstow dotfiles
-  shell:
-    cmd: "stow -R *"
+  command:
+    cmd: "stow -R ."
     chdir: "/home/{{ username }}/dotfiles"
   changed_when: true

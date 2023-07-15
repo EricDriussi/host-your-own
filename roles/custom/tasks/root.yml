@@ -9,7 +9,7 @@
     mode: 0755
 
 - name: Unstow dotfiles
-  shell:
-    cmd: "stow -R *"
+  command:
+    cmd: "stow -R ."
     chdir: "/root/dotfiles"
   changed_when: true
