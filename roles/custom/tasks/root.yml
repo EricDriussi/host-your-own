@@ -8,8 +8,16 @@
     remote_src: true
     mode: 0755
 
-- name: Unstow dotfiles
-  command:
-    cmd: "stow -R ."
-    chdir: "/root/dotfiles"
+- name: Get configs to unstow
+  command: "ls /root/dotfiles"
+  register: conf_dirs
   changed_when: true
+
+- name: Unstow dotfiles
+  args:
+    chdir: "/root/dotfiles"
+  command: 
+    cmd: "stow -R {{ item }}"
+  loop: "{{ conf_dirs.stdout_lines }}"
+  changed_when: true
+
