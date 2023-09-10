@@ -23,7 +23,6 @@
       - "deb.torproject.org-keyring"
 
 - name: Config tor port and directory
-  become: true
   lineinfile:
     dest: /etc/tor/torrc
     regexp: "{{ item.regexp }}"
@@ -36,7 +35,6 @@
       line: "HiddenServicePort {{ ports.http }} 127.0.0.1:{{ ports.http }}"
 
 - name: Enable and restart tor
-  become: true
   service:
     name: tor
     enabled: true

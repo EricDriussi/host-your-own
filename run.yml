@@ -57,6 +57,7 @@
         - website
 
     - role: onion
+      become: true
       tags:
         - onion
         - website
