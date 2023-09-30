@@ -1,5 +1,6 @@
 ---
 basic_packages:
+  - bat
   - curl
   - delta
   - docker
