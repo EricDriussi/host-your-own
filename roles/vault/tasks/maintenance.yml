@@ -16,6 +16,12 @@
       -p {{ service.vault.port }}:80
       {{ image }}
 
+- name: Mkdir backup_dir
+  file:
+    state: directory
+    path: "{{ backup_dir }}"
+    mode: 0755
+
 - name: Weekly backups
   cron:
     name: "backup vault"
