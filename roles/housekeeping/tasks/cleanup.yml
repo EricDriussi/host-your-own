@@ -1,0 +1,13 @@
+---
+- name: Clean up docker
+  cron:
+    name: docker prune
+    state: present
+    special_time: monthly
+    job: "docker system prune -f"
+
+- name: Clean up journalctl
+  lineinfile:
+    path: "/etc/systemd/journald.conf"
+    line: "MaxRetentionSec=2day"
+    insertafter: EOF

@@ -23,10 +23,10 @@
         - harden
         - sec
 
-    - role: update
+    - role: housekeeping
       become: true
       tags:
-        - update
+        - housekeeping
 
     - role: custom
       tags:

@@ -12,7 +12,5 @@
   cron:
     name: update system
     state: present
-    weekday: "0"
-    minute: "30"
-    hour: "2"
+    special_time: monthly
     job: "apt -y update && apt -y upgrade && systemctl reboot"
