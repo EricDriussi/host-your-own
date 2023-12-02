@@ -20,16 +20,18 @@
       -p 2222:22
       {{ image }}
 
-- name: Mkdir backup_dir
-  file:
-    state: directory
-    path: "{{ backup_dir }}"
-    mode: 0755
+- name: Backup
+  block:
+    - name: Mkdir backup_dir
+      file:
+        state: directory
+        path: "{{ backup_dir }}"
+        mode: 0755
 
-- name: Weekly backups
-  cron:
-    name: "backup gitea"
-    state: "present"
-    special_time: "weekly"
-    job: >
-      sudo /bin/cp -urp {{ data_dir }}/* {{ backup_dir }}
+    - name: Weekly backups
+      cron:
+        name: "backup gitea"
+        state: "present"
+        special_time: "weekly"
+        job: >
+          sudo /bin/cp -urp {{ data_dir }}/* {{ backup_dir }}

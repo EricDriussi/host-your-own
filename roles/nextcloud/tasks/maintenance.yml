@@ -19,19 +19,21 @@
       {{ image }};
       docker exec --user www-data {{ container }} php occ upgrade
 
-- name: Mkdir backup_dir
-  file:
-    state: directory
-    path: "{{ backup_dir }}"
-    mode: 0755
+- name: Backup
+  block:
+    - name: Mkdir backup_dir
+      file:
+        state: directory
+        path: "{{ backup_dir }}"
+        mode: 0755
 
-- name: Weekly backups
-  cron:
-    name: "backup cloud"
-    state: "present"
-    special_time: "weekly"
-    job: >
-      sudo /bin/cp -urp {{ data_dir }}/* {{ backup_dir }}
+    - name: Weekly backups
+      cron:
+        name: "backup cloud"
+        state: "present"
+        special_time: "weekly"
+        job: >
+          sudo /bin/cp -urp {{ data_dir }}/* {{ backup_dir }}
 
 - name: Enable auto-refresh with Cron
   cron:
