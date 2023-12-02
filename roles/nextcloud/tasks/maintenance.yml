@@ -16,7 +16,8 @@
       -v {{ data_dir }}/apps/:/var/www/html/apps/
       -v {{ data_dir }}/config/:/var/www/html/config/
       -p {{ service.cloud.port }}:80
-      {{ image }}
+      {{ image }};
+      docker exec --user www-data {{ container }} php occ upgrade
 
 - name: Mkdir backup_dir
   file:
@@ -38,4 +39,4 @@
     state: "present"
     minute: "*/5"
     job: >
-      /usr/bin/docker exec -u www-data nextcloud /bin/sh -c 'php -f /var/www/html/cron.php'
+      /usr/bin/docker exec -u www-data {{ container }} /bin/sh -c 'php -f /var/www/html/cron.php'
