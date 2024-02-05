@@ -1,4 +1,3 @@
----
 - name: Create user
   hosts: vps
   remote_user: root
@@ -72,3 +71,8 @@
       become: true
       tags:
         - nginx
+
+    - role: welcome
+      become: true
+      tags:
+        - welcome

@@ -1,0 +1,18 @@
+---
+- name: Remove default welcome message
+  file:
+    state: absent
+    path: "/etc/motd"
+
+- name: Copy welcome message script
+  template:
+    src: "10-welcome.sh"
+    dest: "/etc/update-motd.d/"
+    mode: 0755
+
+- name: Enable and restart ssh
+  become: true
+  service:
+    name: sshd
+    enabled: true
+    state: restarted
