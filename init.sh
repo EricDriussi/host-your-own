@@ -11,7 +11,7 @@ fi
 
 pipx install --include-deps ansible
 
-rm -rf ./host-your-own && git clone git@gitlab.com:ericdriussi/host-your-own.git ./host-your-own
+rm -rf ./host-your-own && git clone https://gitlab.com/ericdriussi/host-your-own.git ./host-your-own
 
 cd ./host-your-own
 ~/.local/bin/ansible-playbook run.yml
