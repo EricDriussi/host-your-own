@@ -7,6 +7,18 @@
       - "docker"
       - "docker-compose"
 
+- name: Setup log rotation
+  become: true
+  copy:
+    content: |
+      {
+        "log-opts": {
+          "max-size": "10m",
+          "max-file": "5"
+        }
+      }
+    dest: /etc/docker/daemon.json
+
 - name: Start and enable docker
   become: true
   systemd:

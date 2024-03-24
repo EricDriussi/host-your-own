@@ -4,7 +4,7 @@
     name: docker prune
     state: present
     special_time: monthly
-    job: "docker system prune -f"
+    job: "docker system prune --force --all --volumes"
 
 - name: Clean up journalctl
   lineinfile:
