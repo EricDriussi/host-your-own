@@ -6,7 +6,7 @@
     - name: Check root access
       block:
         - name: Check SSH access
-          raw: ssh -o BatchMode=yes -o ConnectTimeout=5 -i "{{ ssh_key }}" "root@{{ ip | default(domain) }}" 'echo ok'
+          raw: ssh -o BatchMode=yes -o ConnectTimeout=5 -i "{{ ansible_ssh_private_key_file }}" "root@{{ ansible_host }}" 'echo ok'
           register: root_ssh
           ignore_errors: true
           failed_when: false
