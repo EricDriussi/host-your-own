@@ -16,26 +16,20 @@ git checkout ci
 
 cd ./host-your-own
 
-if [ ! -f .env ]; then # CI
+if [ "$1" == "ci" ]; then
     cat <<EOF >.env.yml
 ---
 domain: "localhost"
-
 email: "your@email.address"
-
 nextcloud_username: "admin_user"
 nextcloud_password: "admin_pwd"
-
 gitea_username: "admin_user"
 gitea_password: "admin_pwd"
-
 vaultwarden_password: "admin_panel_pwd"
-
 ssh_key: "~/.ssh/id_rsa"
-
 dotfiles_repo: "https://github.com/ericdriussi/dotfiles.git"
 EOF
-    echo "Created .env file for CI"
+    ~/.local/bin/ansible-playbook run.yml --connection=local
+else
+    ~/.local/bin/ansible-playbook run.yml
 fi
-
-~/.local/bin/ansible-playbook run.yml

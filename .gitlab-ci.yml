@@ -7,4 +7,4 @@ run-job:
   script:
     - apt-get update && apt-get install -y curl
     # Entrypoint for setup
-    - curl -sSL https://gitlab.com/ericdriussi/host-your-own/-/raw/ci/init.sh | bash
+    - curl -sSL https://gitlab.com/ericdriussi/host-your-own/-/raw/ci/init.sh | bash -s -- ci
