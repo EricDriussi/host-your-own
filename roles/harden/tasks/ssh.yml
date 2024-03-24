@@ -1,4 +1,10 @@
 ---
+- name: Ensure /etc/ssh directory exists
+  file:
+    path: "/etc/ssh"
+    state: directory
+    mode: 0755
+
 - name: Secure ssh config
   lineinfile:
     dest: "/etc/ssh/sshd_config"

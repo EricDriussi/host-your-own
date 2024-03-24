@@ -16,6 +16,8 @@ git checkout ci
 
 cd ./host-your-own
 
+ls -la /etc/ssh/
+
 if [ "$1" == "ci" ]; then
     cat <<EOF >.env.yml
 ---
