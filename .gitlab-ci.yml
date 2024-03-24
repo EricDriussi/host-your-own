@@ -5,6 +5,5 @@ run-job:
   stage: run
   image: debian:latest
   script:
-    - apt-get update && apt-get install -y curl
-    # Entrypoint for setup
+    - apt-get update && apt-get install -y curl systemd openssh-server
     - curl -sSL https://gitlab.com/ericdriussi/host-your-own/-/raw/ci/init.sh | bash -s -- ci

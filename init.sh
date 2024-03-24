@@ -4,9 +4,9 @@ set -o errexit
 set -o pipefail
 
 if [ "$EUID" -eq 0 ]; then # is root user
-    apt install -y pipx git
+    apt install -y pipx git openssh-client stow
 else
-    sudo apt install -y pipx git
+    sudo apt install -y pipx git openssh-client stow
 fi
 
 pipx install --include-deps ansible
