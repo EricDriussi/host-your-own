@@ -1,4 +1,5 @@
 stages:
+  - build
   - setup
   - run
 
@@ -22,13 +23,33 @@ setup_environment:
     paths:
       - .env.yml
 
+build_image:
+ stage: build
+ image: docker:latest
+ services:
+    - docker:dind
+ variables:
+    DOCKER_HOST: "tcp://docker:2375"
+    DOCKER_TLS_CERTDIR: ""
+ script:
+    - docker build -t ci-image .
+    - mkdir image
+    - docker save ci-image > image/HYO.tar
+ artifacts:
+    paths:
+      - image
+
 run-job:
   stage: run
-  image: debian:latest
   dependencies:
     - setup_environment
   script:
-    - apt-get update && apt-get install -y curl systemd openssh-server stow
-    - mkdir -p /run/sshd ./HYO
-    - cp .env.yml ./HYO/.env.yml
-    - curl -sSL https://gitlab.com/ericdriussi/host-your-own/-/raw/ci/init.sh | bash -s -- --connection=local
+    - docker load -i image/HYO.tar
+    - docker run --name HYO -d HYO
+
+    - docker exec HYO bash -c "apt-get update && apt-get install -y curl openssh-server && mkdir -p /run/sshd ./HYO && cp .env.yml ./HYO/.env.yml && curl -sSL https://gitlab.com/ericdriussi/host-your-own/-/raw/ci/init.sh | bash -s -- --connection=local"
+    - docker exec HYO apt-get update
+    - docker exec HYO apt-get install -y curl openssh-server
+    - docker exec HYO mkdir -p /run/sshd ./HYO
+    - docker exec HYO cp .env.yml ./HYO/.env.yml
+    - docker exec HYO bash -c "curl -sSL https://gitlab.com/ericdriussi/host-your-own/-/raw/ci/init.sh | bash -s -- --connection=local"
