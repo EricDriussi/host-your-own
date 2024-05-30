@@ -1,13 +1,34 @@
-- name: Remove default welcome message
-  file:
-    state: absent
-    path: "/etc/motd"
+- name: Remove all motd
+  block:
+    - name: Remove default welcome message
+      file:
+        state: absent
+        path: "/etc/motd"
 
-- name: Copy welcome message script
+    - name: Remove all files in /etc/update-motd.d
+      file:
+        path: "/etc/update-motd.d/"
+        state: absent
+
+    - name: Recreate /etc/update-motd.d directory
+      file:
+        path: "/etc/update-motd.d"
+        state: directory
+        mode: 0755
+
+- name: Copy welcome message template
   template:
-    src: "10-welcome.sh"
+    src: "10-welcome"
     dest: "/etc/update-motd.d/"
     mode: 0755
+
+- name: Copy all sh scripts
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/update-motd.d/"
+    mode: 0755
+  with_fileglob:
+    - "*"
 
 - name: Enable and restart ssh
   become: true
