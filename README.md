@@ -92,6 +92,13 @@ It is stored in `/home/ansible/website/` and you can modify it at any time using
 rsync --recursive --compress --partial --progress --times [LOCAL-WEBSITE-DIR]/* ansible@[your.domain.com]:/home/ansible/website
 ```
 
+A lightly modified version of [this](https://github.com/woodruffw/snippets/blob/master/vbnla/vbnla) script is available in `/home/ansible/analytics.rb`.
+Run it as follows to extract useful information from your server:
+
+```sh
+sudo cat /var/log/nginx/acces.log | ~/analytics.rb
+```
+
 ### Updates and Backups
 
 System wise and individual service updates are done on a monthly basis.
