@@ -55,6 +55,10 @@
       tags:
         - website
 
+    - role: analytics
+      tags:
+        - analytics
+
     - role: onion
       become: true
       tags:

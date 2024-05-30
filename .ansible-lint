@@ -1,5 +1,6 @@
 ---
 skip_list:
+  - yaml[document-start]
   - fqcn
   - latest[git]
   - no-handler

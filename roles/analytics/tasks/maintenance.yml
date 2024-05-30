@@ -1,0 +1,33 @@
+- name: Monthly updates
+  cron:
+    name: update umami
+    state: present
+    special_time: monthly
+    job: >
+      /usr/bin/docker stop {{ container }};
+      /usr/bin/docker rm {{ container }};
+      /usr/bin/docker pull {{ image }};
+      /usr/bin/docker run -d
+      --restart unless-stopped
+      --name {{ container }}
+      --env-file /home/{{ username }}/docker_env_files/umami.env
+      -p {{ service.umami.port }}:3000
+      --network {{ umami_network }}
+      {{ image }};
+      docker exec --user www-data {{ container }} php occ upgrade
+
+- name: Backup
+  block:
+    - name: Mkdir backup_dir
+      file:
+        state: directory
+        path: "{{ backup_dir }}"
+        mode: 0755
+
+    - name: Weekly backups
+      cron:
+        name: "backup cloud"
+        state: "present"
+        special_time: "weekly"
+        job: >
+          sudo /bin/cp -urp {{ data_dir }}/* {{ backup_dir }}

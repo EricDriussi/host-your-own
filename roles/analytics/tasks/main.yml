@@ -1,0 +1,12 @@
+- name: Umami - Docker
+  vars:
+    container: "umami"
+    image: "ghcr.io/umami-software/umami:postgresql-latest"
+    data_dir: "/{{ service.umami.subdomain }}-data"
+    backup_dir: "{{ common_backup_dir }}/{{ service.umami.subdomain }}"
+    network: "umami_network"
+  block:
+    - import_tasks: setup.yml
+    - import_tasks: run.yml
+    - import_tasks: maintenance.yml
+

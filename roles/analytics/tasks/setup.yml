@@ -1,0 +1,21 @@
+- name: Setup docker
+  import_role:
+    name: common_roles/docker
+
+- name: Mkdir docker_env_files
+  file:
+    state: directory
+    path: "/home/{{ username }}/docker_env_files"
+    mode: 0755
+
+- name: Docker env file
+  copy:
+    dest: "/home/{{ username }}/docker_env_files/umami.env"
+    content: |
+      POSTGRES_DB=umami
+      POSTGRES_USER=umami
+      POSTGRES_PASSWORD=umami
+      DATABASE_URL=postgresql://umami:umami@db:5432/umami
+      DATABASE_TYPE=postgresql
+      APP_SECRET=replace-me-with-a-random-string
+    mode: 0644

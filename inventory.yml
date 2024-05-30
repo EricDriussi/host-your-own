@@ -1,4 +1,3 @@
----
 all:
   hosts:
     vps:
@@ -22,6 +21,9 @@ all:
       gitea:
         subdomain: "git"
         port: 84
+      umami:
+        subdomain: "umami"
+        port: 85
     ports:
       ssh: 22
       http: 80
