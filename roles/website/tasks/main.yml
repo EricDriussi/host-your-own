@@ -1,4 +1,3 @@
----
 - name: Create and chown website dir
   file:
     path: "/home/{{ username }}/website"

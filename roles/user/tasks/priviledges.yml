@@ -1,4 +1,3 @@
----
 - name: Password-less sudo for {{ username }}
   lineinfile:
     dest: /etc/sudoers

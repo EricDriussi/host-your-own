@@ -1,4 +1,3 @@
----
 - name: Remove default welcome message
   file:
     state: absent

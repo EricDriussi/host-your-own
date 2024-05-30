@@ -1,4 +1,3 @@
----
 - name: Autoremove
   apt:
     autoremove: true

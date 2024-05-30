@@ -1,4 +1,3 @@
----
 - name: Copy config file
   copy:
     src: "nginx.conf"

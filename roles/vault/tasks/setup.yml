@@ -1,4 +1,3 @@
----
 - name: Admin Token
   block:
     - name: Install packages

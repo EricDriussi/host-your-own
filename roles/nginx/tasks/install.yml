@@ -1,4 +1,3 @@
----
 - name: Download NGINX GPG key
   shell:
     cmd: |

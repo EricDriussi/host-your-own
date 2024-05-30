@@ -1,4 +1,3 @@
----
 - name: Create User
   vars:
     has_root_access: false

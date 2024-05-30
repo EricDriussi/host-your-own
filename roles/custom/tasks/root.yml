@@ -1,4 +1,3 @@
----
 - name: Copy for root user
   copy:
     src: "/home/{{ username }}/dotfiles"
@@ -16,7 +15,7 @@
 - name: Unstow dotfiles
   args:
     chdir: "/root/dotfiles"
-  command: 
+  command:
     cmd: "stow -R {{ item }}"
   loop: "{{ conf_dirs.stdout_lines }}"
   changed_when: true

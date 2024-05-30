@@ -1,4 +1,3 @@
----
 - name: Run container
   docker_container:
     name: "{{ container }}"

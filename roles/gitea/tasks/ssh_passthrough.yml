@@ -1,4 +1,3 @@
----
 - name: Setup git user for SSH passthrough
   become: true
   vars:

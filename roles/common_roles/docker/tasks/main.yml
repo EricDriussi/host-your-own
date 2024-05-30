@@ -1,4 +1,3 @@
----
 - name: Install packages
   import_role:
     name: common_roles/install_latest

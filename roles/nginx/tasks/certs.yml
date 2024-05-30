@@ -1,4 +1,3 @@
----
 - name: Run cert script # noqa: yaml
   command: "/usr/bin/certbot --nginx -n --agree-tos --redirect --expand --email {{ email }} --domains {{ domain }},cloud.{{ domain }},vault.{{ domain }},searx.{{ domain }},git.{{ domain }}"
   changed_when: true

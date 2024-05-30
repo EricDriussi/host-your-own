@@ -1,4 +1,3 @@
----
 - name: Secure ssh config
   lineinfile:
     dest: "/etc/ssh/sshd_config"
