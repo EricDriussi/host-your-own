@@ -10,7 +10,7 @@
       /usr/bin/docker run -d
       --restart unless-stopped
       --name {{ container }}
-      --env-file /home/{{ username }}/docker_env_files/umami.env
+      --env-file /home/{{ username }}/docker_env_files/{{ service.umami.subdomain }}.env
       -p {{ service.umami.port }}:3000
       --network {{ network }}
       {{ image }};

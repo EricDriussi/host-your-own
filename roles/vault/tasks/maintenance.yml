@@ -10,7 +10,7 @@
       /usr/bin/docker run -d
       --restart unless-stopped
       --name {{ container }}
-      --env-file /home/{{ username }}/docker_env_files/vaultwarden.env
+      --env-file /home/{{ username }}/docker_env_files/{{ service.vault.subdomain }}.env
       -v {{ data_dir }}/:/data/
       -p {{ service.vault.port }}:80
       {{ image }}

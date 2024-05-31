@@ -6,7 +6,7 @@
     detach: true
     state: "started"
     restart_policy: unless-stopped
-    env_file: "/home/{{ username }}/docker_env_files/nextcloud.env"
+    env_file: "/home/{{ username }}/docker_env_files/{{ service.cloud.subdomain }}.env"
     volumes:
       - "{{ data_dir }}/data/:/var/www/html/data"
       - "{{ data_dir }}/apps/:/var/www/html/apps"

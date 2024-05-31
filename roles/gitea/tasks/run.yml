@@ -6,7 +6,7 @@
     detach: true
     state: "started"
     restart_policy: unless-stopped
-    env_file: "/home/{{ username }}/docker_env_files/gitea.env"
+    env_file: "/home/{{ username }}/docker_env_files/{{ service.gitea.subdomain }}.env"
     volumes:
       - "{{ data_dir }}/:/data/"
       - /etc/timezone:/etc/timezone:ro

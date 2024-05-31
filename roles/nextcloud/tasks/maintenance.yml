@@ -10,7 +10,7 @@
       /usr/bin/docker run -d
       --restart unless-stopped
       --name {{ container }}
-      --env-file /home/{{ username }}/docker_env_files/nextcloud.env
+      --env-file /home/{{ username }}/docker_env_files/{{ service.cloud.subdomain }}.env
       -v {{ data_dir }}/data/:/var/www/html/data/
       -v {{ data_dir }}/apps/:/var/www/html/apps/
       -v {{ data_dir }}/config/:/var/www/html/config/
