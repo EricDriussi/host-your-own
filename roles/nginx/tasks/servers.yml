@@ -35,6 +35,7 @@
     - "{{ service.vault }}"
     - "{{ service.searx }}"
     - "{{ service.gitea }}"
+    - "{{ service.umami }}"
   loop_control:
     label: "{{ item.subdomain }}"
 

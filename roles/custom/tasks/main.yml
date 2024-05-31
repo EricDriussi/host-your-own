@@ -10,9 +10,3 @@
     - name: Copy configs for root
       become: true
       import_tasks: root.yml
-
-    - name: Analytics script
-      copy:
-        src: "analytics.rb"
-        dest: "/home/{{ username }}"
-        mode: 0755

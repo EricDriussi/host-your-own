@@ -12,9 +12,8 @@
       --name {{ container }}
       --env-file /home/{{ username }}/docker_env_files/umami.env
       -p {{ service.umami.port }}:3000
-      --network {{ umami_network }}
+      --network {{ network }}
       {{ image }};
-      docker exec --user www-data {{ container }} php occ upgrade
 
 - name: Backup
   block:

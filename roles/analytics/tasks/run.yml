@@ -1,6 +1,6 @@
 - name: Custom network
   docker_network:
-    name: "{{ umami_network }}"
+    name: "{{ network }}"
     state: present
 
 - name: Run umami database
@@ -12,7 +12,7 @@
       - "/{{ service.umami.subdomain }}-data:/var/lib/postgresql/data"
     restart_policy: unless-stopped
     networks:
-      - name: umami_network
+      - name: "{{ network }}"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
@@ -28,7 +28,7 @@
     env_file: "/home/{{ username }}/docker_env_files/umami.env"
     restart_policy: unless-stopped
     networks:
-      - name: umami_network
+      - name: "{{ network }}"
     healthcheck:
       test: ["CMD-SHELL", "curl http://localhost:3000/api/heartbeat"]
       interval: 5s

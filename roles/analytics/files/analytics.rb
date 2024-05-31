@@ -8,13 +8,13 @@ require "json"
 require "net/http"
 require "uri"
 
-IGNORE_PATTERNS = ["/robots.txt", 
-                    "*hub?access_token*", 
-                    "/api*", 
-                    "/login", 
-                    "/ocs/v2.php*", 
+IGNORE_PATTERNS = ["/robots.txt",
+                    "*hub?access_token*",
+                    "/api*",
+                    "/login",
+                    "/ocs/v2.php*",
                     "/remote.php/dav/*",
-                    "/favicon.ico", 
+                    "/favicon.ico",
                     "/.env",
                     "/.git*",
                     "/sitemap.xml"]

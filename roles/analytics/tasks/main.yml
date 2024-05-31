@@ -10,3 +10,8 @@
     - import_tasks: run.yml
     - import_tasks: maintenance.yml
 
+- name: Simple analytics script
+  copy:
+    src: "analytics.rb"
+    dest: "/home/{{ username }}"
+    mode: 0755
