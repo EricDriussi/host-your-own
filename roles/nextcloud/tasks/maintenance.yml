@@ -16,6 +16,7 @@
       -v {{ data_dir }}/config/:/var/www/html/config/
       -p {{ service.cloud.port }}:80
       {{ image }};
+      while [ "$(docker inspect -f '{{ '{{ .State.Running }}' }}' {{ container }})" != "true" ]; do sleep 1; done;
       docker exec --user www-data {{ container }} php occ upgrade
 
 - name: Backup
