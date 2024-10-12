@@ -1,3 +1,4 @@
+# TODO: Swap for Forgejo https://forgejo.org/docs/latest/admin/installation-docker/
 - name: Gitea - Docker
   vars:
     container: "gitea"
