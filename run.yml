@@ -31,20 +31,20 @@
     #   tags:
     #     - custom
 
-    - role: nextcloud
-      tags:
-        - nextcloud
-        - services
+    # - role: nextcloud
+    #   tags:
+    #     - nextcloud
+    #     - services
 
-    - role: vault
-      tags:
-        - vault
-        - services
+    # - role: vault
+    #   tags:
+    #     - vault
+    #     - services
 
-    - role: searx
-      tags:
-        - searx
-        - services
+    # - role: searx
+    #   tags:
+    #     - searx
+    #     - services
 
     - role: gitea
       tags:

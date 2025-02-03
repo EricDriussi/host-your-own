@@ -34,6 +34,7 @@
         packages: "acl"
 
     - name: SSH for {{ git_user }}
+      become: true
       become_user: "{{ git_user }}"
       block:
 
