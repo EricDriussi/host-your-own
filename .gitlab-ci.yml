@@ -34,4 +34,4 @@ run_job:
     - apt install -y curl openssh-server
     - mkdir -p /run/sshd ./HYO
     - cp .env.yml ./HYO/.env.yml
-    - bash -c "curl -sSL https://gitlab.com/ericdriussi/host-your-own/-/raw/ci/init.sh | bash -s -- --connection=local"
+    - curl -sSL https://gitlab.com/ericdriussi/host-your-own/-/raw/ci/init.sh | bash -s -- --connection=local --skip-tags=ignore-ci

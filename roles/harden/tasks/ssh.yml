@@ -21,6 +21,7 @@
       line: "MaxAuthTries 3"
 
 - name: Enable and restart ssh
+  tags: ignore-ci # ci doesn't boot with systemd
   service:
     name: sshd
     enabled: true

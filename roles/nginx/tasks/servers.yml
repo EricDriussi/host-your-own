@@ -40,6 +40,7 @@
     label: "{{ item.subdomain }}"
 
 - name: Enable and restart nginx
+  tags: ignore-ci # ci doesn't boot with systemd
   service:
     name: nginx
     enabled: true

@@ -32,6 +32,7 @@
 
 - name: Enable and restart ssh
   become: true
+  tags: ignore-ci # ci doesn't boot with systemd
   service:
     name: sshd
     enabled: true
