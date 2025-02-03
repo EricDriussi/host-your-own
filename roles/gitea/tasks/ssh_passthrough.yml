@@ -31,7 +31,9 @@
       import_role:
         name: common_roles/install_latest
       vars:
-        packages: "acl"
+        packages:
+          - "acl"
+          - "sudo"
 
     - name: SSH for {{ git_user }}
       become: true
