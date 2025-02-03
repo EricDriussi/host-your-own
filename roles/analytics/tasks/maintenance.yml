@@ -1,3 +1,9 @@
+- name: Install packages
+  import_role:
+    name: common_roles/install_latest
+  vars:
+    packages: "cron"
+
 - name: Monthly updates
   cron:
     name: update umami
