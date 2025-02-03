@@ -28,6 +28,8 @@ run_job:
   dependencies:
     - setup_environment
   script:
+    - export LC_ALL=C.UTF-8
+    - export LANG=C.UTF-8
     - apt update
     - apt install -y curl openssh-server
     - mkdir -p ./HYO
