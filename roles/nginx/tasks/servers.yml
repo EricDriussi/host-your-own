@@ -16,6 +16,12 @@
   slurp:
     src: "/var/lib/tor/hidden_service/hostname"
   register: onion_address
+  ignore_errors: true
+
+- name: Set default onion address if missing
+  set_fact:
+    onion_address: {"content": "NOT_FOUND"}
+  when: onion_address.failed is defined and onion_address.failed
 
 - name: Config website server
   template:
