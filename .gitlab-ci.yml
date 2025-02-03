@@ -16,7 +16,7 @@ setup_environment:
       gitea_password: "admin_pwd"
       vaultwarden_password: "admin_panel_pwd"
       ssh_key: "~/.ssh/id_rsa"
-      dotfiles_repo: "https://github.com/ericdriussi/dotfiles.git"
+      dotfiles_repo: "https://gitlab.com/ericdriussi/dotfiles.git"
       EOF
   artifacts:
     paths:
@@ -24,7 +24,7 @@ setup_environment:
 
 run_job:
   stage: run
-  image: jrei/systemd-debian:12
+  image: jrei/systemd-debian:12 # TODO: try debian:12 or bookworm instead
   dependencies:
     - setup_environment
   script:
