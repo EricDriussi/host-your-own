@@ -5,6 +5,7 @@ all:
       ansible_ssh_private_key_file: "{{ ssh_key | default('~/.ssh/id_rsa') }}"
 
   vars:
+    # TODO: should be configurable
     username: "ansible"
     create_remote_user: true
     common_backup_dir: "/home/{{ username }}/backups"

@@ -17,10 +17,13 @@
         }
       }
     dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: '0644'
 
 - name: Start and enable docker
   become: true
-  systemd:
+  service:
     name: docker
     daemon_reload: true
     state: started
