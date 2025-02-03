@@ -5,6 +5,7 @@
     packages: "ufw"
 
 - name: UFW deny all except HTTP and HTTPS
+  tags: ignore-ci # no iptables in docker ci
   ufw:
     state: enabled
     policy: deny
@@ -15,6 +16,7 @@
     - "{{ ports.https }}"
 
 - name: UFW limit ssh traffic
+  tags: ignore-ci # no iptables in docker ci
   ufw:
     state: enabled
     rule: limit
