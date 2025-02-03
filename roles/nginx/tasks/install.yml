@@ -6,6 +6,7 @@
       - "nginx"
       - "python3-certbot-nginx"
       - "gnupg"
+      - "sudo"
 
 - name: Download NGINX GPG key
   shell:
