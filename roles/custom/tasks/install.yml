@@ -4,12 +4,11 @@
   vars:
     packages: "{{ basic_packages }}"
 
-- name: Install starship
-  command: "cargo install starship --locked"
-  changed_when: true
-
-- name: Install eza
-  command: "cargo install eza"
+- name: Install from crates.io
+  command: "cargo install {{ item }} --locked"
+  with_items:
+    - starship
+    - eza
   changed_when: true
 
 - name: Check if nvim config is present
