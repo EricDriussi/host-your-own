@@ -59,11 +59,11 @@
     #   tags:
     #     - analytics
 
-    # - role: onion
-    #   become: true
-    #   tags:
-    #     - onion
-    #     - website
+    - role: onion
+      become: true
+      tags:
+        - onion
+        - website
 
     # - role: fail2ban
     #   become: true
