@@ -5,7 +5,6 @@ basic_packages:
   - delta
   - docker
   - docker-compose
-  - eza
   - fzf
   - git
   - htop
