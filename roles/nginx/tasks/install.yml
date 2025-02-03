@@ -1,3 +1,12 @@
+- name: Install packages
+  import_role:
+    name: common_roles/install_latest
+  vars:
+    packages:
+      - "nginx"
+      - "python3-certbot-nginx"
+      - "gnupg"
+
 - name: Download NGINX GPG key
   shell:
     cmd: |
@@ -12,11 +21,3 @@
     repo: "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/debian {{ ansible_distribution_release }} nginx"
     state: present
     filename: nginx
-
-- name: Install packages
-  import_role:
-    name: common_roles/install_latest
-  vars:
-    packages:
-      - "nginx"
-      - "python3-certbot-nginx"

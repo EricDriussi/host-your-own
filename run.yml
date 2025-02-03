@@ -46,30 +46,30 @@
     #     - searx
     #     - services
 
-    - role: gitea
-      tags:
-        - gitea
-        - services
+    # - role: gitea
+    #   tags:
+    #     - gitea
+    #     - services
 
-    - role: website
-      tags:
-        - website
+    # - role: website
+    #   tags:
+    #     - website
 
-    - role: analytics
-      tags:
-        - analytics
+    # - role: analytics
+    #   tags:
+    #     - analytics
 
-    - role: onion
-      become: true
-      tags:
-        - onion
-        - website
+    # - role: onion
+    #   become: true
+    #   tags:
+    #     - onion
+    #     - website
 
-    - role: fail2ban
-      become: true
-      tags:
-        - fail2ban
-        - sec
+    # - role: fail2ban
+    #   become: true
+    #   tags:
+    #     - fail2ban
+    #     - sec
 
     - role: nginx
       become: true
