@@ -23,7 +23,8 @@
 
 - name: Start and enable docker
   become: true
-  service:
+  tags: ignore-ci # ci doesn't boot with systemd
+  systemd:
     name: docker
     daemon_reload: true
     state: started
