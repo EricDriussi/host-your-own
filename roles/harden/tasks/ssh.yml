@@ -1,3 +1,9 @@
+- name: Install packages
+  import_role:
+    name: common_roles/install_latest
+  vars:
+    packages: "openssh-server"
+
 - name: Secure ssh config
   lineinfile:
     dest: "/etc/ssh/sshd_config"

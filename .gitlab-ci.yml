@@ -31,7 +31,7 @@ run_job:
     - export LC_ALL=C.UTF-8
     - export LANG=C.UTF-8
     - apt update
-    - apt install -y curl openssh-server # TODO: install in ssh task?
+    - apt install -y curl
     - mkdir -p /run/sshd ./HYO
     - cp .env.yml ./HYO/.env.yml
     # TODO: point to master branch, rm --connection=local flag
