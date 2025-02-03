@@ -1,5 +1,4 @@
 stages:
-  - build
   - setup
   - run
 
@@ -23,34 +22,14 @@ setup_environment:
     paths:
       - .env.yml
 
-build_image:
-  stage: build
-  image: docker:latest
-  services:
-    - docker:dind
-  variables:
-    DOCKER_HOST: "tcp://docker:2375"
-    DOCKER_TLS_CERTDIR: ""
-  script:
-    - docker build -t ci-image .
-    - mkdir -p image
-    - docker save ci-image > image/HYO.tar
-  artifacts:
-    paths:
-      - image
-
 run_job:
   stage: run
-  image: docker:latest
+  image: jrei/systemd-debian:12
   dependencies:
     - setup_environment
-    - build_image
   script:
-    - docker load -i image/HYO.tar
-    - docker run --name HYO -d HYO
-
-    - docker exec HYO apt update
-    - docker exec HYO apt install -y curl openssh-server
-    - docker exec HYO mkdir -p /run/sshd ./HYO
-    - docker exec HYO cp .env.yml ./HYO/.env.yml
-    - docker exec HYO bash -c "curl -sSL https://gitlab.com/ericdriussi/host-your-own/-/raw/ci/init.sh | bash -s -- --connection=local"
+    - apt update
+    - apt install -y curl openssh-server
+    - mkdir -p ./HYO
+    - cp .env.yml ./HYO/.env.yml
+    - bash -c "curl -sSL https://gitlab.com/ericdriussi/host-your-own/-/raw/ci/init.sh | bash -s -- --connection=local"
