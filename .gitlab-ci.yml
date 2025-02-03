@@ -32,6 +32,6 @@ run_job:
     - export LANG=C.UTF-8
     - apt update
     - apt install -y curl openssh-server
-    - mkdir -p ./HYO
+    - mkdir -p /run/sshd ./HYO
     - cp .env.yml ./HYO/.env.yml
     - bash -c "curl -sSL https://gitlab.com/ericdriussi/host-your-own/-/raw/ci/init.sh | bash -s -- --connection=local"
