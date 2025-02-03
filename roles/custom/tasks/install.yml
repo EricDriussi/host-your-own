@@ -4,29 +4,16 @@
   vars:
     packages: "{{ basic_packages }}"
 
-- name: Download Rustup install script
-  get_url:
-    url: https://sh.rustup.rs
-    dest: /tmp/rustup_install.sh
+- name: Download and extract Starship & Eza binaries
+  unarchive:
+    src: "{{ item }}"
+    dest: "/usr/local/bin/"
+    remote_src: yes
+    extra_opts: ["--strip-components=1"]
     mode: 0755
-  register: rustup_install_script
-
-- name: Run Rustup install script
-  command: /tmp/rustup_install.sh -y
-  when: rustup_install_script.changed
-  changed_when: true
-
-- name: Update Rust
-  command: "/homw/{{ username }}/.cargo/bin/rustup update"
-  when: rustup_install_script.changed
-  changed_when: true
-
-- name: Install starship and eza
-  command: "cargo install {{ item }} --locked"
   with_items:
-    - starship
-    - eza
-  changed_when: true
+    - "https://github.com/starship/starship/releases/latest/download/starship-x86_64-unknown-linux-gnu.tar.gz"
+    - "https://github.com/eza-community/eza/releases/latest/download/eza_x86_64-unknown-linux-gnu.tar.gz"
 
 - name: Check if nvim config is present
   stat:
