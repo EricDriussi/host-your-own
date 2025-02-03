@@ -1,5 +1,6 @@
 basic_packages:
   - bat
+  - cargo
   - curl
   - delta
   - docker
@@ -16,7 +17,6 @@ basic_packages:
   - python3-pip
   - ripgrep
   - rsync
-  - starship
   - stow
   - tree
   - ufw

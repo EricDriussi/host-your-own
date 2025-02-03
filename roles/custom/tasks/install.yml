@@ -4,6 +4,10 @@
   vars:
     packages: "{{ basic_packages }}"
 
+- name: Install starship
+  command: "cargo install starship --locked"
+  changed_when: true
+
 - name: Check if nvim config is present
   stat:
     path: "/home/{{ username }}/dotfiles/nvim"

@@ -19,4 +19,3 @@
     cmd: "stow -R {{ item }}"
   loop: "{{ conf_dirs.stdout_lines }}"
   changed_when: true
-
