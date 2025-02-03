@@ -25,6 +25,8 @@ setup_environment:
 run_job:
   stage: run
   image: jrei/systemd-debian:12 # TODO: try debian:12 or bookworm instead
+  services:
+    - docker:dind
   dependencies:
     - setup_environment
   script:
