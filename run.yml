@@ -16,16 +16,16 @@
     - .env.yml
 
   roles:
-    - role: harden
-      become: true
-      tags:
-        - harden
-        - sec
+    # - role: harden
+    #   become: true
+    #   tags:
+    #     - harden
+    #     - sec
 
-    - role: housekeeping
-      become: true
-      tags:
-        - housekeeping
+    # - role: housekeeping
+    #   become: true
+    #   tags:
+    #     - housekeeping
 
     - role: custom
       tags:

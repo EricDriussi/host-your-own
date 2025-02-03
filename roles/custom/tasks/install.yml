@@ -4,11 +4,20 @@
   vars:
     packages: "{{ basic_packages }}"
 
-- name: Install from crates.io
-  command: "cargo install {{ item }} --locked"
-  with_items:
-    - starship
-    - eza
+- name: Install eza
+  command: "cargo install eza"
+  changed_when: true
+
+- name: Download Starship install script
+  get_url:
+    url: https://starship.rs/install.sh
+    dest: /tmp/install_starship.sh
+    mode: 0755
+  register: starship_install_script
+
+- name: Run Starship install script
+  command: "sh /tmp/install_starship.sh"
+  when: starship_install_script.changed
   changed_when: true
 
 - name: Check if nvim config is present
