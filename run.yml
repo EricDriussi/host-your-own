@@ -16,65 +16,65 @@
     - .env.yml
 
   roles:
-    # - role: harden
-    #   become: true
-    #   tags:
-    #     - harden
-    #     - sec
+    - role: harden
+      become: true
+      tags:
+        - harden
+        - sec
 
-    # - role: housekeeping
-    #   become: true
-    #   tags:
-    #     - housekeeping
+    - role: housekeeping
+      become: true
+      tags:
+        - housekeeping
 
-    # - role: custom
-    #   tags:
-    #     - custom
+    - role: custom
+      tags:
+        - custom
 
-    # - role: nextcloud
-    #   tags:
-    #     - nextcloud
-    #     - services
+    - role: nextcloud
+      tags:
+        - nextcloud
+        - services
 
-    # - role: vault
-    #   tags:
-    #     - vault
-    #     - services
+    - role: vault
+      tags:
+        - vault
+        - services
 
-    # - role: searx
-    #   tags:
-    #     - searx
-    #     - services
+    - role: searx
+      tags:
+        - searx
+        - services
 
-    # - role: gitea
-    #   tags:
-    #     - gitea
-    #     - services
+    - role: gitea
+      tags:
+        - gitea
+        - services
 
-    # - role: website
-    #   tags:
-    #     - website
+    - role: website
+      tags:
+        - website
 
-    # - role: analytics
-    #   tags:
-    #     - analytics
+    - role: analytics
+      tags:
+        - analytics
 
-    # - role: onion
-    #   become: true
-    #   tags:
-    #     - onion
-    #     - website
+    - role: onion
+      become: true
+      tags:
+        - onion
+        - website
 
-    # - role: fail2ban
-    #   become: true
-    #   tags:
-    #     - fail2ban
-    #     - sec
+    - role: fail2ban
+      become: true
+      tags:
+        - fail2ban
+        - sec
 
-    # - role: nginx
-    #   become: true
-    #   tags:
-    #     - nginx
+    - role: nginx
+      become: true
+      tags:
+        - nginx
 
     - role: welcome
       become: true

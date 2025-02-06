@@ -24,15 +24,12 @@ setup_environment:
 
 run_job:
   stage: run
-  image: jrei/systemd-debian:12 # TODO: try debian:12 or bookworm instead
+  image: debian:12
   dependencies:
     - setup_environment
   script:
-    - export LC_ALL=C.UTF-8
-    - export LANG=C.UTF-8
     - apt update
     - apt install -y curl
     - mkdir -p /run/sshd ./HYO
     - cp .env.yml ./HYO/.env.yml
-    # TODO: point to master branch, rm --connection=local flag
-    - curl -sSL https://gitlab.com/ericdriussi/host-your-own/-/raw/ci/init.sh | bash -s -- --connection=local --skip-tags=ignore-ci
+    - curl -sSL https://gitlab.com/ericdriussi/host-your-own/-/raw/master/init.sh | bash -s -- --connection=local --skip-tags=ignore-ci

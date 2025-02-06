@@ -3,11 +3,21 @@ set -o nounset
 set -o errexit
 set -o pipefail
 
-# TODO: add install with dnf and pacman as well
-if [ "$EUID" -eq 0 ]; then # is root user
-  apt install -y pipx git openssh-client
+if command -v apt &>/dev/null; then
+  install_cmd="apt install -y pipx git openssh-client"
+elif command -v dnf &>/dev/null; then
+  install_cmd="dnf install -y pipx git openssh-client"
+elif command -v pacman &>/dev/null; then
+  install_cmd="pacman --noconfirm -S python-pipx git openssh-client"
 else
-  sudo apt install -y pipx git openssh-client
+  echo "Unsupported package manager."
+  exit 1
+fi
+
+if [ "$EUID" -eq 0 ]; then # is root user
+  eval "$install_cmd"
+else
+  eval sudo "$install_cmd"
 fi
 
 pipx install --include-deps ansible
@@ -23,5 +33,4 @@ else
   cd "$directory" && git restore .
 fi
 
-git checkout ci #TODO: rm checkout
 ~/.local/bin/ansible-playbook run.yml "$@"
