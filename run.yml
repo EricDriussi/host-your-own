@@ -59,11 +59,11 @@
     #   tags:
     #     - analytics
 
-    - role: onion
-      become: true
-      tags:
-        - onion
-        - website
+    # - role: onion
+    #   become: true
+    #   tags:
+    #     - onion
+    #     - website
 
     # - role: fail2ban
     #   become: true
@@ -71,10 +71,10 @@
     #     - fail2ban
     #     - sec
 
-    - role: nginx
-      become: true
-      tags:
-        - nginx
+    # - role: nginx
+    #   become: true
+    #   tags:
+    #     - nginx
 
     - role: welcome
       become: true
