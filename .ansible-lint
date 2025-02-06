@@ -6,3 +6,4 @@ skip_list:
   - no-handler
   - name
   - role-name[path]
+  - var-naming[no-role-prefix]

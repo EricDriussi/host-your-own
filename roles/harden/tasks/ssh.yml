@@ -1,3 +1,9 @@
+- name: Install packages
+  import_role:
+    name: common_roles/install_latest
+  vars:
+    packages: "openssh-server"
+
 - name: Secure ssh config
   lineinfile:
     dest: "/etc/ssh/sshd_config"
@@ -21,6 +27,7 @@
       line: "MaxAuthTries 3"
 
 - name: Enable and restart ssh
+  tags: ignore-ci # ci doesn't boot with systemd
   service:
     name: sshd
     enabled: true

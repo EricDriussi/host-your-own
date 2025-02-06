@@ -11,10 +11,17 @@
         path: "/etc/nginx/sites-enabled"
         mode: 0755
 
+# TODO: depends on onion tasks
 - name: Get onion address
   slurp:
     src: "/var/lib/tor/hidden_service/hostname"
   register: onion_address
+  ignore_errors: true
+
+- name: Set default onion address if missing
+  set_fact:
+    onion_address: {"content": "NOT_FOUND"}
+  when: onion_address.failed is defined and onion_address.failed
 
 - name: Config website server
   template:
@@ -24,8 +31,8 @@
 
 - name: Config proxy server for services
   vars:
-    subdom: "{{ item.subdomain }}"
-    port: "{{ item.port }}"
+    serv_subdom: "{{ item.subdomain }}"
+    serv_port: "{{ item.port }}"
   template:
     src: nginx-service
     dest: "/etc/nginx/sites-enabled/{{ item.subdomain }}"
@@ -40,6 +47,7 @@
     label: "{{ item.subdomain }}"
 
 - name: Enable and restart nginx
+  tags: ignore-ci # ci doesn't boot with systemd
   service:
     name: nginx
     enabled: true

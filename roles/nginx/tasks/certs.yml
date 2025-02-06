@@ -1,4 +1,11 @@
-- name: Run cert script # noqa: yaml
+- name: Install packages
+  import_role:
+    name: common_roles/install_latest
+  vars:
+    packages: "cron"
+
+- name: Run cert script
+  tags: ignore-ci # certbot can't work on ci with made up data
   command: "/usr/bin/certbot --nginx -n --agree-tos --redirect --expand --email {{ email }} --domains {{ domain }},cloud.{{ domain }},vault.{{ domain }},searx.{{ domain }},git.{{ domain }}"
   changed_when: true
 

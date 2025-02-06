@@ -17,9 +17,13 @@
         }
       }
     dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: '0644'
 
 - name: Start and enable docker
   become: true
+  tags: ignore-ci # ci doesn't boot with systemd
   systemd:
     name: docker
     daemon_reload: true

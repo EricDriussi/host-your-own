@@ -31,9 +31,12 @@
       import_role:
         name: common_roles/install_latest
       vars:
-        packages: "acl"
+        packages:
+          - "acl"
+          - "sudo"
 
     - name: SSH for {{ git_user }}
+      become: true
       become_user: "{{ git_user }}"
       block:
 
@@ -60,6 +63,7 @@
 
 - name: Enable and restart ssh
   become: true
+  tags: ignore-ci # ci doesn't boot with systemd
   service:
     name: sshd
     enabled: true

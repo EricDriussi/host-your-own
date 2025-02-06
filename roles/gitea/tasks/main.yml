@@ -1,4 +1,3 @@
-# TODO: Swap for Forgejo https://forgejo.org/docs/latest/admin/installation-docker/
 - name: Gitea - Docker
   vars:
     container: "gitea"
@@ -12,4 +11,5 @@
     - import_tasks: ssh_passthrough.yml
     - import_tasks: setup.yml
     - import_tasks: run.yml
+      tags: ignore-ci # TODO: docker in ci
     - import_tasks: maintenance.yml

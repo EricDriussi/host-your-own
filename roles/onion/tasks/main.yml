@@ -34,6 +34,7 @@
       line: "HiddenServicePort {{ ports.http }} 127.0.0.1:{{ ports.http }}"
 
 - name: Enable and restart tor
+  tags: ignore-ci # ci doesn't boot with systemd
   service:
     name: tor
     enabled: true
