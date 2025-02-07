@@ -8,8 +8,9 @@ setup_environment:
     - |
       cat <<EOF >.env.yml
       ---
+      username: "ansible"
       domain: "localhost"
-      email: "your@email.address"
+      email: "an@email.address"
       nextcloud_username: "admin_user"
       nextcloud_password: "admin_pwd"
       gitea_username: "admin_user"
@@ -29,7 +30,8 @@ run_job:
     - setup_environment
   script:
     - apt update
-    - apt install -y curl
-    - mkdir -p /run/sshd ./HYO
-    - cp .env.yml ./HYO/.env.yml
-    - curl -sSL https://gitlab.com/ericdriussi/host-your-own/-/raw/master/init.sh | bash -s -- --connection=local --skip-tags=ignore-ci
+    - apt install -y curl git
+    - mkdir -p /run/sshd
+    - git clone https://gitlab.com/ericdriussi/host-your-own.git host-your-own
+    - cp .env.yml host-your-own/.env.yml
+    - cd host-your-own && ./init.sh --connection=local --skip-tags=ignore-ci

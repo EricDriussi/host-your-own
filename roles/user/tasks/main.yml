@@ -17,7 +17,7 @@
           when: "root_ssh.rc == 0"
 
     - name: Run tasks
-      when: has_root_access and create_remote_user
+      when: has_root_access
       block:
         - name: Create user
           import_tasks: create.yml
