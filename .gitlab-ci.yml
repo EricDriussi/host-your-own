@@ -1,12 +1,18 @@
 stages:
-  - setup
   - run
 
-setup_environment:
-  stage: setup
-  script:
+variables:
+  DIR: "HYO"
+
+default:
+  image: debian:12
+  before_script:
+    - apt update
+    - apt install -y git
+    - mkdir -p /run/sshd
+    - git clone https://gitlab.com/ericdriussi/host-your-own.git $DIR
     - |
-      cat <<EOF >.env.yml
+      cat <<EOF >$DIR/.env.yml
       ---
       username: "ansible"
       domain: "localhost"
@@ -19,19 +25,9 @@ setup_environment:
       ssh_key: "~/.ssh/id_rsa"
       dotfiles_repo: "https://gitlab.com/ericdriussi/dotfiles.git"
       EOF
-  artifacts:
-    paths:
-      - .env.yml
 
 run_job:
   stage: run
-  image: debian:12
-  dependencies:
-    - setup_environment
   script:
-    - apt update
-    - apt install -y curl git
-    - mkdir -p /run/sshd
-    - git clone https://gitlab.com/ericdriussi/host-your-own.git host-your-own
-    - cp .env.yml host-your-own/.env.yml
-    - cd host-your-own && ./init.sh --connection=local --skip-tags=ignore-ci
+    - cd $DIR && ./init.sh --connection=local --skip-tags=ignore-ci
+  interruptible: true
