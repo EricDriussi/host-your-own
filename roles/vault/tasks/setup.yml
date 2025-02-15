@@ -27,7 +27,7 @@
 
 - name: Docker env file
   copy:
-    dest: "/home/{{ username }}/docker_env_files/vaultwarden.env"
+    dest: "/home/{{ username }}/docker_env_files/{{ service.vault.subdomain }}.env"
     content: |
       ADMIN_TOKEN={{ admin_token.stdout }}
       SIGNUPS_ALLOWED=false

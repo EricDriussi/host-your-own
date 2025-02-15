@@ -5,6 +5,7 @@
     packages: "{{ basic_packages }}"
 
 - name: Download and extract Starship & Eza binaries
+  become: true
   unarchive:
     src: "{{ item }}"
     dest: "/usr/local/bin/"

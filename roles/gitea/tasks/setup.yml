@@ -10,7 +10,7 @@
 
 - name: Docker env file
   copy:
-    dest: "/home/{{ username }}/docker_env_files/gitea.env"
+    dest: "/home/{{ username }}/docker_env_files/{{ service.gitea.subdomain }}.env"
     content: |
       GITEA__security__INSTALL_LOCK=true
       GITEA__service__DISABLE_REGISTRATION=true
