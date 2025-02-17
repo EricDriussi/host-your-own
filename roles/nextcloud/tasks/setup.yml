@@ -12,8 +12,8 @@
   copy:
     dest: "/home/{{ username }}/docker_env_files/{{ service.cloud.subdomain }}.env"
     content: |
-      NEXTCLOUD_ADMIN_USER={{ nextcloud_username }}
-      NEXTCLOUD_ADMIN_PASSWORD={{ nextcloud_password }}
+      NEXTCLOUD_ADMIN_USER="{{ nextcloud_username }}"
+      NEXTCLOUD_ADMIN_PASSWORD="{{ nextcloud_password }}"
       NEXTCLOUD_TRUSTED_DOMAINS=localhost {{ service.cloud.subdomain }}.{{ domain }}
       NEXTCLOUD_TRUSTED_PROXIES={{ ip | default('') }}
       NEXTCLOUD_OVERWRITEHOST={{ service.cloud.subdomain }}.{{ domain }}
