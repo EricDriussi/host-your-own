@@ -5,7 +5,7 @@
 
 - name: Run umami database
   docker_container:
-    name: db
+    name: "{{ container }}-db"
     image: postgres:15-alpine
     env_file: "/home/{{ username }}/docker_env_files/umami.env"
     volumes:

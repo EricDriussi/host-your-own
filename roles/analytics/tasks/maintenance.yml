@@ -35,4 +35,4 @@
         state: "present"
         special_time: "weekly"
         job: >
-          sudo /bin/cp -urp {{ data_dir }}/* {{ backup_dir }}
+          docker exec -i {{ container }}-db pg_dump -U umami -d umami -F c > {{ backup_dir }}/umami_backup.dump
