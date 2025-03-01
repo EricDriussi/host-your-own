@@ -8,7 +8,9 @@
   cron:
     name: update nextcloud
     state: present
-    special_time: monthly
+    minute: "0"
+    hour: "0"
+    day: "1"
     job: >
       /usr/bin/docker stop {{ container }};
       /usr/bin/docker rm {{ container }};

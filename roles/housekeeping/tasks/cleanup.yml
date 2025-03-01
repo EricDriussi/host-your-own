@@ -2,7 +2,9 @@
   cron:
     name: docker prune
     state: present
-    special_time: monthly
+    minute: "0"
+    hour: "0"
+    day: "2"
     job: "docker system prune --force --all --volumes"
 
 - name: Clean up journalctl
