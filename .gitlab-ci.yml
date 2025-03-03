@@ -1,18 +1,12 @@
 stages:
   - run
 
-variables:
-  DIR: "HYO"
-
 default:
   image: debian:12
   before_script:
     - apt update
-    - apt install -y git
-    - mkdir -p /run/sshd
-    - git clone https://gitlab.com/ericdriussi/host-your-own.git $DIR
     - |
-      cat <<EOF >$DIR/.env.yml
+      cat <<EOF >.env.yml
       ---
       username: "ansible"
       domain: "localhost"
@@ -29,5 +23,6 @@ default:
 run_job:
   stage: run
   script:
-    - cd $DIR && ./init.sh --connection=local --skip-tags=ignore-ci
+    - chmod 755 .
+    - ./init.sh --connection=local --skip-tags=ignore-ci
   interruptible: true
