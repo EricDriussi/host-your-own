@@ -1,4 +1,5 @@
 - name: Setup docker
+  tags: ignore-ci # ci doesn't boot with systemd
   import_role:
     name: common_roles/docker
 
