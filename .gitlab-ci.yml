@@ -5,6 +5,7 @@ default:
   image: debian:12
   before_script:
     - apt update
+    - mkdir -p /run/sshd
     - |
       cat <<EOF >.env.yml
       ---
