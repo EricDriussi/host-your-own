@@ -12,3 +12,5 @@
     path: "/etc/systemd/journald.conf"
     line: "MaxRetentionSec=2day"
     insertafter: EOF
+    create: true
+    mode: 0644
