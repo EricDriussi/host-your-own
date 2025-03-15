@@ -16,7 +16,7 @@
       POSTGRES_DB=umami
       POSTGRES_USER=umami
       POSTGRES_PASSWORD=umami
-      DATABASE_URL=postgresql://umami:umami@db:5432/umami
+      DATABASE_URL=postgresql://umami:umami@umami-db:5432/umami
       DATABASE_TYPE=postgresql
       APP_SECRET={{ 99999 | random(seed=inventory_hostname) }}
     mode: 0644
