@@ -3,23 +3,32 @@
     name: common_roles/install_latest
   vars:
     packages:
-      - "docker"
-      - "docker-compose"
+      - "docker.io"
 
 - name: Setup log rotation
   become: true
-  copy:
-    content: |
-      {
-        "log-opts": {
-          "max-size": "10m",
-          "max-file": "5"
-        }
-      }
-    dest: /etc/docker/daemon.json
-    owner: root
-    group: root
-    mode: '0644'
+  vars:
+    docker_dir: "/etc/docker"
+  block:
+    - name: Mkdir "{{ docker_dir }}"
+      file:
+        state: directory
+        path: "{{ docker_dir }}"
+        mode: 0755
+
+    - name: Create daemon.json
+      copy:
+        content: |
+          {
+            "log-opts": {
+              "max-size": "10m",
+              "max-file": "5"
+            }
+          }
+        dest: "{{ docker_dir }}/daemon.json"
+        owner: root
+        group: root
+        mode: 0644
 
 - name: Start and enable docker
   become: true
