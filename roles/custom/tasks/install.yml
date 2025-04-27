@@ -4,7 +4,17 @@
   vars:
     packages: "{{ basic_packages }}"
 
-- name: Download and extract Starship & Eza binaries
+- name: Download and extract Starship
+  become: true
+  unarchive:
+    src: "{{ item }}"
+    dest: "/usr/local/bin/"
+    remote_src: yes
+    mode: 0755
+  with_items:
+    - "https://github.com/starship/starship/releases/latest/download/starship-x86_64-unknown-linux-gnu.tar.gz"
+
+- name: Download and extract Eza
   become: true
   unarchive:
     src: "{{ item }}"
@@ -13,7 +23,6 @@
     extra_opts: ["--strip-components=1"]
     mode: 0755
   with_items:
-    - "https://github.com/starship/starship/releases/latest/download/starship-x86_64-unknown-linux-gnu.tar.gz"
     - "https://github.com/eza-community/eza/releases/latest/download/eza_x86_64-unknown-linux-gnu.tar.gz"
 
 - name: Check if nvim config is present
