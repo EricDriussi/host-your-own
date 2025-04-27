@@ -10,8 +10,8 @@ basic_packages:
   - htop
   - libjpeg-dev
   - libxtst-dev
-  - lua5.3
   - lsof
+  - lua5.3
   - mmv
   - python3-pip
   - ripgrep
@@ -24,14 +24,15 @@ basic_packages:
   - zsh
 
 nvim_deps:
-  - ninja-build
-  - gettext
-  - libtool
-  - libtool-bin
   - autoconf
   - automake
   - cmake
+  - doxygen
   - g++
+  - gettext
+  - libtool
+  - libtool-bin
+  - make
+  - ninja-build
   - pkg-config
   - unzip
-  - doxygen

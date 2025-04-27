@@ -33,7 +33,7 @@
 
     - name: Weekly backups
       cron:
-        name: "backup cloud"
+        name: "backup umami"
         state: "present"
         special_time: "weekly"
         job: >
