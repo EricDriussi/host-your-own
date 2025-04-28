@@ -16,10 +16,11 @@
       set +o pipefail
       sudo lsof -ti:{{ item }} | xargs -r sudo kill
     executable: /bin/bash
+  changed_when: true
+  failed_when: false
   with_items:
     - "{{ ports.http }}"
     - "{{ ports.https }}"
-  changed_when: true
 
 - name: Enable and restart nginx
   tags: ignore-ci # ci doesn't boot with systemd

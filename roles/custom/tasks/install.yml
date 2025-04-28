@@ -32,7 +32,7 @@
 
 - name: Check if nvim is already installed
   stat:
-    path: "/usr/local/bin/nvim"
+    path: "/usr/bin/nvim"
   register: nvim_install
 
 - name: Build nvim from source
@@ -40,33 +40,45 @@
   when: nvim_config.stat.exists and not nvim_install.stat.exists
   block:
 
-    - name: Install packages
-      import_role:
-        name: common_roles/install_latest
-      vars:
-        packages: "{{ nvim_deps }}"
+    - name: Download latest Neovim release
+      get_url:
+        url: https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
+        dest: /tmp/nvim-linux-x86_64.tar.gz
+        mode: 0644
 
-    - name: Clone
-      git:
-        repo: "https://github.com/neovim/neovim"
-        dest: "/home/{{ username }}/neovim"
-        version: stable
-        force: true
-
-    - name: Make Clean
-      make:
-        chdir: "/home/{{ username }}/neovim"
-        target: distclean
-
-    - name: Make Build
-      make:
-        chdir: "/home/{{ username }}/neovim"
-        target: all
-        params:
-          CMAKE_BUILD_TYPE: Release
-
-    - name: Make Install
+    - name: Extract Neovim to /opt
       become: true
-      make:
-        chdir: "/home/{{ username }}/neovim"
-        target: install
+      unarchive:
+        src: /tmp/nvim-linux-x86_64.tar.gz
+        dest: /tmp
+        remote_src: true
+
+    - name: Copy Neovim binaries to /usr/bin
+      become: true
+      copy:
+        src: /tmp/nvim-linux-x86_64/bin/
+        dest: /usr/bin/
+        owner: root
+        group: root
+        mode: 0755
+        remote_src: true
+
+    - name: Copy Neovim libraries to /usr/lib
+      become: true
+      copy:
+        src: /tmp/nvim-linux-x86_64/lib/
+        dest: /usr/lib/
+        owner: root
+        group: root
+        mode: 0755
+        remote_src: true
+
+    - name: Copy Neovim shared files to /usr/share
+      become: true
+      copy:
+        src: /tmp/nvim-linux-x86_64/share/
+        dest: /usr/share/
+        owner: root
+        group: root
+        mode: 0755
+        remote_src: true
