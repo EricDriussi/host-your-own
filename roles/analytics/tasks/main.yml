@@ -10,9 +10,3 @@
     - import_tasks: run.yml
       tags: ignore-ci # TODO: docker in ci
     - import_tasks: maintenance.yml
-
-- name: Simple analytics script
-  copy:
-    src: "analytics.rb"
-    dest: "/home/{{ username }}"
-    mode: 0755
