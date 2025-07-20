@@ -35,7 +35,7 @@
     path: "/usr/bin/nvim"
   register: nvim_install
 
-- name: Build nvim from source
+- name: Nvim tarball
   # Only when nvim conf is present AND nvim is not installed
   when: nvim_config.stat.exists and not nvim_install.stat.exists
   block:
