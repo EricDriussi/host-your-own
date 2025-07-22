@@ -1,6 +1,6 @@
 # Host your stuff
 
-> Ansible script to self-host a bunch of services on your VPS in one go.
+> Ansible script to self-host a bunch of services on your VPS.
 
 An Ansible playbook that sets up:
 
@@ -18,8 +18,8 @@ An Ansible playbook that sets up:
 - Hardened SSH setup.
 - Firewall and [Fail2ban](https://github.com/fail2ban/fail2ban).
 - Regular unattended system updates.
-- [A bunch](./roles/custom/vars/main.yml) of useful CLI tools.
-- Your dotfiles set up and ready to go (using GNU-Stow).
+- [A bunch](./roles/custom/vars/main.yml) of useful CLI tools (add your own!).
+- Your dotfiles set up and ready to go (assuming a [GNU-Stow setup](https://devintheshell.com/blog/stow/)).
 - Up to date [neovim](https://github.com/neovim/neovim) install (if nvim config
 is found in dotfiles).
 
@@ -27,21 +27,27 @@ is found in dotfiles).
 
 ### A Debian based VPS
 
-The script requires a Debian based VPS.
+The script requires a Debian based VPS. If you want this to work on other
+distros, feel free to [open a MR](https://gitlab.com/ericdriussi/host-your-own/-/merge_requests/new).
 
-The cheapest most basic VPS you can find should do.
+Assuming it's for personal use, the cheapest most basic VPS you can find should
+be enough.
 
 ### Root SSH access
 
-The machine where this script is run should have root SSH access to the VPS.
+Root key-based SSH access to the target machine should be set up on the machine
+running this script.
 
-Root SSH connections will be blocked as part of the setup and
-a dedicated sudo user will be used for the setup.
+Further root SSH connections will be blocked at the beginning of the execution,
+a dedicated sudo user will be created and used for the (rest of the) setup.
+
+This sudo user will use the same SSH keys (unless configured otherwise, read
+the [env file](./.env-sample.yml) for more info).
 
 ### Domain Name - DNS setup
 
-You **need** a valid domain name and your DNS records should be properly set up
-for your root domain as well as for (at least) the above-mentioned subdomains.
+You **need** a valid domain name and a proper DNS setup for your root domain as
+well as for (at least) the above-mentioned subdomains.
 
 ## Run
 
@@ -59,7 +65,7 @@ You can check the available tags in the `run.yml` file.
 
 ## Post-setup
 
-After the main playbook is done, you should find the Nextcloud, Gitea, SearxNG
+After the playbook is done, you should find the Nextcloud, Gitea, SearxNG
 and Umami instances under their respective subdomains.
 
 There should be a custom admin account already setup for Nextcloud and Gitea,
@@ -94,15 +100,6 @@ The default docker-compose installation process provided
 in the [Umami docs](https://umami.is/docs) is followed.
 
 You can log in to `umami.domain` following the [official instructions](https://umami.is/docs/login).
-
-In case you prefer something simpler, a lightly modified version of
-[this](https://github.com/woodruffw/snippets/blob/master/vbnla/vbnla) script is
-available in `/home/[REOMTE_USER]/analytics.rb`.
-Run it as follows to extract useful information from your server:
-
-```sh
-sudo cat /var/log/nginx/acces.log | ~/analytics.rb
-```
 
 ### Updates and Backups
 
