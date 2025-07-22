@@ -1,15 +1,11 @@
 basic_packages:
   - bat
-  - cargo
   - curl
-  - delta
   - docker
   - docker-compose
   - fzf
   - git
   - htop
-  - libjpeg-dev
-  - libxtst-dev
   - lsof
   - lua5.3
   - mmv
@@ -19,6 +15,4 @@ basic_packages:
   - stow
   - tree
   - ufw
-  - vifm
-  - zlib1g-dev
   - zsh
