@@ -8,6 +8,7 @@
     name: "{{ username }}"
     groups:
       - sudo
+      - cron
       - docker
     system: true
     createhome: true
