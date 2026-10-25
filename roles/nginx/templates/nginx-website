@@ -7,6 +7,7 @@ server {
     include /etc/nginx/conf.d/harden.conf;
     add_header Cache-Control "max-age=2629746, public";
     add_header Onion-Location http://{{ (onion_address.content | b64decode).strip() }}$request_uri;
+    error_page 404 /404.html;
 
     open_file_cache          max=1000 inactive=20s;
     open_file_cache_valid    30s;
