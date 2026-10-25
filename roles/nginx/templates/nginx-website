@@ -1,7 +1,7 @@
 server {
     listen {{ ports.http }} default_server ;
     listen [::]:{{ ports.http }} default_server ;
-    server_name {{ domain }} ;
+    server_name {{ domain }} www.{{ domain }} ;
     root /home/{{ username }}/website ;
     index index.html index.htm index.nginx-debian.html ;
     include /etc/nginx/conf.d/harden.conf;

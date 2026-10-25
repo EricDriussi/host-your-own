@@ -20,7 +20,8 @@
 
 - name: Set default onion address if missing
   set_fact:
-    onion_address: {"content": "NOT_FOUND"}
+    onion_address:
+      content: "{{ 'not_found' | b64encode }}"
   when: onion_address.failed is defined and onion_address.failed
 
 - name: Config website server
