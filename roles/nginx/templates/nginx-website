@@ -1,7 +1,7 @@
 server {
     listen {{ ports.http }} default_server ;
     listen [::]:{{ ports.http }} default_server ;
-    server_name {{ domain }} www.{{ domain }} ;
+    server_name {{ domain }} ;
     root /home/{{ username }}/website ;
     index index.html index.htm index.nginx-debian.html ;
     include /etc/nginx/conf.d/harden.conf;
@@ -30,6 +30,14 @@ server {
         expires 1y;
         access_log off;
     }
+}
+
+server {
+    listen {{ ports.http }} ;
+    listen [::]:{{ ports.http }} ;
+    server_name www.{{ domain }} ;
+
+    return 301 https://{{ domain }}$request_uri;
 }
 
 server {
